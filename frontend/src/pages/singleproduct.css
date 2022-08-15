@@ -1,0 +1,172 @@
+.single__dress_carousel .owl-dots .owl-dot.active span {
+  background: #f51167;
+}
+.dress__details {
+  margin-bottom: 30px;
+}
+.dress__details h3 {
+  margin-top: 15px;
+  text-transform: uppercase;
+}
+.dress__details .product__price {
+  font-weight: 700;
+  font-size: 24px;
+  color: #f51167;
+}
+/* .dress__details p {
+  letter-spacing: 1px;
+  margin-top: 20px;
+} */
+.dress__details .category__title {
+  color: #fff;
+  margin: 20px 0;
+  display: block;
+  background: #4c4c4c;
+  padding: 5px 10px;
+  border-radius: 3px;
+  width: 50%;
+  font-size: 18px;
+}
+.dress__details .quantity__cart {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 20px;
+}
+.dress__details .quantity__cart .cart__increment {
+  border-radius: 4px;
+  padding: 6px 0;
+  border: 1px solid #4c4c4c;
+  margin-right: 10px;
+}
+.cart__increment i {
+  margin: 0 20px;
+  color: #4c4c4c;
+}
+.cart__increment i:active {
+  color: #f51167;
+}
+.cart__increment p {
+  display: inline;
+}
+.dress__details .quantity__cart button {
+  border: 1px solid #f51167;
+  background: #f51167;
+  color: #fff;
+}
+.dress__details .quantity__cart button:hover {
+  background: transparent;
+  color: #4c4c4c;
+}
+/* .single__dress {
+  margin-bottom: 50px;
+}
+
+.single__dress .dress__main_image {
+  overflow: hidden;
+  object-fit: contain;
+} */
+/* .error__div {
+  margin-top: 50px;
+  height: 80vh;
+  color: teal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.single__page-error {
+  color: teal;
+  padding: 10px 30px;
+  font-size: 1.5rem;
+  border: 1px solid teal;
+  margin-bottom: 50px;
+} */
+.accordion-area {
+  margin-top: 20px;
+  border-top: 2px solid #e1e1e1;
+}
+.accordion-area .panel-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.accordion-area .panel {
+  border-bottom: 2px solid #e1e1e1;
+}
+.accordion-area .panel-header .fa-angle-up {
+  color: #5c5c5c;
+}
+
+.faq-accordion.accordion-area .panel-link,
+.faq-accordion.accordion-area .panel-link.active.collapsed {
+  padding: 17px 100px 17px 20px;
+}
+
+.faq-accordion.accordion-area .panel-link:after {
+  right: 44px;
+}
+
+.accordion-area .panel-link.active {
+  background-color: transparent;
+}
+
+.accordion-area .panel-link,
+.accordion-area .panel-link.active.collapsed {
+  text-align: left;
+  position: relative;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 700;
+  color: #414141;
+  padding: 0;
+  text-transform: uppercase;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+  min-height: 69px;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.accordion-area .panel-body {
+  padding-top: 10px;
+}
+
+.accordion-area .panel-body p {
+  color: #5c5c5c;
+  margin-bottom: 25px;
+  line-height: 1.8;
+}
+
+.accordion-area .panel-body p span {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #f51167;
+}
+
+.accordion-area .panel-body img {
+  margin-bottom: 25px;
+}
+
+.accordion-area .panel-body h4 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.dress__details .social__media-icons {
+  display: flex;
+  margin-top: 30px;
+  cursor: pointer;
+  /* justify-content: space-between;
+  align-items: center; */
+}
+.dress__details .social__media-icons .fab {
+  font-size: 18px;
+  color: #bbbbbb;
+  margin-right: 20px;
+}
+.dress__details .social__media-icons .fab:hover {
+  color: #f51167;
+}

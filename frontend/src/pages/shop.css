@@ -1,0 +1,107 @@
+.shop__cta button {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #f51167;
+  color: #4c4c4c;
+  transition: all 200ms ease-in;
+}
+.shop__cta button:hover {
+  background: #f51167;
+  color: #fff;
+}
+.category__title {
+  text-align: center;
+  color: #4c4c4c;
+}
+.filter__sort,
+.dress__categories {
+  display: none;
+}
+.filter__sort.active,
+.dress__categories.active {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  background: #eeeeee;
+  z-index: 80;
+  /* margin-top: 10vh; */
+}
+.filter__sort h2,
+.dress__categories h2 {
+  color: #f51167;
+  font-size: 50px;
+}
+.filter__sort .filter_demarcator,
+.dress__categories .filter_demarcator {
+  border: 1px solid #f51167;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  width: 100px;
+}
+.categories__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.categories__container .btn {
+  border: 1px solid #f51167;
+  color: #4c4c4c;
+  margin: 10px 10px;
+  transition: all 200ms ease-in;
+}
+.categories__container .btn:hover {
+  color: #fff;
+  background: #f51167;
+}
+/* .category-menu {
+  display: flex;
+  flex-wrap: wrap;
+}
+.category-menu h2 {
+  font-weight: 700;
+  font-size: 18px;
+  color: #414141;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.category-menu a {
+  color: #414141;
+  border: 1px solid #f51167;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+} */
+.demarcator {
+  width: 75%;
+}
+.filter__sort h3 {
+  color: #4c4c4c;
+}
+.filter__sort .btn {
+  padding: 10px 0;
+  width: 75%;
+  color: #fff;
+  background: #f51167;
+}
+#filter_checkboxes input {
+  display: none;
+}
+#filter_checkboxes label {
+  border: 1px solid #f51167;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: #4c4c4c;
+  cursor: pointer;
+}
+#filter_checkboxes input:checked + label {
+  color: #fff;
+  background: #f51167;
+}

@@ -1,0 +1,75 @@
+.title__caption {
+  text-align: center;
+  text-transform: uppercase;
+  color: #f51167;
+  font-weight: 700;
+  font-size: 50px;
+  margin: 30px 0;
+}
+
+.contact__info {
+  margin-bottom: 40px;
+}
+.contact__card {
+  padding: 10px 0 20px 0;
+  background: #e4e4e4;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 20px;
+  transition: all 150ms ease-in 120ms;
+}
+.contact__card:hover i,
+.contact__info .social__icons i:hover {
+  color: #f51167;
+}
+.contact__card i {
+  font-size: 24px;
+  color: #1a6692;
+  margin: 10px 0;
+}
+.contact__card p {
+  margin-bottom: 5px;
+  color: #373737;
+}
+.contact__card a {
+  color: #1a6692;
+}
+.contact__info .social__icons i {
+  background: #e4e4e4;
+  font-size: 18px;
+  padding: 10px;
+  margin-right: 20px;
+  border-radius: 5px;
+  color: #1a6692;
+  transition: all 150ms ease-in 120ms;
+  cursor: pointer;
+}
+.contact__h2 {
+  color: #1a6692;
+}
+.contact-form input {
+  border-radius: 3rem;
+  margin-bottom: 20px;
+  background: #e4e4e4 !;
+}
+.contact-form textarea {
+  margin-bottom: 20px;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  box-shadow: none;
+  border: 1px solid #f51167;
+}
+.contact-form button {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  width: 50%;
+  border-radius: 3rem;
+  border: 1px solid #f51167;
+  background: #f51167;
+  color: #fff;
+}
+.contact-form button:hover {
+  background: transparent;
+  color: #f51167;
+}
