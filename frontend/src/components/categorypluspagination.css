@@ -1,0 +1,45 @@
+.pageNumbers {
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.pageNumbers li {
+  padding: 5px 15px;
+  border: 1px solid #4c4c4c;
+  cursor: pointer;
+  color: #4c4c4c;
+  margin-right: 20px;
+}
+.pageNumbers li.active {
+  background: #4c4c4c;
+  color: #fff;
+}
+.pageNumbers .btn__cover__prev,
+.pageNumbers .btn__cover__next {
+  border: none;
+}
+.pageNumbers .btn__cover__prev button,
+.pageNumbers .btn__cover__next button {
+  background: #f51167;
+  color: #fff;
+  border: 1px solid #f51167;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 5px 20px;
+}
+.pageNumbers .btn__cover__prev button:disabled,
+.pageNumbers .btn__cover__next button:disabled {
+  background: #4b4b4b5f;
+  color: #fff;
+  border: 1px solid #4b4b4b5f;
+}
+.btn__cover__prev button:focus,
+.btn__cover__next button:focus,
+.btn__cover__prev button:active,
+.btn__cover__next button:active {
+  box-shadow: none;
+  outline: none;
+}

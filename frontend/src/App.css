@@ -1,0 +1,88 @@
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Josefin Sans";
+  /* overflow-x: hidden; */
+  /* font-weight: 600; */
+}
+html {
+  scroll-behavior: smooth;
+}
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.underline {
+  width: 25%;
+  margin-top: -20px;
+  margin-bottom: 50px;
+}
+.image__wrapper img {
+  cursor: pointer;
+  position: relative;
+  border-radius: 5px;
+}
+.dress__cta {
+  position: absolute;
+  opacity: 0;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  bottom: auto;
+}
+.dress__cta a {
+  border: 1px solid #fff;
+  color: #fff;
+  background: #f51167;
+  border-radius: 5rem;
+  padding: 5px 25px;
+  margin-bottom: 20px;
+}
+.dress__cta a:hover {
+  background: #fff;
+  color: #f51167;
+}
+.dress__cta .utilities .fas {
+  display: inline;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 18px;
+  margin: 0 10px;
+  background: #fff;
+  cursor: pointer;
+}
+.dress__cta .utilities .fas:hover {
+  background: #f51167;
+  color: #fff;
+}
+
+.image__wrapper:hover img {
+  filter: brightness(60%);
+}
+
+.image__wrapper:hover .dress__cta {
+  opacity: 1;
+  -webkit-transition: all 150ms ease-in 120ms;
+  -o-transition: all 150ms ease-in 120ms;
+  transition: all 150ms ease-in 120ms;
+}
+
+.dress__info {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.dress__info p:hover .high {
+  color: red;
+}
+.dress__info p {
+  color: #111111;
+  width: 70%;
+  text-align: left;
+}
+.dress__info h6 {
+  font-weight: 700;
+  margin-left: 8px;
+}

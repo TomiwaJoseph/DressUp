@@ -1,0 +1,135 @@
+footer {
+  /* height: 60vh; */
+  background: #373737;
+  color: #fff;
+  text-align: center;
+  padding: 50px 0 20px 0;
+}
+footer h2 {
+  margin-top: 10px;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: 700;
+}
+footer h2 em {
+  font-style: normal;
+  color: #f51167;
+}
+footer .footer__cta {
+  /* background: #f00; */
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+  /* flex-direction: column; */
+}
+footer .footer__cta a {
+  /* padding: 0 30px; */
+  color: #e4e4e4;
+  margin-bottom: 20px;
+  padding: 30px 20px 0 20px;
+  /* margin-right: 20px; */
+  /* margin: 30px 30px 10px 0; */
+}
+footer .footer__cta a:hover {
+  color: #f51167;
+  /* margin: 30px 30px 10px 0; */
+}
+footer .footer__social-media .fab {
+  margin: 30px 20px 70px 0;
+  font-size: 32px;
+  color: #e4e4e4;
+  cursor: pointer;
+  transition: all 220ms ease-in;
+}
+footer .footer__social-media .fab:hover {
+  color: #f51167;
+}
+.last_hr {
+  background: #fff;
+  margin: 20px 0;
+  width: 100%;
+}
+/* .footer-top-box {
+  margin-top: 10px;
+}
+.footer-top-box h3 {
+  color: #fff;
+}
+.footer-top-box p {
+  font-size: 14px;
+  color: #fff;
+}
+.footer-top-box span {
+  margin-left: 20px;
+}
+.footer-top-box p i {
+  font-size: 24px;
+  color: #fff;
+  margin-right: 10px;
+}
+.footer-top-box a {
+  color: #fff;
+}
+.foot_hr {
+  background-color: #fff;
+}
+.newsletter-box {
+  margin-top: 15px;
+  position: relative;
+}
+.newsletter-box input {
+  height: 40px;
+  padding: 0 10px;
+  background: #fff;
+  padding: 0 20px;
+  width: 100%;
+}
+.newsletter-box input:focus {
+  outline: none;
+  border: 1px solid #f51167;
+  box-shadow: none;
+}
+.newsletter-box i {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 20px;
+  color: #f51167;
+}
+.newsletter-box button {
+  background-color: #fff;
+  color: #f51167;
+  border: none;
+  width: 100%;
+  transition: all 220ms ease-in;
+}
+.newsletter-box button:hover {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #f51167;
+}
+.last_hr {
+  background: #fff;
+  margin: 20px 0;
+}
+.copyright {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+.social__col {
+  text-align: center;
+}
+.social-media .fab {
+  margin: 0 10px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 220ms ease-in;
+}
+.social-media .fab:hover {
+  color: #f51167;
+} */
