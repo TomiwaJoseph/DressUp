@@ -1,0 +1,60 @@
+.billing__address,
+.delivery__info,
+.payment__method {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  border-radius: 5px;
+  background: #3b3b3b;
+  padding: 21px 29px 20px;
+  margin-bottom: 20px;
+}
+.checkout__form input:focus {
+  border: 1px solid #f51167;
+  box-shadow: none;
+}
+.shipping-btns {
+  margin-bottom: 10px;
+}
+.shipping-btns h4 {
+  font-size: 16px;
+}
+.shipping-btns .cf-radio-btns label {
+  font-weight: 600;
+  padding-left: 20px;
+}
+.order__now {
+  margin-bottom: 30px;
+  border: 1px solid #f51167;
+  background: #f51167;
+  color: #fff;
+  width: 100%;
+  padding: 10px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.order__now:hover {
+  background: transparent;
+  color: #f51167;
+}
+.thick_hr {
+  height: 2px;
+  background-color: #f51167;
+}
+.checkout__wrapper {
+  height: 120px;
+  width: 80px;
+  overflow: hidden;
+}
+.dress__name__quantity {
+  font-weight: 700;
+}
+.dress__name__quantity span {
+  color: #4c4c4c;
+}
+.dress__price {
+  color: #f51167;
+  font-size: 18px;
+  font-weight: 700;
+}
