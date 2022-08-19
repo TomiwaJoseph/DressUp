@@ -4,36 +4,40 @@ from django.conf import settings
 
 
 class Category(models.Model):
-    category_title = models.CharField(max_length=100)
-    category_slug = models.SlugField(max_length=100, unique=True)
+    title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True)
 
     class Meta:
-        ordering = ['category_title']
+        ordering = ['title']
         verbose_name_plural = 'Categories'
 
     def __str__(self):
-        return self.category_title
+        return self.title
 
 
 class Dress(models.Model):
-    dress_category = models.ForeignKey(
+    category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='dress_category')
-    dress_name = models.CharField(max_length=100)
-    dress_price = models.PositiveIntegerField()
-    dress_discount_price = models.PositiveIntegerField()
-    dress_slug = models.SlugField(max_length=100)
-    dress_main_image = models.ImageField(upload_to='dresses')
-    dress_other_images = models.ManyToManyField("DressImages")
-    dress_availability = models.BooleanField(default=True)
+    name = models.CharField(max_length=100)
+    price = models.PositiveIntegerField()
+    discount_price = models.PositiveIntegerField()
+    slug = models.SlugField(max_length=100)
+    main_image = models.ImageField(upload_to='dresses')
+    other_images = models.ManyToManyField(
+        "DressImages", blank=True)
+    availability = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = 'Dresses'
 
     def __str__(self):
-        return self.dress_name
+        return self.name
 
     def get_stripe_price(self):
-        return int(self.dress_discount_price) * 100
+        return int(self.discount_price) * 100
 
     def image_tag(self):
-        return mark_safe("<img src='{}' height='30'/>".format(self.dress_main_image.url))
+        return mark_safe("<img src='{}' height='60'/>".format(self.main_image.url))
 
     image_tag.short_description = "Image"
 
