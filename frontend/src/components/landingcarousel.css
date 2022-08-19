@@ -2,6 +2,9 @@
   height: 90vh;
   overflow: hidden;
 }
+.landing__carousel:not(.owl-loaded) {
+  opacity: 0;
+}
 .landing__carousel img {
   object-fit: contain;
   filter: brightness(50%);
