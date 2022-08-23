@@ -1,16 +1,14 @@
-from random import seed, shuffle
-from unicodedata import category
-from urllib import response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework import generics
+from rest_framework.response import Response
+from .serializers import CategorySerializer, DressSerializer,  RegisterSerializer, UserSerializer
+from base.models import Category, Dress, DressImages
+from random import seed, shuffle
 from django.contrib.auth import authenticate
 from rest_framework import status
-
-from base.models import Category, Dress, DressImages
-from .serializers import UserSerializer, DressSerializer, CategorySerializer
-from rest_framework.response import Response
-from rest_framework import generics
-from rest_framework.decorators import api_view
-from rest_framework.views import APIView
 
 
 @api_view(['GET'])
@@ -104,26 +102,55 @@ def get_all__categories(request):
     return Response(serializer)
 
 
-class UserCreate(generics.CreateAPIView):
-    serializer_class = UserSerializer
+class RegisterView(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+            'user': serializer.data,
+        })
 
 
 class LoginView(APIView):
-    permission_classes = ()
-    authentication_classes = ()
-
     def post(self, request):
-        print('isinmi')
-        print(authenticate(request, email="stephaniemiller@gmail.com",
-              password="FiveThirtyEight"))
-#         {
-#     "email": "stephaniemiller@gmail.com",
-#     "password": "FiveThirtyEight"
-# }
         email = request.data.get('email')
         password = request.data.get('password')
         user = authenticate(request, email=email, password=password)
-        print()
+        token = Token.objects.get_or_create(user=user)
         if user:
-            return Response({'token': user.auth_token.key})
+            return Response({
+                'user_info': {
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "email": user.email
+                },
+                'token': user.auth_token.key
+            })
         return Response({"error": 'Wrong Credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def logout(request):
+    request.user.auth_token.delete()
+    data = {'success': 'Successfully logged out.'}
+    return Response(data=data, status=status.HTTP_200_OK)
+
+
+class LogOutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        print('oh jesu...')
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+class UserAPI(generics.RetrieveAPIView):
+    # permission_classes = (IsAuthenticated)
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user

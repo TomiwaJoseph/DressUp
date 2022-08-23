@@ -61,12 +61,11 @@ const CartItem = () => {
     let data = getCartItemFromStorage();
     setDataToRender(data);
     setCartTotal(calculateTotal(data));
-    // console.log(calculateTotal(data));
   }, [cartDataToRender, cartTotal]);
 
   return (
     <>
-      {cartCount ? (
+      {dataToRender ? (
         dataToRender.map((dress) => (
           <div key={dress.id}>
             <div className="row item__row mb-3">
@@ -112,7 +111,7 @@ const CartItem = () => {
           <NavLink to="/shop">Go Shopping</NavLink>
         </div>
       )}
-      {cartCount ? (
+      {dataToRender ? (
         <>
           <div className="row">
             <div className="col-12">

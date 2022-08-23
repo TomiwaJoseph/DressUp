@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+# from knox import views as knox_views
 
 urlpatterns = [
     path('dress/<slug:slug>/', views.get_single__dress),
@@ -10,7 +11,11 @@ urlpatterns = [
          views.get_all_dresses_or_category),
     path('get-all-categories/', views.get_all__categories),
     path('filter-category-price/', views.filter_category_price),
-    # path('get-hottest-dresses/', views.TestView.as_view()),
-    path('create-user/', views.UserCreate.as_view(), name='user_create'),
-    path('login/', views.LoginView.as_view(), name='user_login')
+    # AUTHENTICATION URLS
+    path('auth/register/', views.RegisterView.as_view(), name='register'),
+    path('auth/login/', views.LoginView.as_view(), name='login'),
+    path('auth/logout/', views.logout),
+    # path('auth/logout/', views.LogOutView.as_view(), name='logout'),
+    path('auth/user/', views.UserAPI.as_view(), name='get_user'),
+    # path('auth/logout/', knox_views.LogoutView.as_view(), name='knox_logout')
 ]

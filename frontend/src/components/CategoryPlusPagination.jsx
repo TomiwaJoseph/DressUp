@@ -1,47 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./categorypluspagination.css";
+import dressContext from "../context/dressup-context";
 
-const renderData = (data) => {
-  return (
-    <>
-      {data.map((dress) => (
-        <div key={dress.product_name} className="col-lg-3 col-md-4 col-sm-6">
-          <div>
-            <div className="image__wrapper">
-              <img
-                src={dress.productImage}
-                className="img-fluid"
-                alt={dress.product_name}
-              />
-              <div className="dress__cta">
-                <NavLink
-                  to={`/shop/dress/${dress.productSlug}`}
-                  className="btn"
-                >
-                  View Dress
-                </NavLink>
-                <div className="utilities">
-                  <i className="fas fa-shopping-bag"></i>
-                  <i className="fas fa-heart"></i>
-                </div>
-              </div>
-            </div>
-            <div className="dress__info">
-              <p>{dress.product_name}</p>
-              <h6>{dress.product_price}</h6>
-            </div>
-          </div>
-        </div>
-      ))}
-    </>
-  );
-};
+// const renderData = (data) => {
+//   return (
+//     <>
+//       {data.map((dress) => (
+//         <div key={dress.id} className="col-lg-3 col-md-4 col-sm-6">
+//           <div>
+//             <div className="image__wrapper">
+//               <img
+//                 src={`${backendbackendUrl}${dress.main_image}`}
+//                 className="img-fluid"
+//                 alt={dress.name}
+//               />
+//               <div className="dress__cta">
+//                 <NavLink to={`/shop/dress/${dress.slug}`} className="btn">
+//                   View Dress
+//                 </NavLink>
+//                 <div className="utilities">
+//                   <i className="fas fa-shopping-bag"></i>
+//                   <i className="fas fa-heart"></i>
+//                 </div>
+//               </div>
+//             </div>
+//             <div className="dress__info">
+//               <p>{dress.name}</p>
+//               <h6>${dress.price}.00</h6>
+//             </div>
+//           </div>
+//         </div>
+//       ))}
+//     </>
+//   );
+// };
 
 const Pagination = ({ categoryData }) => {
+  const { backendUrl, addToCart } = useContext(dressContext);
+  const [emptyCategory, setEmptyCategory] = useState(false);
   const dataToRender = categoryData;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+
+  useEffect(() => {
+    if (dataToRender.length === 0) {
+      setEmptyCategory(true);
+    } else {
+      setEmptyCategory(false);
+    }
+  }, [dataToRender]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -63,6 +71,7 @@ const Pagination = ({ categoryData }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = dataToRender.slice(indexOfFirstItem, indexOfLastItem);
+  // const emptyCategory = currentItems ? false : true;
 
   const renderPageNumbers = pages.map((number) => {
     if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
@@ -97,10 +106,66 @@ const Pagination = ({ categoryData }) => {
     }
   };
 
+  // let pageIncrementBtn = null;
+  // if (pages.length > maxPageNumberLimit) {
+  //   pageIncrementBtn = <li onClick={handleNextBtn}> &hellip; </li>;
+  // }
+
+  // let pageDecrementBtn = null;
+  // if (minPageNumberLimit >= 1) {
+  //   pageDecrementBtn = <li onClick={handlePrevBtn}> &hellip; </li>;
+  // }
+  // console.log(currentItems);
+  // console.log(dataToRender);
+
   return (
     <>
       <div className="container">
-        <div className="row my-4">{renderData(currentItems)}</div>
+        <div className="row my-4">
+          {currentItems &&
+            currentItems.map((dress) => (
+              <div key={dress.id} className="col-lg-3 col-md-4 col-sm-6">
+                <div>
+                  <div className="image__wrapper">
+                    <img
+                      src={`${backendUrl}${dress.main_image}`}
+                      className="img-fluid"
+                      alt={dress.name}
+                    />
+                    <div className="dress__cta">
+                      <NavLink to={`/shop/dress/${dress.slug}`} className="btn">
+                        View Dress
+                      </NavLink>
+                      <div className="utilities">
+                        <i
+                          onClick={() =>
+                            addToCart(
+                              dress.id,
+                              dress.name,
+                              dress.price,
+                              1,
+                              dress.main_image
+                            )
+                          }
+                          className="fas fa-shopping-bag"
+                        ></i>
+                        <i className="fas fa-heart"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="dress__info">
+                    <p>{dress.name}</p>
+                    <h6>${dress.price}.00</h6>
+                  </div>
+                </div>
+              </div>
+            ))}
+          {emptyCategory && (
+            <div className="col-12 text-center">
+              <p className="no__dress">No dress match your search parameters</p>
+            </div>
+          )}
+        </div>
         <hr />
         {pages.length > 1 ? (
           <ul className="pageNumbers">

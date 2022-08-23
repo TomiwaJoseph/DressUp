@@ -1,10 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import DressContext from "./dressup-context";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DressUpState = (props) => {
+  function fetchUser(getUserUrl, cb) {
+    fetch(getUserUrl, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => cb(result));
+  }
   // GLOBAL VARIABLES
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [cartCount, setCartCount] = useState(0);
   const [cartDataToRender, setCartDataToRender] = useState([]);
+  const notify = (message, errorType) =>
+    toast(message, {
+      position: "top-center",
+      autoClose: "3000",
+      pauseOnHover: true,
+      closeOnClick: true,
+      type: errorType,
+      theme: "colored",
+    });
+
+  useEffect(() => {
+    console.log(props.isAuth);
+    setIsAuthenticated(props.isAuth);
+    console.log(isAuthenticated);
+  }, [isAuthenticated]);
+
+  console.log(isAuthenticated);
 
   const calculateTotal = (cartData) => {
     let allQuantities = cartData.map((item) => item.quantity);
@@ -16,7 +48,6 @@ const DressUpState = (props) => {
       }, 0);
     return multiply;
   };
-
   const getCartItemFromStorage = () => {
     let cartItems = localStorage.getItem("cart");
     let cartData = [];
@@ -32,7 +63,6 @@ const DressUpState = (props) => {
     localStorage.setItem("cart", JSON.stringify(newCart));
     getCartItemCountFromStorage();
   };
-
   const getCartItemCountFromStorage = () => {
     let cartItems = localStorage.getItem("cart");
     let theCount = 0;
@@ -75,6 +105,10 @@ const DressUpState = (props) => {
   // FETCH REQUEST URLS
   const backendUrl = "http://localhost:8000";
   const singleDressUrl = "http://localhost:8000/api/dress/";
+  const userCreateUrl = "http://localhost:8000/api/auth/register/";
+  const getUserUrl = "http://localhost:8000/api/auth/user/";
+  const userLoginUrl = "http://localhost:8000/api/auth/login/";
+  const userLogoutUrl = "http://localhost:8000/api/auth/logout/";
   const relatedDressUrl = "http://localhost:8000/api/dress/related/";
   const highestDressPriceUrl = "http://localhost:8000/api/get-highest-price/";
   const hotDressesUrl = "http://localhost:8000/api/get-hottest-dresses/";
@@ -82,7 +116,7 @@ const DressUpState = (props) => {
   const currentCategoryUrl =
     "http://localhost:8000/api/get-all-dresses-or-category/";
   const filterCategoryUrl = "http://localhost:8000/api/filter-category-price/";
-  const [isFetchingData, setIsFetchingData] = useState(true);
+  const [isFetchingData, setIsFetchingData] = useState(false);
   const [isError, setIsError] = useState(false);
   const [hotDressesData, setHotDressData] = useState([]);
   const [allCategoriesData, setAllCategoriesData] = useState([]);
@@ -139,6 +173,7 @@ const DressUpState = (props) => {
       });
   };
   const getHottestDresses = () => {
+    setIsFetchingData(true);
     fetch(hotDressesUrl)
       .then((resp) => {
         if (resp.status >= 200 && resp.status <= 299) {
@@ -239,7 +274,6 @@ const DressUpState = (props) => {
     } else {
       filteredCatetories = filter_values.slice(2);
     }
-    // console.log(minValue, maxValue, filteredCatetories);
 
     fetch(filterCategoryUrl, {
       method: "POST",
@@ -273,6 +307,104 @@ const DressUpState = (props) => {
         // return error;
       });
   };
+  const signUpUser = async (signUpData) => {
+    setIsFetchingData(true);
+    try {
+      let response = await fetch(userCreateUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: signUpData[0],
+          last_name: signUpData[1],
+          email: signUpData[2],
+          password: signUpData[3],
+        }),
+      });
+      if (response.status >= 200 && response.status <= 299) {
+        setIsFetchingData(false);
+        navigate("/login");
+        notify("Account created! You can login now.", "success");
+      } else {
+        throw Error(response.statusText);
+      }
+    } catch (error) {
+      if (error.toString() === "TypeError: Failed to fetch") {
+        setIsError(true);
+      } else {
+        console.log(error);
+        notify("You already have an account with us! Please login.", "info");
+      }
+      localStorage.removeItem("token");
+      setIsFetchingData(false);
+    }
+  };
+  const logOutUser = async () => {
+    setIsFetchingData(true);
+    let token = localStorage.getItem("token");
+    try {
+      let response = await fetch(userLogoutUrl, {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+      if (response.status >= 200 && response.status <= 299) {
+        const jsonResponse = await response.json();
+        console.log(jsonResponse);
+        localStorage.removeItem("token");
+        navigate("/");
+        notify("Logout successful! Don't know why you did though.", "info");
+        setIsAuthenticated(false);
+      } else {
+        throw Error(response.statusText);
+      }
+    } catch (error) {
+      if (error.toString() === "TypeError: Failed to fetch") {
+        setIsError(true);
+      } else {
+        console.log(error);
+        notify("Unable to log out! Try again.", "error");
+      }
+      localStorage.removeItem("token");
+      setIsFetchingData(false);
+    }
+  };
+  const signInUser = async (signInData) => {
+    setIsFetchingData(true);
+    try {
+      let response = await fetch(userLoginUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: signInData[0],
+          password: signInData[1],
+        }),
+      });
+      if (response.status >= 200 && response.status <= 299) {
+        const jsonResponse = await response.json();
+        localStorage.setItem("token", jsonResponse.token);
+        setIsFetchingData(false);
+        setIsAuthenticated(true);
+        navigate("/cart");
+        notify("Successful login! Happy shopping.", "success");
+      } else {
+        throw Error(response.statusText);
+      }
+    } catch (error) {
+      if (error.toString() === "TypeError: Failed to fetch") {
+        setIsError(true);
+      } else {
+        console.log(error);
+        notify("Wrong email or username! Try again.", "error");
+      }
+      localStorage.removeItem("token");
+      setIsFetchingData(false);
+    }
+  };
 
   return (
     <DressContext.Provider
@@ -290,6 +422,10 @@ const DressUpState = (props) => {
         removeCartItem,
         setCartCount,
         calculateTotal,
+        signUpUser,
+        signInUser,
+        setIsError,
+        logOutUser,
         backendUrl,
         cartCount,
         highestDressPrice,
@@ -301,8 +437,12 @@ const DressUpState = (props) => {
         singleDressData,
         relatedDressData,
         cartDataToRender,
+        token,
+        isAuthenticated,
+        // toastifyMessageType,
       }}
     >
+      <ToastContainer />
       {props.children}
     </DressContext.Provider>
   );

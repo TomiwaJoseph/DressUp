@@ -1,18 +1,55 @@
 // import React from 'react'
-import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Navigate, NavLink } from "react-router-dom";
+import Error from "../components/Error";
+import Preloader from "../components/Preloader";
 import dressContext from "../context/dressup-context";
 import "./signup.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
-  const { backendUrl } = useContext(dressContext);
+  const { signUpUser, isFetchingData, isError } = useContext(dressContext);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const notify = (message, errorType) =>
+    toast(message, {
+      position: "top-center",
+      autoClose: "3000",
+      pauseOnHover: true,
+      closeOnClick: true,
+      type: errorType,
+      theme: "colored",
+    });
+
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
-    console.log("sign up submitted");
-    // fetch(backendUrl);
+    if (password !== repeatPassword) {
+      notify("Both passwords don't match", "error");
+    } else {
+      signUpUser([firstName, lastName, email, password]);
+    }
   };
+
+  if (isFetchingData) {
+    return <Preloader />;
+  }
+
+  if (isError) {
+    return <Error />;
+  }
+
+  // const isAuthenticated = true;
+
+  // if (isAuthenticated) {
+  //   return <Navigate to="/" />;
+  // }
   return (
     <div className="container text-center mt-5">
+      <ToastContainer />
       <h2 className="title__caption">Sign-Up</h2>
       <hr className="underline" />
       <div className="row">
@@ -22,6 +59,7 @@ const SignUp = () => {
               <div className="row">
                 <div className="col-6">
                   <input
+                    onChange={(e) => setFirstName(e.target.value)}
                     className="form-control"
                     name="firstName"
                     required
@@ -31,6 +69,7 @@ const SignUp = () => {
                 </div>
                 <div className="col-6">
                   <input
+                    onChange={(e) => setLastName(e.target.value)}
                     className="form-control"
                     name="lastName"
                     required
@@ -40,6 +79,7 @@ const SignUp = () => {
                 </div>
               </div>
               <input
+                onChange={(e) => setEmail(e.target.value)}
                 className="form-control"
                 name="email"
                 required
@@ -47,6 +87,7 @@ const SignUp = () => {
                 type="email"
               />
               <input
+                onChange={(e) => setPassword(e.target.value)}
                 className="form-control"
                 name="password"
                 required
@@ -54,13 +95,14 @@ const SignUp = () => {
                 type="password"
               />
               <input
+                onChange={(e) => setRepeatPassword(e.target.value)}
                 className="form-control"
                 name="repeatPassword"
                 required
                 placeholder="Repeat Password"
                 type="password"
               />
-              <button class="btn" type="submit">
+              <button className="btn" type="submit">
                 Sign Up
               </button>
             </form>

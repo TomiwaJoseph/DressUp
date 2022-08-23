@@ -1,5 +1,6 @@
 // import React from 'react'
 import { useContext, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import dressContext from "../context/dressup-context";
 import "./checkout.css";
 
@@ -9,10 +10,23 @@ const Checkout = () => {
     const data = new FormData(e.target);
     console.log(data);
   };
-  const { getCartItemFromStorage, backendUrl, calculateTotal } =
-    useContext(dressContext);
+  const {
+    getCartItemFromStorage,
+    backendUrl,
+    calculateTotal,
+    isAuthenticated,
+  } = useContext(dressContext);
   const data = getCartItemFromStorage();
   const cartTotal = calculateTotal(data);
+
+  useEffect(() => {
+    let getIsAuthenticated = isAuthenticated;
+    console.log(getIsAuthenticated);
+  }, []);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/cart" />;
+  }
 
   return (
     <div className="container">

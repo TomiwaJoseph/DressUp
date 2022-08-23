@@ -1,12 +1,24 @@
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import dressContext from "../context/dressup-context";
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const [scrollDown, setScrollDown] = useState(false);
+  const {
+    cartCount,
+    isAuthenticated,
+    cartDataToRender,
+    getCartItemCountFromStorage,
+  } = useContext(dressContext);
+
+  useEffect(() => {
+    console.log(isAuthenticated);
+    let count = getCartItemCountFromStorage();
+  }, [cartDataToRender]);
 
   useEffect(() => {
     const onScroll = (e) => {
@@ -55,9 +67,19 @@ const Navbar = () => {
           >
             Contact
           </NavLink>
-          <NavLink onClick={closeMobileMenu} className="navLink" to="/login">
-            Login
-          </NavLink>
+          {isAuthenticated ? (
+            <NavLink
+              onClick={closeMobileMenu}
+              className="navLink"
+              to="/user/dashboard"
+            >
+              Dashboard
+            </NavLink>
+          ) : (
+            <NavLink onClick={closeMobileMenu} className="navLink" to="/login">
+              Login
+            </NavLink>
+          )}
           <div className="mobileLink">
             {click ? (
               <>
@@ -93,7 +115,7 @@ const Navbar = () => {
           <div className="navBrands">
             <div className="cart__wrapper">
               <i className="fas fa-shopping-cart"></i>
-              <span>2</span>
+              <span>{cartCount}</span>
             </div>
           </div>
         </NavLink>

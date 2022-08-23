@@ -2,27 +2,30 @@
 import "./home.css";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
-// import "owl.carousel/dist/assets/owl.theme.default.css";
-import the1 from "../images/all-about-you-slip2.jpg";
-import the2 from "../images/all-about-you-slip4.jpg";
-import the3 from "../images/at-leisure-midi-dress2.jpg";
-import the4 from "../images/austyn-one-piece0.jpg";
-import the5 from "../images/baobab-isla-maxi-set0.jpg";
-import the6 from "../images/bec-&-bridge-stella-mini-dress3.jpg";
-import the7 from "../images/charlie-tee-dress5.jpg";
-// import "./owl.css";
 
 import Preloader from "../components/Preloader";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import LandingCarousel from "../components/LandingCarousel";
 import Features from "../components/Features";
+import dressContext from "../context/dressup-context";
+import Error from "../components/Error";
 
 const Home = () => {
+  const {
+    backendUrl,
+    getHottestDresses,
+    hotDressesData,
+    isFetchingData,
+    isError,
+    setIsError,
+    // isAuthenticated,
+  } = useContext(dressContext);
+
   const carouselOptions = {
     margin: 30,
     responsiveClass: true,
-    // autoplay: true,
+    autoplay: true,
     autoplayTimeout: 3000,
     loop: true,
     nav: true,
@@ -48,10 +51,21 @@ const Home = () => {
       },
     },
   };
+
   useEffect(() => {
-    // console.log(document.getElementsByClassName("owl-carousel")[0]);
-    // document.getElementsByClassName("owl-carousel")[0].owlCarousel();
-  });
+    setIsError(false);
+    getHottestDresses();
+    // console.log(isAuthenticated);
+  }, []);
+
+  if (isFetchingData) {
+    return <Preloader />;
+  }
+
+  if (isError) {
+    return <Error />;
+  }
+
   return (
     <>
       <LandingCarousel />
@@ -61,46 +75,29 @@ const Home = () => {
           <h2>Hottest Dresses</h2>
           <hr className="demarcation" />
           <OwlCarousel className="most__hot__carousel" {...carouselOptions}>
-            <div>
-              <div className="image__wrapper">
-                <img src={the1} alt="" />
-                <div className="dress__cta">
-                  <NavLink to="/" className="btn">
-                    View Dress
-                  </NavLink>
-                  <div className="utilities">
-                    <i className="fas fa-shopping-bag"></i>
-                    <i className="fas fa-heart"></i>
+            {hotDressesData.map((dress) => (
+              <div key={dress.id}>
+                <div className="image__wrapper">
+                  <img
+                    src={`${backendUrl}${dress.main_image}`}
+                    alt={dress.name}
+                  />
+                  <div className="dress__cta">
+                    <NavLink to={`/shop/dress/${dress.slug}`} className="btn">
+                      View Dress
+                    </NavLink>
+                    <div className="utilities">
+                      <i className="fas fa-shopping-bag"></i>
+                      <i className="fas fa-heart"></i>
+                    </div>
                   </div>
                 </div>
+                <div className="dress__info">
+                  <p>{dress.dress_name}</p>
+                  <h6>${dress.dress_price}.00</h6>
+                </div>
               </div>
-              <div className="dress__info">
-                <p>Bec & Bridge Stella Mini Dress</p>
-                <h6>$180.00</h6>
-              </div>
-            </div>
-            <div>
-              <img src={the2} alt="" />
-              <div className="dress__info">
-                <p>Sau Lee Juliana Jumpsuit</p>
-                <h6>$845.00</h6>
-              </div>
-            </div>
-            <div>
-              <img src={the3} alt="" />
-            </div>
-            <div>
-              <img src={the4} alt="" />
-            </div>
-            <div>
-              <img src={the5} alt="" />
-            </div>
-            <div>
-              <img src={the6} alt="" />
-            </div>
-            <div>
-              <img src={the7} alt="" />
-            </div>
+            ))}
           </OwlCarousel>
         </div>
       </div>

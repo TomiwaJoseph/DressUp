@@ -170,3 +170,15 @@ button:focus {
   height: 260px;
   margin-top: 10px;
 }
+.refresh__btn {
+  border-radius: 4px;
+  background: transparent;
+  color: #4c4c4c;
+  border: 1px solid #f51167;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.refresh__btn:hover {
+  background: #f51167;
+  color: #fff;
+}

@@ -2,8 +2,12 @@
 import "./contact.css";
 import contactImg from "../images/contact-us2.png";
 import Newsletter from "../components/Newsletter";
+import dressContext from "../context/dressup-context";
+import { useContext } from "react";
 
 const Contact = () => {
+  const { isAuthenticated } = useContext(dressContext);
+  console.log(isAuthenticated);
   return (
     <>
       <div className="container">
