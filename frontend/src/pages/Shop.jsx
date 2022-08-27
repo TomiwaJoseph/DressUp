@@ -1,16 +1,24 @@
-// import React from 'react'
-// import { NavLink } from "react-router-dom";
-import Features from "../components/Features";
-import MultiRangeSlider from "../components/MultiRangeSlider";
-import "./shop.css";
-// import { data } from "../data";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CategoryPlusPagination from "../components/CategoryPlusPagination";
-import dressContext from "../context/dressup-context";
-import Preloader from "../components/Preloader";
+import MultiRangeSlider from "../components/MultiRangeSlider";
+import dressContext from "../context/dress-context";
 import Error from "../components/Error";
+import Preloader from "../components/Preloader";
+import Features from "../components/Features";
+import "./shop.css";
 
 const Shop = () => {
+  const {
+    getAllCategories,
+    allCategoriesData,
+    currentCategoryData,
+    getCurrentCategory,
+    highestDressPrice,
+    getFilteredDresses,
+    getHighestPrice,
+    fetchingData,
+    noInternet,
+  } = useContext(dressContext);
   const [showCategories, setShowCategories] = useState(false);
   const [showFilterAndSort, setShowFilterAndSort] = useState(false);
   const [sliderMinValue, setSliderMinValue] = useState(0);
@@ -19,6 +27,10 @@ const Shop = () => {
     useState("All Dresses");
   const [currentCategorySlug, setCurrentCategorySlug] = useState("all-dresses");
 
+  const handleSliderChange = (min, max) => {
+    setSliderMinValue(min);
+    setSliderMaxValue(max);
+  };
   const handlefilterDresses = (e) => {
     e.preventDefault();
     let allCategories = ["All Dresses"];
@@ -38,48 +50,29 @@ const Shop = () => {
     setCurrentCategoryTitle("Filtered Dresses");
     e.target.reset();
   };
-  const handleSliderChange = (min, max) => {
-    setSliderMinValue(min);
-    setSliderMaxValue(max);
-  };
-
-  const {
-    isFetchingData,
-    isError,
-    highestDressPrice,
-    getHighestPrice,
-    getDressCategories,
-    allCategoriesData,
-    getCurrentCategory,
-    currentCategoryData,
-    getFilteredDresses,
-    // filteredDressesData,
-  } = useContext(dressContext);
-
-  useEffect(() => {
-    getHighestPrice();
-    getDressCategories();
-  }, []);
 
   useEffect(() => {
     if (showCategories || showFilterAndSort) {
       document.body.style["overflow"] = "hidden";
-      setSliderMaxValue(highestDressPrice);
     } else {
       document.body.style["overflow"] = "auto";
     }
   }, [showCategories, showFilterAndSort]);
 
   useEffect(() => {
-    // console.log("category don change");
     getCurrentCategory(currentCategorySlug);
   }, [currentCategorySlug]);
 
-  if (isFetchingData) {
+  useEffect(() => {
+    getHighestPrice();
+    getAllCategories();
+  }, []);
+
+  if (fetchingData) {
     return <Preloader />;
   }
 
-  if (isError) {
+  if (noInternet) {
     return <Error />;
   }
 

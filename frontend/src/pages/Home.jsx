@@ -1,27 +1,15 @@
-// import React from 'react'
 import "./home.css";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
-
-import Preloader from "../components/Preloader";
-import { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 import LandingCarousel from "../components/LandingCarousel";
+import Preloader from "../components/Preloader";
 import Features from "../components/Features";
-import dressContext from "../context/dressup-context";
 import Error from "../components/Error";
+import { useContext, useEffect } from "react";
+import dressContext from "../context/dress-context";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
-  const {
-    backendUrl,
-    getHottestDresses,
-    hotDressesData,
-    isFetchingData,
-    isError,
-    setIsError,
-    // isAuthenticated,
-  } = useContext(dressContext);
-
   const carouselOptions = {
     margin: 30,
     responsiveClass: true,
@@ -51,58 +39,63 @@ const Home = () => {
       },
     },
   };
+  const {
+    backendUrl,
+    fetchingData,
+    noInternet,
+    hotDressesData,
+    getHottestDresses,
+  } = useContext(dressContext);
 
   useEffect(() => {
-    setIsError(false);
     getHottestDresses();
-    // console.log(isAuthenticated);
   }, []);
 
-  if (isFetchingData) {
+  if (fetchingData) {
     return <Preloader />;
   }
 
-  if (isError) {
+  if (noInternet) {
     return <Error />;
   }
 
   return (
     <>
       <LandingCarousel />
-
       <div className="container">
         <div className="hot__right__now text-center">
           <h2>Hottest Dresses</h2>
           <hr className="demarcation" />
-          <OwlCarousel className="most__hot__carousel" {...carouselOptions}>
-            {hotDressesData.map((dress) => (
-              <div key={dress.id}>
-                <div className="image__wrapper">
-                  <img
-                    src={`${backendUrl}${dress.main_image}`}
-                    alt={dress.name}
-                  />
-                  <div className="dress__cta">
-                    <NavLink to={`/shop/dress/${dress.slug}`} className="btn">
-                      View Dress
-                    </NavLink>
-                    <div className="utilities">
-                      <i className="fas fa-shopping-bag"></i>
-                      <i className="fas fa-heart"></i>
+          {hotDressesData && (
+            <OwlCarousel className="most__hot__carousel" {...carouselOptions}>
+              {hotDressesData.map((dress) => (
+                <div key={dress.id}>
+                  <div className="image__wrapper">
+                    <img
+                      src={`${backendUrl}${dress.main_image}`}
+                      alt={dress.name}
+                    />
+                    <div className="dress__cta">
+                      <NavLink to={`/shop/dress/${dress.slug}`} className="btn">
+                        View Dress
+                      </NavLink>
+                      <div className="utilities">
+                        <i className="fas fa-shopping-bag"></i>
+                        <i className="fas fa-heart"></i>
+                      </div>
                     </div>
                   </div>
+                  <div className="dress__info">
+                    <p>{dress.dress_name}</p>
+                    <h6>${dress.dress_price}.00</h6>
+                  </div>
                 </div>
-                <div className="dress__info">
-                  <p>{dress.dress_name}</p>
-                  <h6>${dress.dress_price}.00</h6>
-                </div>
-              </div>
-            ))}
-          </OwlCarousel>
+              ))}
+            </OwlCarousel>
+          )}
         </div>
       </div>
       <Features />
-      {/* <h2 className="animate__animated animate__bounce">Test Animation</h2> */}
     </>
   );
 };

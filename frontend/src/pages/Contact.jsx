@@ -2,12 +2,8 @@
 import "./contact.css";
 import contactImg from "../images/contact-us2.png";
 import Newsletter from "../components/Newsletter";
-import dressContext from "../context/dressup-context";
-import { useContext } from "react";
 
 const Contact = () => {
-  const { isAuthenticated } = useContext(dressContext);
-  console.log(isAuthenticated);
   return (
     <>
       <div className="container">
@@ -53,7 +49,6 @@ const Contact = () => {
                     className="form-control"
                     name="message"
                     id="message"
-                    // cols="30"
                     rows="7"
                     required
                     placeholder="Your Message"
@@ -67,33 +62,6 @@ const Contact = () => {
               </div>
             </form>
           </div>
-          {/* <div className="col-md-6">
-          <div>
-            <h2 className="contact__h2">Get in touch</h2>
-            <hr />
-          </div>
-          <div className="row">
-            <div className="col-6">
-              <div className="contact__card">
-                <i className="fas fa-envelope"></i>
-                <p>Email</p>
-                <a href="mailto:tomiwajoseph88@gmail.com">dressup@gmail.com</a>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="contact__card">
-                <i className="fab fa-whatsapp"></i>
-                <p>Whatsapp</p>
-                <a href="+234-8115812801">+234 811 5812 801</a>
-              </div>
-            </div>
-          </div>
-          <div className="social__icons">
-            <i className="fab fa-github"></i>
-            <i className="fab fa-twitter"></i>
-            <i className="fab fa-instagram"></i>
-          </div>
-        </div> */}
         </div>
         <hr />
       </div>
