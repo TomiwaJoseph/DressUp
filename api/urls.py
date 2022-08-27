@@ -15,7 +15,8 @@ urlpatterns = [
     path('auth/register/', views.RegisterView.as_view(), name='register'),
     path('auth/login/', views.LoginView.as_view(), name='login'),
     path('auth/logout/', views.logout),
-    # path('auth/logout/', views.LogOutView.as_view(), name='logout'),
     path('auth/user/', views.UserAPI.as_view(), name='get_user'),
-    # path('auth/logout/', knox_views.LogoutView.as_view(), name='knox_logout')
+    # STRIPE URL
+    path('stripe-payment/', views.stripe_payment, name='stripe-payment'),
+    path('save-stripe-info/', views.save_stripe_info, name='save-stripe-info'),
 ]
