@@ -1,7 +1,8 @@
 .newsletter {
   /* height: 20vh; */
   background: #e4e4e4;
-  padding: 70px 0;
+  padding: 40px 0;
+  margin-bottom: 20px;
   text-align: center;
 }
 .newsletter hr {

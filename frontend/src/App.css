@@ -34,15 +34,15 @@ button:focus {
 }
 .dress__cta a {
   border: 1px solid #fff;
-  color: #fff;
-  background: #f51167;
+  background: #fff;
+  color: #f51167;
   border-radius: 5rem;
   padding: 5px 25px;
   margin-bottom: 20px;
 }
 .dress__cta a:hover {
-  background: #fff;
-  color: #f51167;
+  color: #fff;
+  background: #f51167;
 }
 .dress__cta .utilities .fas {
   display: inline;
@@ -57,18 +57,15 @@ button:focus {
   background: #f51167;
   color: #fff;
 }
-
 .image__wrapper:hover img {
-  filter: brightness(60%);
+  filter: brightness(30%);
 }
-
 .image__wrapper:hover .dress__cta {
   opacity: 1;
   -webkit-transition: all 150ms ease-in 120ms;
   -o-transition: all 150ms ease-in 120ms;
   transition: all 150ms ease-in 120ms;
 }
-
 .dress__info {
   margin-top: 20px;
   display: flex;
