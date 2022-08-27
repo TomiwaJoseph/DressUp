@@ -1,11 +1,10 @@
-// import React from 'react'
 import "./newsletter.css";
 
 const Newsletter = () => {
   return (
     <div className="newsletter">
       <div className="container">
-        <h2>Subscribe on DRESSUP now!</h2>
+        <h2>Subscribe on DRESS UP now!</h2>
         <hr />
         <p>
           Receive email notification on latest designs and dresses as well as

@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./categorypluspagination.css";
-import dressContext from "../context/dressup-context";
+import dressContext from "../context/dress-context";
 
 // const renderData = (data) => {
 //   return (
@@ -36,7 +36,7 @@ import dressContext from "../context/dressup-context";
 //   );
 // };
 
-const Pagination = ({ categoryData }) => {
+const CategoryPlusPagination = ({ categoryData }) => {
   const { backendUrl, addToCart } = useContext(dressContext);
   const [emptyCategory, setEmptyCategory] = useState(false);
   const dataToRender = categoryData;
@@ -71,7 +71,6 @@ const Pagination = ({ categoryData }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = dataToRender.slice(indexOfFirstItem, indexOfLastItem);
-  // const emptyCategory = currentItems ? false : true;
 
   const renderPageNumbers = pages.map((number) => {
     if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
@@ -197,4 +196,4 @@ const Pagination = ({ categoryData }) => {
   );
 };
 
-export default Pagination;
+export default CategoryPlusPagination;
