@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
@@ -9,6 +10,10 @@ from base.models import Category, Dress, DressImages
 from random import seed, shuffle
 from django.contrib.auth import authenticate
 from rest_framework import status
+import stripe
+from decouple import config
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @api_view(['GET'])
@@ -72,7 +77,10 @@ def get_single__dress(request, slug):
 
 @api_view(['GET'])
 def get_related__dress(request, slug):
-    dress = Dress.objects.get(slug=slug)
+    try:
+        dress = Dress.objects.get(slug=slug)
+    except Dress.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
     data = Dress.objects.filter(
         category__title=dress.category).exclude(id=dress.id)
     serializer = DressSerializer(data[:5], many=True).data
@@ -139,18 +147,63 @@ def logout(request):
     return Response(data=data, status=status.HTTP_200_OK)
 
 
-class LogOutView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        print('oh jesu...')
-        request.user.auth_token.delete()
-        return Response(status=status.HTTP_200_OK)
-
-
 class UserAPI(generics.RetrieveAPIView):
     # permission_classes = (IsAuthenticated)
     serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
+
+
+@api_view(['POST'])
+def stripe_payment(request):
+    payment_intent = stripe.PaymentIntent.create(
+        amount=1000,
+        currency='usd',
+        payment_method_types=['card'],
+        receipt_email=config('EMAIL_HOST_USER')
+    )
+    return Response(status=status.HTTP_200_OK, data=payment_intent)
+
+
+@api_view(['POST'])
+def save_stripe_info(request):
+    data = request.data
+    email = data['email']
+    payment_method_id = data['payment_method_id']
+    amount = data['amount']
+    extra_msg = ''
+    # checking if customer with provided email already exists
+    customer_data = stripe.Customer.list(email=email).data
+    # print(customer_data)
+
+    if len(customer_data) == 0:
+        # creating customer
+        customer = stripe.Customer.create(
+            email=email,
+            payment_method=payment_method_id,
+            invoice_settings={
+                'default_payment_method': payment_method_id
+            }
+        )
+    else:
+        customer = customer_data[0]
+        extra_msg = "Customer already existed."
+
+    # creating paymentIntent
+
+    stripe.PaymentIntent.create(
+        customer=customer,
+        payment_method=payment_method_id,
+        currency='usd', amount=amount*100,
+        confirm=True
+    )
+    return Response(status=status.HTTP_200_OK, data={
+        'message': 'Success',
+        'data': {
+            'customer_id': customer.id,
+            'customer_email': customer.email,
+            'extra_msg': extra_msg
+        }
+    })
+    # return Response({'brymo': 'Cookie Crumbles'})
