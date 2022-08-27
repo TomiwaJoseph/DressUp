@@ -1,4 +1,4 @@
-// import React from "react";
+import React from "react";
 import { Link, NavLink, useParams } from "react-router-dom";
 import "./singleproduct.css";
 import { useContext, useEffect, useState } from "react";
@@ -7,10 +7,22 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import card from "../images/cards.png";
 import Features from "../components/Features";
-import dressContext from "../context/dressup-context";
+import dressContext from "../context/dress-context";
 import Preloader from "../components/Preloader";
+import Error from "../components/Error";
 
 const SingleProduct = () => {
+  const {
+    backendUrl,
+    badUrl,
+    addToCart,
+    getSingleDress,
+    getRelatedDress,
+    singleDressData,
+    relatedDressData,
+    fetchingData,
+    noInternet,
+  } = useContext(dressContext);
   const carouselOptions = {
     margin: 30,
     responsiveClass: true,
@@ -42,16 +54,6 @@ const SingleProduct = () => {
     },
   };
   const { dressSlug } = useParams();
-  const {
-    isFetchingData,
-    backendUrl,
-    isError,
-    getSingleDress,
-    singleDressData,
-    getRelatedDress,
-    relatedDressData,
-    addToCart,
-  } = useContext(dressContext);
   const [openAccordion, setOpenAccordion] = useState(false);
   const [dressQuantity, setDressQuantity] = useState(1);
   const [dataToRender, setDataToRender] = useState({
@@ -60,7 +62,6 @@ const SingleProduct = () => {
     price: null,
     images: [],
   });
-
   const handleAccordionClick = (id) => {
     if (openAccordion === id) {
       return setOpenAccordion(null);
@@ -74,11 +75,16 @@ const SingleProduct = () => {
       setDressQuantity(dressQuantity + 1);
     }
   };
-  const { id, name, category, price, all_dress_images } = singleDressData;
+  const handleAddToCartClick = (id, name, price, main_image) => {
+    addToCart(id, name, price, dressQuantity, main_image);
+  };
 
   useEffect(() => {
     getSingleDress(dressSlug);
+    // console.log(singleDressData);
   }, [dressSlug]);
+
+  const { id, name, category, price, all_dress_images } = singleDressData;
 
   useEffect(() => {
     setDataToRender({
@@ -91,212 +97,226 @@ const SingleProduct = () => {
     getRelatedDress(dressSlug);
   }, [singleDressData]);
 
-  const handleAddToCartClick = (id, name, price, main_image) => {
-    addToCart(id, name, price, dressQuantity, main_image);
-  };
-
-  if (isFetchingData) {
+  if (fetchingData) {
     return <Preloader />;
   }
 
-  if (isError) {
+  if (badUrl) {
     return (
       <div className="error__div">
         <h1>An error occurred...</h1>
-        <p>Check your internet connection and try again.</p>
+        <p>
+          Don't mess with the url. It will take you to where you don't know 😅
+        </p>
+        <Link className="single__page-error" to="/shop">
+          Go Back To Shop
+        </Link>
       </div>
     );
+  }
+
+  if (noInternet) {
+    return <Error />;
   }
 
   return (
     <>
       <div className="single__dress container mt-5">
-        <div className="row">
-          <div className="col-md-4 ml-auto">
-            {dataToRender.images && (
-              <OwlCarousel
-                className="owl-theme single__dress_carousel"
-                items={1}
-                // autoplay={true}
-                // loop
-                animateOut="fadeOut"
-              >
-                {dataToRender.images.map((url, index) => (
-                  <div key={index}>
-                    <div className="dress__main_image">
-                      <img
-                        src={`${backendUrl}${url}`}
-                        alt={dataToRender.name}
-                      />
+        {dataToRender && (
+          <>
+            <div className="row">
+              <div className="col-md-4 ml-auto">
+                {dataToRender.images && (
+                  <OwlCarousel
+                    className="owl-theme single__dress_carousel"
+                    items={1}
+                    // autoplay={true}
+                    // loop
+                    animateOut="fadeOut"
+                  >
+                    {dataToRender.images.map((url, index) => (
+                      <div key={index}>
+                        <div className="dress__main_image">
+                          <img
+                            src={`${backendUrl}${url}`}
+                            alt={dataToRender.name}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </OwlCarousel>
+                )}
+              </div>
+              <div className="col-md-5 dress__details mr-auto">
+                <h3>{dataToRender.name}</h3>
+                <span className="product__price">${dataToRender.price}.00</span>
+                <div className="category__title">{dataToRender.category}</div>
+                <hr />
+                <div className="quantity__cart">
+                  <div className="cart__increment">
+                    <i
+                      onClick={() => handleQuantityClick("minus")}
+                      className="fas fa-minus"
+                    ></i>
+                    <p>{dressQuantity}</p>
+                    <i
+                      onClick={() => handleQuantityClick("plus")}
+                      className="fas fa-plus"
+                    ></i>
+                  </div>
+                  <button
+                    onClick={() =>
+                      handleAddToCartClick(
+                        dataToRender.id,
+                        dataToRender.name,
+                        dataToRender.price,
+                        dataToRender.images[0]
+                      )
+                    }
+                    className="btn"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+                <div id="accordion" className="accordion-area">
+                  <div className="panel">
+                    <div
+                      className="panel-header"
+                      data-toggle="collapse"
+                      data-target="#collapse1"
+                      aria-expanded="false"
+                      aria-controls="collapse1"
+                      id="headingOne"
+                      onClick={() => handleAccordionClick("headingOne")}
+                    >
+                      <button className="panel-link active">information</button>
+                      <i
+                        className={
+                          openAccordion === "headingOne"
+                            ? "fas fa-angle-up"
+                            : "fas fa-angle-down"
+                        }
+                      ></i>
+                    </div>
+                    <div
+                      id="collapse1"
+                      className="collapse"
+                      aria-labelledby="headingOne"
+                      data-parent="#accordion"
+                    >
+                      <div className="panel-body">
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Proin pharetra tempor so dales. Phasellus
+                          sagittis auctor gravida. Integer bibendum sodales arcu
+                          id te mpus. Ut consectetur lacus leo, non scelerisque
+                          nulla euismod nec.
+                        </p>
+                        <p>
+                          Approx length 66cm/26" (Based on a UK size 8 sample)
+                        </p>
+                        <p>Mixed fibres</p>
+                        <p>
+                          The Model wears a UK size 8/ EU size 36/ US size 4 and
+                          her height is 5'8"
+                        </p>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </OwlCarousel>
-            )}
-          </div>
-          <div className="col-md-5 dress__details mr-auto">
-            <h3>{dataToRender.name}</h3>
-            <span className="product__price">${dataToRender.price}.00</span>
-            <div className="category__title">{dataToRender.category}</div>
+                  <div className="panel">
+                    <div
+                      className="panel-header"
+                      id="headingTwo"
+                      data-toggle="collapse"
+                      data-target="#collapse2"
+                      aria-expanded="false"
+                      aria-controls="collapse2"
+                      onClick={() => handleAccordionClick("headingTwo")}
+                    >
+                      <button className="panel-link">care details </button>
+                      <i
+                        className={
+                          openAccordion === "headingTwo"
+                            ? "fas fa-angle-up"
+                            : "fas fa-angle-down"
+                        }
+                      ></i>
+                    </div>
+                    <div
+                      id="collapse2"
+                      className="collapse"
+                      aria-labelledby="headingTwo"
+                      data-parent="#accordion"
+                    >
+                      <div className="panel-body">
+                        <img src={card} alt="" />
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Proin pharetra tempor so dales. Phasellus
+                          sagittis auctor gravida. Integer bibendum sodales arcu
+                          id te mpus. Ut consectetur lacus leo, non scelerisque
+                          nulla euismod nec.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="panel">
+                    <div
+                      className="panel-header"
+                      id="headingThree"
+                      data-toggle="collapse"
+                      data-target="#collapse3"
+                      aria-expanded="false"
+                      aria-controls="collapse3"
+                      onClick={() => handleAccordionClick("headingThree")}
+                    >
+                      <button className="panel-link">shipping & Returns</button>
+                      <i
+                        className={
+                          openAccordion === "headingThree"
+                            ? "fas fa-angle-up"
+                            : "fas fa-angle-down"
+                        }
+                      ></i>
+                    </div>
+                    <div
+                      id="collapse3"
+                      className="collapse"
+                      aria-labelledby="headingThree"
+                      data-parent="#accordion"
+                    >
+                      <div className="panel-body">
+                        <h4>7 Days Returns</h4>
+                        <p>
+                          Cash on Delivery Available
+                          <br />
+                          Home Delivery <span>3 - 4 days</span>
+                        </p>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Proin pharetra tempor so dales. Phasellus
+                          sagittis auctor gravida. Integer bibendum sodales arcu
+                          id te mpus. Ut consectetur lacus leo, non scelerisque
+                          nulla euismod nec.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="social__media-icons">
+                  <i className="fab fa-twitter"></i>
+                  <i className="fab fa-pinterest"></i>
+                  <i className="fab fa-instagram"></i>
+                  <i className="fab fa-dribbble"></i>
+                  <i className="fab fa-facebook"></i>
+                  <i className="fab fa-youtube"></i>
+                </div>
+              </div>
+            </div>
             <hr />
-            <div className="quantity__cart">
-              <div className="cart__increment">
-                <i
-                  onClick={() => handleQuantityClick("minus")}
-                  className="fas fa-minus"
-                ></i>
-                <p>{dressQuantity}</p>
-                <i
-                  onClick={() => handleQuantityClick("plus")}
-                  className="fas fa-plus"
-                ></i>
-              </div>
-              <button
-                onClick={() =>
-                  handleAddToCartClick(
-                    dataToRender.id,
-                    dataToRender.name,
-                    dataToRender.price,
-                    dataToRender.images[0]
-                  )
-                }
-                className="btn"
-              >
-                Add to Cart
-              </button>
-            </div>
-            <div id="accordion" className="accordion-area">
-              <div className="panel">
-                <div
-                  className="panel-header"
-                  data-toggle="collapse"
-                  data-target="#collapse1"
-                  aria-expanded="false"
-                  aria-controls="collapse1"
-                  id="headingOne"
-                  onClick={() => handleAccordionClick("headingOne")}
-                >
-                  <button className="panel-link active">information</button>
-                  <i
-                    className={
-                      openAccordion === "headingOne"
-                        ? "fas fa-angle-up"
-                        : "fas fa-angle-down"
-                    }
-                  ></i>
-                </div>
-                <div
-                  id="collapse1"
-                  className="collapse"
-                  aria-labelledby="headingOne"
-                  data-parent="#accordion"
-                >
-                  <div className="panel-body">
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Proin pharetra tempor so dales. Phasellus sagittis auctor
-                      gravida. Integer bibendum sodales arcu id te mpus. Ut
-                      consectetur lacus leo, non scelerisque nulla euismod nec.
-                    </p>
-                    <p>Approx length 66cm/26" (Based on a UK size 8 sample)</p>
-                    <p>Mixed fibres</p>
-                    <p>
-                      The Model wears a UK size 8/ EU size 36/ US size 4 and her
-                      height is 5'8"
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="panel">
-                <div
-                  className="panel-header"
-                  id="headingTwo"
-                  data-toggle="collapse"
-                  data-target="#collapse2"
-                  aria-expanded="false"
-                  aria-controls="collapse2"
-                  onClick={() => handleAccordionClick("headingTwo")}
-                >
-                  <button className="panel-link">care details </button>
-                  <i
-                    className={
-                      openAccordion === "headingTwo"
-                        ? "fas fa-angle-up"
-                        : "fas fa-angle-down"
-                    }
-                  ></i>
-                </div>
-                <div
-                  id="collapse2"
-                  className="collapse"
-                  aria-labelledby="headingTwo"
-                  data-parent="#accordion"
-                >
-                  <div className="panel-body">
-                    <img src={card} alt="" />
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Proin pharetra tempor so dales. Phasellus sagittis auctor
-                      gravida. Integer bibendum sodales arcu id te mpus. Ut
-                      consectetur lacus leo, non scelerisque nulla euismod nec.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="panel">
-                <div
-                  className="panel-header"
-                  id="headingThree"
-                  data-toggle="collapse"
-                  data-target="#collapse3"
-                  aria-expanded="false"
-                  aria-controls="collapse3"
-                  onClick={() => handleAccordionClick("headingThree")}
-                >
-                  <button className="panel-link">shipping & Returns</button>
-                  <i
-                    className={
-                      openAccordion === "headingThree"
-                        ? "fas fa-angle-up"
-                        : "fas fa-angle-down"
-                    }
-                  ></i>
-                </div>
-                <div
-                  id="collapse3"
-                  className="collapse"
-                  aria-labelledby="headingThree"
-                  data-parent="#accordion"
-                >
-                  <div className="panel-body">
-                    <h4>7 Days Returns</h4>
-                    <p>
-                      Cash on Delivery Available
-                      <br />
-                      Home Delivery <span>3 - 4 days</span>
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Proin pharetra tempor so dales. Phasellus sagittis auctor
-                      gravida. Integer bibendum sodales arcu id te mpus. Ut
-                      consectetur lacus leo, non scelerisque nulla euismod nec.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="social__media-icons">
-              <i className="fab fa-twitter"></i>
-              <i className="fab fa-pinterest"></i>
-              <i className="fab fa-instagram"></i>
-              <i className="fab fa-dribbble"></i>
-              <i className="fab fa-facebook"></i>
-              <i className="fab fa-youtube"></i>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <h2 className="text-center">Related Dresses</h2>
+            <h2 className="text-center">Related Dresses</h2>
+          </>
+        )}
         {relatedDressData && (
           <OwlCarousel className="most__hot__carousel" {...carouselOptions}>
             {relatedDressData.map((dress, index) => (

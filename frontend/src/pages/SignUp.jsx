@@ -1,15 +1,16 @@
-// import React from 'react'
 import { useContext, useEffect, useState } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import Error from "../components/Error";
 import Preloader from "../components/Preloader";
-import dressContext from "../context/dressup-context";
+// import dressContext from "../context/dressup-context";
 import "./signup.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dressContext from "../context/dress-context";
 
 const SignUp = () => {
-  const { signUpUser, isFetchingData, isError } = useContext(dressContext);
+  const { fetchingData, noInternet, signUpUser, isAuthenticated } =
+    useContext(dressContext);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,7 +25,6 @@ const SignUp = () => {
       type: errorType,
       theme: "colored",
     });
-
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
     if (password !== repeatPassword) {
@@ -34,19 +34,18 @@ const SignUp = () => {
     }
   };
 
-  if (isFetchingData) {
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+
+  if (fetchingData) {
     return <Preloader />;
   }
 
-  if (isError) {
+  if (noInternet) {
     return <Error />;
   }
 
-  // const isAuthenticated = true;
-
-  // if (isAuthenticated) {
-  //   return <Navigate to="/" />;
-  // }
   return (
     <div className="container text-center mt-5">
       <ToastContainer />
@@ -120,3 +119,11 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+// const SignUp = () => {
+
+//   return (
+//   );
+// };
+
+// export default SignUp;
