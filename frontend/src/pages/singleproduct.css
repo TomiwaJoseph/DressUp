@@ -58,30 +58,31 @@
   background: transparent;
   color: #4c4c4c;
 }
-/* .single__dress {
-  margin-bottom: 50px;
-}
-
-.single__dress .dress__main_image {
-  overflow: hidden;
-  object-fit: contain;
-} */
-/* .error__div {
-  margin-top: 50px;
-  height: 80vh;
-  color: teal;
+.error__div {
+  height: 42vh;
+  /* color: teal; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-.single__page-error {
-  color: teal;
-  padding: 10px 30px;
-  font-size: 1.5rem;
-  border: 1px solid teal;
-  margin-bottom: 50px;
-} */
+.error__div p {
+  color: #5c5c5c;
+  font-size: 18px;
+}
+.error__div .single__page-error {
+  color: #f51167;
+  padding: 5px 10px;
+  border: 1px solid #f51167;
+  border-radius: 3px;
+  -webkit-transition: all 150ms ease-in;
+  -o-transition: all 150ms ease-in;
+  transition: all 150ms ease-in;
+}
+.error__div .single__page-error:hover {
+  color: #fff;
+  background: #f51167;
+}
 .accordion-area {
   margin-top: 20px;
   border-top: 2px solid #e1e1e1;

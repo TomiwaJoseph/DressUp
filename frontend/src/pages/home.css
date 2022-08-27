@@ -38,15 +38,15 @@
 }
 .most__hot__carousel .dress__cta a {
   border: 1px solid #fff;
-  color: #fff;
-  background: #f51167;
+  background: #fff;
+  color: #f51167;
   border-radius: 5rem;
   padding: 5px 25px;
   margin-bottom: 20px;
 }
 .most__hot__carousel .dress__cta a:hover {
-  background: #fff;
-  color: #f51167;
+  color: #fff;
+  background: #f51167;
 }
 .most__hot__carousel .dress__cta .utilities .fas {
   display: inline;
