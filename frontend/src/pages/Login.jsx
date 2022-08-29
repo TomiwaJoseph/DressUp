@@ -1,24 +1,31 @@
 import { useContext, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Error from "../components/Error";
 import Preloader from "../components/Preloader";
 import dressContext from "../context/dress-context";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirectTo, setRedirectTo] = useState(null);
   const { noInternet, signInUser, fetchingData, isAuthenticated } =
     useContext(dressContext);
   const handleLoginForm = (e) => {
     e.preventDefault();
     signInUser([email, password]);
+    navigate(redirectTo);
   };
+
   useEffect(() => {
+    let previousUrl = state?.previousPath || "/cart";
+    setRedirectTo(previousUrl);
+    console.log(isAuthenticated);
     if (isAuthenticated) {
-      navigate("/cart");
+      navigate(previousUrl);
     }
-  });
+  }, []);
 
   if (fetchingData) {
     return <Preloader />;

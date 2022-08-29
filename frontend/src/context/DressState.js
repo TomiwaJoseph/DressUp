@@ -66,8 +66,8 @@ const DressState = (props) => {
   useEffect(() => {
     dispatch({ type: LOGIN_USER, payload: props.isAuth });
     getCartItemCountFromStorage();
-    // console.log(initialState.isAuthenticated);
   }, [props.isAuth]);
+
   // Add dress to cart in localStorage
   const addToCart = (id, name, price, quantity, main_image) => {
     let newDress = {
@@ -91,11 +91,13 @@ const DressState = (props) => {
       } else {
         cart.push(newDress);
         localStorage.setItem("cart", JSON.stringify(cart));
+        notify("Dress added to cart.", "info");
       }
     } else {
       let cart = [];
       cart.push(newDress);
       localStorage.setItem("cart", JSON.stringify(cart));
+      notify("Dress added to cart.", "info");
     }
     getCartItemCountFromStorage();
   };
@@ -368,7 +370,6 @@ const DressState = (props) => {
       })
       .then((data) => {
         switchPreloader(false);
-        navigate("/cart");
         notify("Successful login! Enjoy your shopping.", "success");
         localStorage.setItem("token", data.token);
         dispatch({

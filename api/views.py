@@ -127,8 +127,8 @@ class LoginView(APIView):
         email = request.data.get('email')
         password = request.data.get('password')
         user = authenticate(request, email=email, password=password)
-        token = Token.objects.get_or_create(user=user)
         if user:
+            token = Token.objects.get_or_create(user=user)
             return Response({
                 'user_info': {
                     "first_name": user.first_name,

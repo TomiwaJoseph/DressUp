@@ -64,11 +64,6 @@ const Cart = () => {
     setCartTotal(calculateTotal(data));
   }, [cartDataToRender, cartTotal]);
 
-  //   const [cartContent, setCartContent] = useState([]);
-  //   useEffect(() => {
-  //     let cartData = getCartItemFromStorage();
-  //     setCartContent(cartData);
-  //   }, [cartDataToRender]);
   return (
     <>
       <div className="container">

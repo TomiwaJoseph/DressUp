@@ -24,9 +24,11 @@ const LandingCarousel = () => {
             <img src={img1} alt="" />
           </div>
           <div className="carousel__captions">
-            <h5 className="">Best Offer</h5>
-            <h1 className="">Top Rated</h1>
-            <NavLink to="/" className="btn ">
+            <h5 className="animate__animated animate__bounceInDown">
+              Best Offer
+            </h5>
+            <h1 className="animate__animated animate__slideInUp">Top Rated</h1>
+            <NavLink to="/" className="btn animate__animated animate__flipInY">
               View Category
             </NavLink>
           </div>
@@ -36,9 +38,9 @@ const LandingCarousel = () => {
             <img src={img2} alt="" />
           </div>
           <div className="carousel__captions">
-            <h5 className="animate__animated animate__bounce">Flash Deals</h5>
-            <h1 className="animate__animated animate__fadeInUp">New Dresses</h1>
-            <NavLink to="/" className="btn animate__animated animate__fadeInUp">
+            <h5>Flash Deals</h5>
+            <h1>New Dresses</h1>
+            <NavLink to="/" className="btn">
               View Category
             </NavLink>
           </div>
@@ -48,11 +50,9 @@ const LandingCarousel = () => {
             <img src={img3} alt="" />
           </div>
           <div className="carousel__captions">
-            <h5 className="animate__animated animate__bounce">New Arrivals</h5>
-            <h1 className="animate__animated animate__fadeInUp">
-              Mini Dresses
-            </h1>
-            <NavLink to="/" className="btn animate__animated animate__fadeInUp">
+            <h5>New Arrivals</h5>
+            <h1>Mini Dresses</h1>
+            <NavLink to="/" className="btn">
               View Category
             </NavLink>
           </div>

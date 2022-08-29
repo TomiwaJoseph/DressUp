@@ -87,7 +87,7 @@ const dressReducer = (state, action) => {
     case LOGOUT_USER:
       return {
         ...state,
-        isAuthenticated: false,
+        isAuthenticated: action.payload,
       };
     default:
       return state;

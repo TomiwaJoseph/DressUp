@@ -13,7 +13,7 @@ const Home = () => {
   const carouselOptions = {
     margin: 30,
     responsiveClass: true,
-    autoplay: true,
+    // autoplay: true,
     autoplayTimeout: 3000,
     loop: true,
     nav: true,
@@ -41,6 +41,7 @@ const Home = () => {
   };
   const {
     backendUrl,
+    addToCart,
     fetchingData,
     noInternet,
     hotDressesData,
@@ -50,6 +51,7 @@ const Home = () => {
   useEffect(() => {
     getHottestDresses();
   }, []);
+  // console.log(hotDressesData);
 
   if (fetchingData) {
     return <Preloader />;
@@ -65,7 +67,7 @@ const Home = () => {
       <div className="container">
         <div className="hot__right__now text-center">
           <h2>Hottest Dresses</h2>
-          <hr className="demarcation" />
+          <hr className="text-center" />
           {hotDressesData && (
             <OwlCarousel className="most__hot__carousel" {...carouselOptions}>
               {hotDressesData.map((dress) => (
@@ -80,14 +82,25 @@ const Home = () => {
                         View Dress
                       </NavLink>
                       <div className="utilities">
-                        <i className="fas fa-shopping-bag"></i>
+                        <i
+                          onClick={() =>
+                            addToCart(
+                              dress.id,
+                              dress.name,
+                              dress.price,
+                              1,
+                              dress.main_image
+                            )
+                          }
+                          className="fas fa-shopping-bag"
+                        ></i>
                         <i className="fas fa-heart"></i>
                       </div>
                     </div>
                   </div>
                   <div className="dress__info">
-                    <p>{dress.dress_name}</p>
-                    <h6>${dress.dress_price}.00</h6>
+                    <p>{dress.name}</p>
+                    <h6>${dress.price}.00</h6>
                   </div>
                 </div>
               ))}

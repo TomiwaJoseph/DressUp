@@ -1,24 +1,14 @@
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import dressContext from "../context/dressup-context";
+import dressContext from "../context/dress-context";
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const [scrollDown, setScrollDown] = useState(false);
-  const {
-    cartCount,
-    isAuthenticated,
-    cartDataToRender,
-    getCartItemCountFromStorage,
-  } = useContext(dressContext);
-
-  useEffect(() => {
-    console.log(isAuthenticated);
-    let count = getCartItemCountFromStorage();
-  }, [cartDataToRender]);
+  const { cartCount, isAuthenticated } = useContext(dressContext);
 
   useEffect(() => {
     const onScroll = (e) => {
@@ -43,7 +33,7 @@ const Navbar = () => {
       <nav className={scrollDown ? "fix__navbars" : null}>
         <NavLink onClick={closeMobileMenu} className="logo" to="/">
           <h2>
-            Dress<em>Up</em>
+            Dress <em>Up</em>
           </h2>
         </NavLink>
         <i
@@ -86,6 +76,7 @@ const Navbar = () => {
                 <a
                   onClick={closeMobileMenu}
                   className="nav-brands-mobile"
+                  rel="noreferrer"
                   target="_blank"
                   href="https://github.com/TomiwaJoseph"
                 >
