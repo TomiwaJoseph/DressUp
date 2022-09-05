@@ -1,11 +1,8 @@
-from operator import mod
-from wsgiref.validate import validator
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from users.models import CustomUser
+from users.models import Order
 from rest_framework.authtoken.models import Token
 from base.models import Dress, Category
-# from rest_framework.response import Response
 from django.contrib.auth import authenticate
 
 User = get_user_model()
@@ -59,12 +56,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return email
 
 
-# class LoginSerializer(serializers.Serializer):
-#     email = serializers.CharField()
-#     password = serializers.CharField()
-
-#     def validate(self, data):
-#         user = authenticate(**data)
-#         if user:
-#             return user
-#         raise serializers.ValidationError('Wrong Credentials')
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = "__all__"
