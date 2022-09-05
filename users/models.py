@@ -6,9 +6,13 @@ from django.contrib.auth.models import (
 from django.conf import settings
 from base.models import Dress
 
-ADDRESS_CHOICES = (
-    ('B', 'Billing'),
-    ('S', 'Shipping'),
+PAYMENT_CHOICES = (
+    ('PN', 'Pay now'),
+    ('PL', 'Pay later'),
+)
+DELIVERY_CHOICES = (
+    ('SD', 'Standard'),
+    ('ND', 'Next Day'),
 )
 
 
@@ -63,17 +67,62 @@ class CustomUser(AbstractUser):
         return self.first_name + " " + self.last_name
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
-    street_address = models.CharField(max_length=100, null=True, blank=True)
-    apartment_address = models.CharField(max_length=100, null=True, blank=True)
-    address_type = models.CharField(
-        max_length=1, choices=ADDRESS_CHOICES, blank=True, null=True)
-    default = models.BooleanField(default=False)
+class OrderItem(models.Model):
+    product = models.ForeignKey(Dress, on_delete=models.CASCADE)
+    order = models.ForeignKey("Order", on_delete=models.CASCADE)
+    quantity = models.IntegerField()
 
     def __str__(self):
-        return self.user.first_name + " " + self.user.last_name + " 's Profile"
+        return f"{self.quantity} of {self.product.name}"
+
+    def get_total_item_price(self):
+        return self.quantity * self.product.price
+
+    def get_stripe_price(self):
+        return self.product.price * 100
+
+
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    ref_code = models.CharField(max_length=20, blank=True, null=True)
+    product = models.ManyToManyField(Dress, through=OrderItem)
+    start_date = models.DateTimeField(auto_now_add=True)
+    ordered = models.BooleanField(default=False)
+    billing_address = models.CharField(max_length=200, blank=True, null=True)
+    alternative_billing_address = models.CharField(
+        max_length=200, blank=True, null=True)
+    phone_number = models.CharField(max_length=20, default='+123 456 7890')
+    delivery_type = models.CharField(
+        max_length=2, default='SD', choices=DELIVERY_CHOICES)
+    payment_method = models.CharField(
+        max_length=2, default='PL', choices=PAYMENT_CHOICES)
+    paid_for = models.BooleanField(default=False)
+    payment_date = models.DateTimeField(null=True, blank=True)
+    being_processed = models.BooleanField(default=False)
+    delivered = models.BooleanField(default=False)
+    refund_requested = models.BooleanField(default=False)
+    refund_granted = models.BooleanField(default=False)
+
+    def __str__(self):
+        # return self.user.email
+        return "{}'s order - {}".format(self.user, self.ref_code)
+
+    def get_total(self):
+        total = 0
+        for order_item in self.product.all():
+            total += order_item.get_total_item_price()
+        return total
+
+
+class Refund(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    reason = models.TextField()
+    accepted = models.BooleanField(default=False)
+    email = models.EmailField()
+
+    def __str__(self):
+        return f"{self.pk}"
 
 
 class Wishlist(models.Model):
