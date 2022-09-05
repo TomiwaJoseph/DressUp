@@ -1,31 +1,39 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Error from "../components/Error";
 import Preloader from "../components/Preloader";
-import dressContext from "../context/dress-context";
+import { signInUser } from "../redux/actions/fetchers";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [redirectTo, setRedirectTo] = useState(null);
-  const { noInternet, signInUser, fetchingData, isAuthenticated } =
-    useContext(dressContext);
+  const [loginAttachment, setLoginAttachment] = useState([]);
+  const storeContext = useSelector((state) => state.dress);
+  const { noInternet, fetchingData, isAuthenticated } = storeContext;
+
   const handleLoginForm = (e) => {
     e.preventDefault();
-    signInUser([email, password]);
-    navigate(redirectTo);
+    if (state) {
+      let checkAttachment = state.hasOwnProperty("action");
+      if (checkAttachment) {
+        return signInUser([email, password, state.id]);
+      }
+    } else {
+      signInUser([email, password]);
+    }
   };
 
   useEffect(() => {
     let previousUrl = state?.previousPath || "/cart";
-    setRedirectTo(previousUrl);
-    console.log(isAuthenticated);
     if (isAuthenticated) {
       navigate(previousUrl);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   if (fetchingData) {
     return <Preloader />;

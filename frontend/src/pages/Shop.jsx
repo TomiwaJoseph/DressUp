@@ -1,36 +1,50 @@
-import { useContext, useEffect, useState } from "react";
-import CategoryPlusPagination from "../components/CategoryPlusPagination";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  fetchAllCategory,
+  fetchCurrentCategory,
+  fetchHighestPrice,
+  fetchFilteredDresses,
+} from "../redux/actions/fetchers";
+import "./shop.css";
 import MultiRangeSlider from "../components/MultiRangeSlider";
-import dressContext from "../context/dress-context";
-import Error from "../components/Error";
+import CategoryPlusPagination from "../components/CategoryPlusPagination";
 import Preloader from "../components/Preloader";
 import Features from "../components/Features";
-import "./shop.css";
+import Error from "../components/Error";
+import { useLocation } from "react-router-dom";
 
 const Shop = () => {
-  const {
-    getAllCategories,
-    allCategoriesData,
-    currentCategoryData,
-    getCurrentCategory,
-    highestDressPrice,
-    getFilteredDresses,
-    getHighestPrice,
-    fetchingData,
-    noInternet,
-  } = useContext(dressContext);
+  const { state } = useLocation();
   const [showCategories, setShowCategories] = useState(false);
   const [showFilterAndSort, setShowFilterAndSort] = useState(false);
   const [sliderMinValue, setSliderMinValue] = useState(0);
   const [sliderMaxValue, setSliderMaxValue] = useState(0);
-  const [currentCategoryTitle, setCurrentCategoryTitle] =
-    useState("All Dresses");
-  const [currentCategorySlug, setCurrentCategorySlug] = useState("all-dresses");
+  // console.log(state);
+  const [currentCategorySlug, setCurrentCategorySlug] = useState(
+    state?.categorySlug || "all-dresses"
+  );
+  const [currentCategoryTitle, setCurrentCategoryTitle] = useState(
+    state?.categoryTitle || "All Dresses"
+  );
+  const [doneLoading, setDoneLoading] = useState(false);
+
+  const storeContext = useSelector((state) => state.dress);
+  const {
+    fetchingData,
+    noInternet,
+    allCategoriesData,
+    highestDressPrice,
+    currentCategoryData,
+    backendUrl,
+    isAuthenticated,
+  } = storeContext;
 
   const handleSliderChange = (min, max) => {
     setSliderMinValue(min);
     setSliderMaxValue(max);
   };
+
   const handlefilterDresses = (e) => {
     e.preventDefault();
     let allCategories = ["All Dresses"];
@@ -43,13 +57,59 @@ const Shop = () => {
       (dress) => data.get(dress) && checkboxChecked.push(dress)
     );
 
-    getFilteredDresses(
+    fetchFilteredDresses(
       [sliderMinValue, sliderMaxValue].concat(checkboxChecked)
     );
     setShowFilterAndSort(false);
     setCurrentCategoryTitle("Filtered Dresses");
+    setCurrentCategorySlug("");
     e.target.reset();
   };
+
+  const renderDressData = () => {
+    if (currentCategoryData.length === 0 && !doneLoading) {
+      return <Preloader />;
+    } else if (currentCategoryData.length === 0 && doneLoading) {
+      return (
+        <div className="col-12 text-center">
+          <p className="no__dress">No dress match your search parameters</p>
+        </div>
+      );
+    } else {
+      return (
+        <div className="container">
+          <CategoryPlusPagination
+            categoryData={currentCategoryData}
+            backendUrl={backendUrl}
+            isAuthenticated={isAuthenticated}
+          />
+          <Features />
+        </div>
+      );
+    }
+  };
+
+  // Fetches data based on the current category
+  useEffect(() => {
+    fetchCurrentCategory(currentCategorySlug);
+  }, [currentCategorySlug]);
+
+  // console.log(currentCategoryData);
+
+  // Fetches all categories and the highest price price to be used
+  // in filtering later
+  useEffect(() => {
+    fetchHighestPrice();
+    fetchAllCategory();
+  }, []);
+
+  // Helps with not showing no dress match your parameters because
+  // of empty list before api promise is fulfilled
+  useEffect(() => {
+    if (currentCategoryData.length !== 0) {
+      setDoneLoading(true);
+    }
+  });
 
   useEffect(() => {
     if (showCategories || showFilterAndSort) {
@@ -58,15 +118,6 @@ const Shop = () => {
       document.body.style["overflow"] = "auto";
     }
   }, [showCategories, showFilterAndSort]);
-
-  useEffect(() => {
-    getCurrentCategory(currentCategorySlug);
-  }, [currentCategorySlug]);
-
-  useEffect(() => {
-    getHighestPrice();
-    getAllCategories();
-  }, []);
 
   if (fetchingData) {
     return <Preloader />;
@@ -185,10 +236,19 @@ const Shop = () => {
         <h3 className="category__title">{currentCategoryTitle}</h3>
         <hr />
       </div>
-      <div className="container">
-        <CategoryPlusPagination categoryData={currentCategoryData} />
-        <Features />
-      </div>
+      {renderDressData()}
+      {/* {currentCategoryData.length === 0 ? (
+        <Preloader />
+      ) : (
+        <div className="container">
+          <CategoryPlusPagination
+            categoryData={currentCategoryData}
+            backendUrl={backendUrl}
+            isAuthenticated={isAuthenticated}
+          />
+          <Features />
+        </div>
+      )} */}
     </>
   );
 };

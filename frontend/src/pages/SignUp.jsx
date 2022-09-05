@@ -1,16 +1,19 @@
 import { useContext, useEffect, useState } from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import Error from "../components/Error";
 import Preloader from "../components/Preloader";
 // import dressContext from "../context/dressup-context";
 import "./signup.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import dressContext from "../context/dress-context";
+import { useSelector } from "react-redux";
+import { signUpUser } from "../redux/actions/fetchers";
+// import dressContext from "../context/dress-context";
 
 const SignUp = () => {
-  const { fetchingData, noInternet, signUpUser, isAuthenticated } =
-    useContext(dressContext);
+  const storeContext = useSelector((state) => state.dress);
+  const { fetchingData, noInternet, isAuthenticated } = storeContext;
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,6 +28,7 @@ const SignUp = () => {
       type: errorType,
       theme: "colored",
     });
+
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
     if (password !== repeatPassword) {
@@ -35,7 +39,7 @@ const SignUp = () => {
   };
 
   if (isAuthenticated) {
-    return <Navigate to="/" />;
+    return navigate("/");
   }
 
   if (fetchingData) {

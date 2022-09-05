@@ -6,8 +6,14 @@ import Preloader from "../components/Preloader";
 import Features from "../components/Features";
 import Error from "../components/Error";
 import { useContext, useEffect } from "react";
-import dressContext from "../context/dress-context";
-import { NavLink } from "react-router-dom";
+// import dressContext from "../context/dress-context";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  addToCart,
+  addToWishlist,
+  fetchHottestDresses,
+} from "../redux/actions/fetchers";
 
 const Home = () => {
   const carouselOptions = {
@@ -39,19 +45,27 @@ const Home = () => {
       },
     },
   };
+  const navigate = useNavigate();
+  const storeContext = useSelector((state) => state.dress);
   const {
     backendUrl,
-    addToCart,
     fetchingData,
     noInternet,
     hotDressesData,
-    getHottestDresses,
-  } = useContext(dressContext);
+    isAuthenticated,
+  } = storeContext;
+
+  const handleWishlistClick = (id) => {
+    if (isAuthenticated) {
+      addToWishlist(id);
+    } else {
+      navigate("/login", { state: { id: id, action: "wishlist" } });
+    }
+  };
 
   useEffect(() => {
-    getHottestDresses();
+    fetchHottestDresses();
   }, []);
-  // console.log(hotDressesData);
 
   if (fetchingData) {
     return <Preloader />;
@@ -83,24 +97,19 @@ const Home = () => {
                       </NavLink>
                       <div className="utilities">
                         <i
-                          onClick={() =>
-                            addToCart(
-                              dress.id,
-                              dress.name,
-                              dress.price,
-                              1,
-                              dress.main_image
-                            )
-                          }
+                          onClick={() => addToCart(dress.id, 1)}
                           className="fas fa-shopping-bag"
                         ></i>
-                        <i className="fas fa-heart"></i>
+                        <i
+                          onClick={() => handleWishlistClick(dress.id)}
+                          className="fas fa-heart"
+                        ></i>
                       </div>
                     </div>
                   </div>
                   <div className="dress__info">
                     <p>{dress.name}</p>
-                    <h6>${dress.price}.00</h6>
+                    <h6>${dress.price}</h6>
                   </div>
                 </div>
               ))}
