@@ -1,14 +1,27 @@
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import dressContext from "../context/dress-context";
+import { useSelector } from "react-redux";
+import { setCartCount } from "../redux/actions/fetchers";
+import { setCartTotalAction } from "../redux/actions/dressActions";
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
-  const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
+  const handleClick = () => {
+    setClick(!click);
+    if (!click) {
+      document.body.style["overflow"] = "hidden";
+    } else {
+      document.body.style["overflow"] = "auto";
+    }
+  };
+  const closeMobileMenu = () => {
+    setClick(false);
+    document.body.style["overflow"] = "auto";
+  };
   const [scrollDown, setScrollDown] = useState(false);
-  const { cartCount, isAuthenticated } = useContext(dressContext);
+  const storeContext = useSelector((state) => state.dress);
+  const { isAuthenticated, cartCount } = storeContext;
 
   useEffect(() => {
     const onScroll = (e) => {
@@ -41,7 +54,12 @@ const Navbar = () => {
           className={click ? "fa fa-times" : "fa fa-align-right"}
         ></i>
         <div className={click ? "navMenu active" : "navMenu"}>
-          <NavLink onClick={closeMobileMenu} className="navLink" to="/">
+          <NavLink
+            onClick={closeMobileMenu}
+            id="home"
+            className="navLink"
+            to="/"
+          >
             Home
           </NavLink>
           <NavLink onClick={closeMobileMenu} className="navLink" to="/shop">
@@ -66,7 +84,12 @@ const Navbar = () => {
               Dashboard
             </NavLink>
           ) : (
-            <NavLink onClick={closeMobileMenu} className="navLink" to="/login">
+            <NavLink
+              onClick={closeMobileMenu}
+              id="login"
+              className="navLink"
+              to="/login"
+            >
               Login
             </NavLink>
           )}

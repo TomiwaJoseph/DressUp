@@ -28,7 +28,7 @@
 // };
 
 // const CheckoutForm = (props) => {
-//   const [loading, setLoading] = useState(true);
+//   const [loading, setLoading] = useState(false);
 //   const [errorMsg, setErrorMsg] = useState("");
 //   const [name, setName] = useState("");
 //   const [email, setEmail] = useState("");

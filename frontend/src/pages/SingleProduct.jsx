@@ -1,28 +1,42 @@
-import React from "react";
-import { Link, NavLink, useParams } from "react-router-dom";
-import "./singleproduct.css";
-import { useContext, useEffect, useState } from "react";
-import Newsletter from "../components/Newsletter";
-import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import card from "../images/cards.png";
-import Features from "../components/Features";
-import dressContext from "../context/dress-context";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import {
+  addToCart,
+  addToWishlist,
+  fetchRelatedDress,
+  fetchSingleDress,
+} from "../redux/actions/fetchers";
+import {
+  removeSelectedProduct,
+  setBadRequest,
+  setRelatedDress,
+} from "../redux/actions/dressActions";
 import Preloader from "../components/Preloader";
 import Error from "../components/Error";
+import "./singleproduct.css";
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import Newsletter from "../components/Newsletter";
+import Features from "../components/Features";
+import Accordion from "../components/Accordion";
+import ErrorPage from "./ErrorPage";
 
 const SingleProduct = () => {
+  const storeContext = useSelector((state) => state.dress);
   const {
-    backendUrl,
-    badUrl,
-    addToCart,
-    getSingleDress,
-    getRelatedDress,
     singleDressData,
-    relatedDressData,
-    fetchingData,
+    backendUrl,
+    badRequest,
     noInternet,
-  } = useContext(dressContext);
+    relatedDressData,
+  } = storeContext;
+  const { name, id, price, category, all_dress_images, isAuthenticated } =
+    singleDressData;
+  const { dressSlug } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [dressQuantity, setDressQuantity] = useState(1);
   const carouselOptions = {
     margin: 30,
     responsiveClass: true,
@@ -53,21 +67,15 @@ const SingleProduct = () => {
       // },
     },
   };
-  const { dressSlug } = useParams();
-  const [openAccordion, setOpenAccordion] = useState(false);
-  const [dressQuantity, setDressQuantity] = useState(1);
-  const [dataToRender, setDataToRender] = useState({
-    name: null,
-    category: null,
-    price: null,
-    images: [],
-  });
-  const handleAccordionClick = (id) => {
-    if (openAccordion === id) {
-      return setOpenAccordion(null);
+
+  const handleWishlistClick = (id) => {
+    if (isAuthenticated) {
+      addToWishlist(id);
+    } else {
+      navigate("/login", { state: { id: id, action: "wishlist" } });
     }
-    setOpenAccordion(id);
   };
+
   const handleQuantityClick = (action) => {
     if (action === "minus" && dressQuantity !== 1) {
       setDressQuantity(dressQuantity - 1);
@@ -75,46 +83,23 @@ const SingleProduct = () => {
       setDressQuantity(dressQuantity + 1);
     }
   };
-  const handleAddToCartClick = (id, name, price, main_image) => {
-    addToCart(id, name, price, dressQuantity, main_image);
-  };
 
   useEffect(() => {
-    getSingleDress(dressSlug);
-    // console.log(singleDressData);
+    fetchSingleDress(dressSlug);
+    fetchRelatedDress(dressSlug);
+    return () => {
+      dispatch(removeSelectedProduct());
+      dispatch(setBadRequest(false));
+    };
   }, [dressSlug]);
 
-  const { id, name, category, price, all_dress_images } = singleDressData;
-
   useEffect(() => {
-    setDataToRender({
-      id: id,
-      name: name,
-      category: category,
-      price: price,
-      images: all_dress_images,
-    });
-    getRelatedDress(dressSlug);
-  }, [singleDressData]);
+    dispatch(setRelatedDress(relatedDressData));
+  }, [relatedDressData]);
 
-  if (fetchingData) {
-    return <Preloader />;
+  if (badRequest) {
+    return <ErrorPage />;
   }
-
-  if (badUrl) {
-    return (
-      <div className="error__div">
-        <h1>An error occurred...</h1>
-        <p>
-          Don't mess with the url. It will take you to where you don't know 😅
-        </p>
-        <Link className="single__page-error" to="/shop">
-          Go Back To Shop
-        </Link>
-      </div>
-    );
-  }
-
   if (noInternet) {
     return <Error />;
   }
@@ -122,25 +107,24 @@ const SingleProduct = () => {
   return (
     <>
       <div className="single__dress container mt-5">
-        {dataToRender && (
+        {Object.keys(singleDressData).length === 0 ? (
+          <Preloader />
+        ) : (
           <>
             <div className="row">
               <div className="col-md-4 ml-auto">
-                {dataToRender.images && (
+                {all_dress_images && (
                   <OwlCarousel
                     className="owl-theme single__dress_carousel"
                     items={1}
                     // autoplay={true}
-                    // loop
+                    loop
                     animateOut="fadeOut"
                   >
-                    {dataToRender.images.map((url, index) => (
+                    {all_dress_images.map((url, index) => (
                       <div key={index}>
                         <div className="dress__main_image">
-                          <img
-                            src={`${backendUrl}${url}`}
-                            alt={dataToRender.name}
-                          />
+                          <img src={`${backendUrl}${url}`} alt={name} />
                         </div>
                       </div>
                     ))}
@@ -148,9 +132,9 @@ const SingleProduct = () => {
                 )}
               </div>
               <div className="col-md-5 dress__details mr-auto">
-                <h3>{dataToRender.name}</h3>
-                <span className="product__price">${dataToRender.price}.00</span>
-                <div className="category__title">{dataToRender.category}</div>
+                <h3>{name}</h3>
+                <span className="product__price">${price}.00</span>
+                <div className="category__title">{category}</div>
                 <hr />
                 <div className="quantity__cart">
                   <div className="cart__increment">
@@ -165,144 +149,13 @@ const SingleProduct = () => {
                     ></i>
                   </div>
                   <button
-                    onClick={() =>
-                      handleAddToCartClick(
-                        dataToRender.id,
-                        dataToRender.name,
-                        dataToRender.price,
-                        dataToRender.images[0]
-                      )
-                    }
+                    onClick={() => addToCart(id, dressQuantity)}
                     className="btn"
                   >
                     Add to Cart
                   </button>
                 </div>
-                <div id="accordion" className="accordion-area">
-                  <div className="panel">
-                    <div
-                      className="panel-header"
-                      data-toggle="collapse"
-                      data-target="#collapse1"
-                      aria-expanded="false"
-                      aria-controls="collapse1"
-                      id="headingOne"
-                      onClick={() => handleAccordionClick("headingOne")}
-                    >
-                      <button className="panel-link active">information</button>
-                      <i
-                        className={
-                          openAccordion === "headingOne"
-                            ? "fas fa-angle-up"
-                            : "fas fa-angle-down"
-                        }
-                      ></i>
-                    </div>
-                    <div
-                      id="collapse1"
-                      className="collapse"
-                      aria-labelledby="headingOne"
-                      data-parent="#accordion"
-                    >
-                      <div className="panel-body">
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Proin pharetra tempor so dales. Phasellus
-                          sagittis auctor gravida. Integer bibendum sodales arcu
-                          id te mpus. Ut consectetur lacus leo, non scelerisque
-                          nulla euismod nec.
-                        </p>
-                        <p>
-                          Approx length 66cm/26" (Based on a UK size 8 sample)
-                        </p>
-                        <p>Mixed fibres</p>
-                        <p>
-                          The Model wears a UK size 8/ EU size 36/ US size 4 and
-                          her height is 5'8"
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="panel">
-                    <div
-                      className="panel-header"
-                      id="headingTwo"
-                      data-toggle="collapse"
-                      data-target="#collapse2"
-                      aria-expanded="false"
-                      aria-controls="collapse2"
-                      onClick={() => handleAccordionClick("headingTwo")}
-                    >
-                      <button className="panel-link">care details </button>
-                      <i
-                        className={
-                          openAccordion === "headingTwo"
-                            ? "fas fa-angle-up"
-                            : "fas fa-angle-down"
-                        }
-                      ></i>
-                    </div>
-                    <div
-                      id="collapse2"
-                      className="collapse"
-                      aria-labelledby="headingTwo"
-                      data-parent="#accordion"
-                    >
-                      <div className="panel-body">
-                        <img src={card} alt="" />
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Proin pharetra tempor so dales. Phasellus
-                          sagittis auctor gravida. Integer bibendum sodales arcu
-                          id te mpus. Ut consectetur lacus leo, non scelerisque
-                          nulla euismod nec.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="panel">
-                    <div
-                      className="panel-header"
-                      id="headingThree"
-                      data-toggle="collapse"
-                      data-target="#collapse3"
-                      aria-expanded="false"
-                      aria-controls="collapse3"
-                      onClick={() => handleAccordionClick("headingThree")}
-                    >
-                      <button className="panel-link">shipping & Returns</button>
-                      <i
-                        className={
-                          openAccordion === "headingThree"
-                            ? "fas fa-angle-up"
-                            : "fas fa-angle-down"
-                        }
-                      ></i>
-                    </div>
-                    <div
-                      id="collapse3"
-                      className="collapse"
-                      aria-labelledby="headingThree"
-                      data-parent="#accordion"
-                    >
-                      <div className="panel-body">
-                        <h4>7 Days Returns</h4>
-                        <p>
-                          Cash on Delivery Available
-                          <br />
-                          Home Delivery <span>3 - 4 days</span>
-                        </p>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Proin pharetra tempor so dales. Phasellus
-                          sagittis auctor gravida. Integer bibendum sodales arcu
-                          id te mpus. Ut consectetur lacus leo, non scelerisque
-                          nulla euismod nec.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Accordion />
                 <div className="social__media-icons">
                   <i className="fab fa-twitter"></i>
                   <i className="fab fa-pinterest"></i>
@@ -322,10 +175,8 @@ const SingleProduct = () => {
             {relatedDressData.map((dress, index) => (
               <div key={index}>
                 <div className="image__wrapper">
-                  {/* <img src={the1} alt={dress.name} /> */}
                   <img
                     src={`${backendUrl}${dress.main_image}`}
-                    // src={dress.productImage}
                     className="img-fluid"
                     alt={dress.name}
                   />
@@ -334,8 +185,14 @@ const SingleProduct = () => {
                       View Dress
                     </NavLink>
                     <div className="utilities">
-                      <i className="fas fa-shopping-bag"></i>
-                      <i className="fas fa-heart"></i>
+                      <i
+                        onClick={() => addToCart(dress.id, 1)}
+                        className="fas fa-shopping-bag"
+                      ></i>
+                      <i
+                        onClick={() => handleWishlistClick(dress.id)}
+                        className="fas fa-heart"
+                      ></i>
                     </div>
                   </div>
                 </div>
@@ -345,7 +202,9 @@ const SingleProduct = () => {
         )}
       </div>
       <Features />
-      <Newsletter />
+      <div className="container">
+        <Newsletter />
+      </div>
     </>
   );
 };

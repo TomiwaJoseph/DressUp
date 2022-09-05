@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import Login from "../pages/Login";
+import { addToCart, addToWishlist } from "../redux/actions/fetchers";
 import "./categorypluspagination.css";
-import dressContext from "../context/dress-context";
 
 // const renderData = (data) => {
 //   return (
@@ -36,20 +37,23 @@ import dressContext from "../context/dress-context";
 //   );
 // };
 
-const CategoryPlusPagination = ({ categoryData }) => {
-  const { backendUrl, addToCart } = useContext(dressContext);
-  const [emptyCategory, setEmptyCategory] = useState(false);
+const CategoryPlusPagination = ({
+  categoryData,
+  backendUrl,
+  isAuthenticated,
+}) => {
+  const navigate = useNavigate();
   const dataToRender = categoryData;
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  useEffect(() => {
-    if (dataToRender.length === 0) {
-      setEmptyCategory(true);
+  const handleWishlistClick = (id) => {
+    if (isAuthenticated) {
+      addToWishlist(id);
     } else {
-      setEmptyCategory(false);
+      navigate("/login", { state: { id: id, action: "wishlist" } });
     }
-  }, [dataToRender]);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -137,33 +141,23 @@ const CategoryPlusPagination = ({ categoryData }) => {
                       </NavLink>
                       <div className="utilities">
                         <i
-                          onClick={() =>
-                            addToCart(
-                              dress.id,
-                              dress.name,
-                              dress.price,
-                              1,
-                              dress.main_image
-                            )
-                          }
+                          onClick={() => addToCart(dress.id, 1)}
                           className="fas fa-shopping-bag"
                         ></i>
-                        <i className="fas fa-heart"></i>
+                        <i
+                          onClick={() => handleWishlistClick(dress.id)}
+                          className="fas fa-heart"
+                        ></i>
                       </div>
                     </div>
                   </div>
                   <div className="dress__info">
                     <p>{dress.name}</p>
-                    <h6>${dress.price}.00</h6>
+                    <h6>${dress.price}</h6>
                   </div>
                 </div>
               </div>
             ))}
-          {emptyCategory && (
-            <div className="col-12 text-center">
-              <p className="no__dress">No dress match your search parameters</p>
-            </div>
-          )}
         </div>
         <hr />
         {pages.length > 1 ? (
