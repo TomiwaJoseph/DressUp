@@ -70,7 +70,7 @@ nav h2 em {
   color: #f51167;
   font-weight: 600;
 }
-.fa {
+nav .fa {
   display: none;
 }
 .mobileLink {
@@ -95,7 +95,7 @@ nav h2 em {
   .cartIcon {
     display: none;
   }
-  .fa {
+  nav .fa {
     display: block;
     position: absolute;
     top: 0;

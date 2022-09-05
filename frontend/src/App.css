@@ -17,6 +17,14 @@ button:focus {
   outline: none !important;
   box-shadow: none !important;
 }
+.title__caption {
+  text-align: center;
+  text-transform: uppercase;
+  color: #f51167;
+  font-weight: 700;
+  font-size: 50px;
+  margin: 30px 0;
+}
 .underline {
   width: 25%;
   margin-top: -20px;
@@ -155,23 +163,6 @@ button:focus {
   background: #fff;
   color: #f51167;
 }
-
-.error__div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 30px;
-}
-.error__div h1 {
-  color: #f51167;
-  margin-top: 10px;
-}
-.error_image_wrapper {
-  width: 300px;
-  height: 260px;
-  margin-top: 10px;
-}
 .refresh__btn {
   border-radius: 4px;
   background: transparent;
@@ -183,4 +174,42 @@ button:focus {
 .refresh__btn:hover {
   background: #f51167;
   color: #fff;
+}
+
+/* Error related */
+
+.error__div {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  text-align: center;
+}
+.error_image_wrapper {
+  width: 250px;
+  height: 260px;
+  margin-top: 10px;
+}
+.error__div h1 {
+  color: #f51167;
+  margin-top: 10px;
+}
+.error__div p {
+  color: #5c5c5c;
+  font-size: 18px;
+}
+.error__div .single__page-error {
+  color: #f51167;
+  padding: 5px 10px;
+  border: 1px solid #f51167;
+  border-radius: 3px;
+  -webkit-transition: all 150ms ease-in;
+  -o-transition: all 150ms ease-in;
+  transition: all 150ms ease-in;
+}
+.error__div .single__page-error:hover {
+  color: #fff;
+  background: #f51167;
 }

@@ -1,12 +1,3 @@
-.title__caption {
-  text-align: center;
-  text-transform: uppercase;
-  color: #f51167;
-  font-weight: 700;
-  font-size: 50px;
-  margin: 30px 0;
-}
-
 .contact__info {
   margin-bottom: 40px;
 }
@@ -72,4 +63,63 @@
 .contact-form button:hover {
   background: transparent;
   color: #f51167;
+}
+
+/* Modal Styles */
+
+.contactModal {
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  z-index: 1000000;
+}
+.contactModal.hidden {
+  display: none;
+}
+.contactModal .modalContainer {
+  width: 80%;
+  padding: 20px;
+}
+.contactModal .modalContainer .modalBody {
+  display: inline-block;
+  background-color: #fff;
+  border: 1px solid none;
+  padding: 10px;
+  border-radius: 4px;
+}
+.modalBody .fa {
+  font-size: 40px;
+  padding: 20px 0;
+}
+.modalBody .fa-check-circle {
+  color: #f51167;
+}
+.modalBody .fa-times-circle {
+  /* color: red; */
+  color: #f00;
+}
+.modalBody #modalHTwo {
+  font-size: 24px;
+  /* color: #f51167; */
+}
+.modalBody #modalP {
+  color: #4c4c4c;
+  font-size: 14px;
+  padding: 0 10px;
+  text-align: center;
+}
+.modalBody button {
+  border: 1px solid #f51167;
+  background-color: transparent;
+  color: #4c4c4c;
+  width: 50%;
+  margin-bottom: 20px;
 }

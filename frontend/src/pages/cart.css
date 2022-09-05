@@ -31,9 +31,6 @@
   height: 130px;
   overflow: hidden;
 }
-.cart__item {
-  /* margin-bottom: 30px; */
-}
 .item__row {
   background: #eeeeee;
   padding: 10px 0;
@@ -117,14 +114,20 @@
 .cta__links a.cta__link-shop {
   background: #4c4c4c;
 }
-.btn-outline-danger {
+.clear__cart {
   margin-top: 30px;
   margin-bottom: 40px;
   font-weight: 700;
   padding: 6px 20px;
   width: 100%;
+  color: #4c4c4c;
+  border-color: #4c4c4c;
 }
-.btn-outline-danger:focus {
+.clear__cart:hover {
+  color: #fff;
+  background: #4c4c4c;
+}
+.clear__cart:focus {
   outline: none;
   box-shadow: none;
 }
