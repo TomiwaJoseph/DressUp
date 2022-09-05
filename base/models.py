@@ -19,8 +19,8 @@ class Dress(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='dress_category')
     name = models.CharField(max_length=100)
-    price = models.PositiveIntegerField()
-    discount_price = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    discount_price = models.DecimalField(max_digits=5, decimal_places=2)
     slug = models.SlugField(max_length=100)
     main_image = models.ImageField(upload_to='dresses')
     other_images = models.ManyToManyField(
