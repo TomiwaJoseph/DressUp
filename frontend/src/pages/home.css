@@ -87,3 +87,8 @@
   font-weight: 700;
   margin-left: 8px;
 }
+@media only screen and (max-width: 480px) {
+  .hot__right__now h2 {
+    font-size: 28px;
+  }
+}
