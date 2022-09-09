@@ -45,18 +45,14 @@
   display: block;
   border: none;
   padding: 10px 15%;
-  /* width: 70%; */
   border-radius: 3px;
   text-align: center;
   letter-spacing: 1px;
-  /* color: #1a6692; */
-  color: #4c4c4c;
   transition: all 120ms ease-in-out;
 }
 .dashboard .order__tracker_btn:hover {
   background: #4c4c4c;
   color: #fff;
-  /* border: 1px solid #f51167; */
 }
 .dashboard .list-group {
   margin-bottom: 20px;
@@ -81,4 +77,17 @@
   align-items: center;
   margin-bottom: 10px;
   width: 100%;
+}
+
+/* MOBILE */
+@media screen and (max-width: 480px) {
+  .order__container h3 {
+    font-size: 24px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .order__tracker_btn {
+    font-size: 14px;
+    padding: 10px 0 !important;
+  }
 }
