@@ -1,9 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from users.models import Order
-from rest_framework.authtoken.models import Token
+from users.models import Order, OrderItem
 from base.models import Dress, Category
-from django.contrib.auth import authenticate
 
 User = get_user_model()
 
@@ -59,4 +57,19 @@ class RegisterSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = "__all__"
+        fields = ['ref_code', 'start_date', 'delivered']
+
+
+class OrderDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["ref_code", "start_date", "billing_address",
+                  "alternative_billing_address",  "phone_number",
+                  "delivery_type", "payment_method",
+                  "being_processed", "delivered", ]
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = ["product", "quantity", ]
