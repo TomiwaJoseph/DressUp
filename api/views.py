@@ -1,30 +1,23 @@
 import json
-from collections import OrderedDict
-from django.contrib.sessions.models import Session
-from itertools import product
-from pdb import Restart
-from django.conf import settings
-from requests import request
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
-from rest_framework.views import APIView
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework import generics
-from rest_framework.response import Response
-
-from users.models import Wishlist
-
-from users.models import Order, OrderItem
-from .serializers import CategorySerializer, DressSerializer, OrderSerializer,  RegisterSerializer, UserSerializer
-from base.models import Category, Dress, DressImages
+import math
 import random
 import string
-from django.contrib.auth import authenticate
-from rest_framework import status
 import stripe
-from decouple import config
+from django.contrib.sessions.models import Session
+from django.contrib.auth import authenticate
+from django.db.models import Q
+from django.conf import settings
+from rest_framework import status
+from rest_framework import generics
+from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from users.models import CustomUser, Refund, Wishlist
+from users.models import Order, OrderItem
+from .serializers import CategorySerializer, DressSerializer, OrderDetailsSerializer, OrderItemSerializer, OrderSerializer,  RegisterSerializer, UserSerializer
+from base.models import Category, Dress, DressImages, Newsletter
 
-from api import serializers
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -42,20 +35,37 @@ def get_highest_price(request):
 @api_view(['GET'])
 def get_hottest_dresses(request):
     data = list(Dress.objects.all())
-    random.seed(14)
+    random.seed(27)
     random.shuffle(data)
     serializer = DressSerializer(data[:7], many=True).data
     return Response(serializer)
 
 
 @api_view(['POST'])
+def search_dress(request):
+    name = request.data.get('name')
+    search_results = Dress.objects.filter(
+        Q(name__contains=name)
+    )
+    serializer = DressSerializer(search_results, many=True).data
+    return Response({'data': serializer})
+
+
+@api_view(['POST'])
 def filter_category_price(request):
     # Get the values passed in the request parameters
-    request_data = request.data
+    minValue = request.data.get('minValue')
+    maxValue = request.data.get('maxValue')
+    category = request.data.get('categories')
 
-    minValue = request_data.get('minValue')
-    maxValue = request_data.get('maxValue')
-    category = request_data.get('categories')
+    highest_price = max([object.price for object in Dress.objects.all()])
+    all_categories = [
+        category.title for category in Category.objects.all()] + ['All Dresses']
+    if minValue < 0 or maxValue > highest_price:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    for section in category:
+        if section not in all_categories:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     # Query for the dresses
     if category == ['All Dresses']:
@@ -109,7 +119,7 @@ def get_related_dress(request, slug):
 def get_all_dresses_or_category(request, slug):
     if slug == 'all-dresses':
         data = list(Dress.objects.all())
-        random.seed(5)
+        random.seed(1)
         random.shuffle(data)
     else:
         try:
@@ -165,36 +175,20 @@ def logout(request):
     return Response(data=data, status=status.HTTP_200_OK)
 
 
-# class UserAPI(generics.RetrieveAPIView):
-#     # permission_classes = (IsAuthenticated)
-#     serializer_class = UserSerializer
-
-#     def get_object(self):
-#         return self.request.user
-
-
-@api_view(['POST'])
-def stripe_payment(request):
-    payment_intent = stripe.PaymentIntent.create(
-        amount=1000,
-        currency='usd',
-        payment_method_types=['card'],
-        receipt_email=config('EMAIL_HOST_USER')
-    )
-    return Response(status=status.HTTP_200_OK, data=payment_intent)
-
-
-@api_view(['GET'])
-def get_order_history(request):
-    return Response({'data': 'Get Order History.'})
-
-
 @api_view(['POST'])
 def add_to_wishlist(request):
     dress_id = request.data.get('dressId')
     token = request.data.get('token')
+
+    all_ids = [id.id for id in Dress.objects.all()]
+    if dress_id not in all_ids:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    try:
+        user = Token.objects.get(key=token).user
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
     product_to_add_to_wishlist = Dress.objects.get(id=dress_id)
-    user = Token.objects.get(key=token).user
     check_wishlist_exist = Wishlist.objects.filter(user=user).first()
     if check_wishlist_exist:
         check_product_exist = dress_id in [
@@ -212,7 +206,10 @@ def add_to_wishlist(request):
 @api_view(['POST'])
 def get_wishlist_dresses(request):
     token = request.data.get('token')
-    user = Token.objects.get(key=token).user
+    try:
+        user = Token.objects.get(key=token).user
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
     user_wishlist = Wishlist.objects.filter(user=user).first()
     if user_wishlist:
         serializer = DressSerializer(
@@ -225,10 +222,14 @@ def get_wishlist_dresses(request):
 def delete_wishlist_dress(request):
     token = request.data.get('token')
     id = request.data.get('id')
-    user = Token.objects.get(key=token).user
-    wishlist_object_qs = Wishlist.objects.get(user=user)
-    wishlist_object_qs.folder.remove(Dress.objects.get(id=id))
-    wishlist_count = len(wishlist_object_qs.folder.all())
+    try:
+        user = Token.objects.get(key=token).user
+        wishlist_object_qs = Wishlist.objects.get(user=user)
+        wishlist_object_qs.folder.remove(Dress.objects.get(id=id))
+        wishlist_count = len(wishlist_object_qs.folder.all())
+    except (Token.DoesNotExist, Dress.DoesNotExist):
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
     return Response({"status": "success", "wishlist_count": wishlist_count})
 
 
@@ -253,6 +254,11 @@ def remove_cart(request):
 @api_view(['POST'])
 def remove_cart_item(request):
     dress_id = request.data.get('dressId')
+
+    all_ids = [id.id for id in Dress.objects.all()]
+    if dress_id not in all_ids:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
     session_data_query = [s.get_decoded() for s in Session.objects.all()
                           if s.get_decoded().get('cart_data')]
     cart = session_data_query[0]['cart_data']
@@ -275,9 +281,8 @@ def change_cart_content(request):
     action = request.data.get('action')
 
     all_dresses_id = [obj.id for obj in Dress.objects.all()]
-
-    # if dress_id not in all_dresses_id or quantity > 5 or quantity < 1 or action not in ['increase', 'decrease']:
-    #     return Response(status=status.HTTP_403_FORBIDDEN)
+    if dress_id not in all_dresses_id or quantity > 5 or quantity < 1 or action not in ['increase', 'decrease']:
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
     session_data_query = [s.get_decoded() for s in Session.objects.all()
                           if s.get_decoded().get('cart_data')]
@@ -313,10 +318,92 @@ def change_cart_content(request):
 @api_view(['POST'])
 def get_user_orders(request):
     token = request.data.get('token')
-    user = Token.objects.get(key=token).user
+    try:
+        user = Token.objects.get(key=token).user
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
     user_orders = list(Order.objects.filter(user=user))[::-1]
     serializer = OrderSerializer(user_orders, many=True).data
     return Response({"status": "Success", "user_orders": serializer})
+
+
+@api_view(['POST'])
+def add_to_newsletter(request):
+    email = request.data.get('email')
+    email_in_newsletter = Newsletter.objects.filter(email=email)
+    if not email_in_newsletter:
+        new_email = Newsletter.objects.create(email=email)
+        new_email.save()
+
+    return Response({"status": "Success", })
+
+
+@api_view(['GET'])
+def login_demo_user(request):
+    user = CustomUser.objects.get(email='demouser@gmail.com')
+    token = Token.objects.get_or_create(user=user)
+    return Response({
+        'user_info': {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email
+        },
+        'token': user.auth_token.key
+    })
+
+
+@api_view(['POST'])
+def request_refund(request):
+    token = request.data.get('token')
+    ref_code = request.data.get('refCode')
+    reason = request.data.get('reason')
+
+    try:
+        user = Token.objects.get(key=token).user
+        # update the order
+        order = Order.objects.get(user=user, ref_code=ref_code)
+        order.refund_requested = True
+        order.save()
+        # document the refund request
+        refund = Refund.objects.create(
+            order=order,
+            reason=reason,
+            email=user.email
+        )
+        refund.save()
+        return Response({"status": "Success"})
+    except (Order.DoesNotExist, Token.DoesNotExist, Refund.DoesNotExist):
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def get_specific_order(request):
+    token = request.data.get('token')
+    ref_code = request.data.get('ref_code')
+    try:
+        user = Token.objects.get(key=token).user
+        order_with_ref_code = Order.objects.filter(
+            user=user, ref_code=ref_code).first()
+        all_dresses = OrderItem.objects.filter(order=order_with_ref_code)
+        order_detail_serializer = OrderDetailsSerializer(
+            order_with_ref_code, many=False).data
+
+        dresses_serialized = DressSerializer(
+            [dress.product for dress in all_dresses], many=True).data
+        dress_quantity = [dress.quantity for dress in all_dresses]
+        all_data = json.loads(json.dumps(dresses_serialized))
+        order_item_data = []
+        for index, object in enumerate(all_data):
+            new_obj = object
+            new_obj.update({'quantity': dress_quantity[index]})
+            order_item_data.append(new_obj)
+    except (Token.DoesNotExist, Order.DoesNotExist, OrderItem.DoesNotExist):
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    return Response({
+        'order_item_data': order_item_data,
+        "order_details": order_detail_serializer
+    })
 
 
 @api_view(['GET'])
@@ -324,10 +411,12 @@ def get_cart_content(request):
     session_query = [s.get_decoded() for s in Session.objects.all()
                      if s.get_decoded().get('cart_data')]
     if session_query:
+        db_dress_ids = [obj.id for obj in Dress.objects.all()]
         all_dress_ids = [int(id) for id in session_query[0]['cart_data']]
         all_dress_quantity = [
             value for value in session_query[0]['cart_data'].values()]
-        all_dresses = [Dress.objects.get(id=item) for item in all_dress_ids]
+        all_dresses = [Dress.objects.get(
+            id=item) for item in all_dress_ids if item in db_dress_ids]
         serializer = DressSerializer(all_dresses, many=True).data
         all_data = json.loads(json.dumps(serializer))
         new_dict = []
@@ -344,37 +433,16 @@ def get_cart_content(request):
 def add_to_cart(request):
     dress_id = request.data.get('dressId')
     quantity = request.data.get('quantity')
+
+    all_dresses_id = [obj.id for obj in Dress.objects.all()]
+    if dress_id not in all_dresses_id or quantity > 5 or quantity < 1:
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
     session_data_query = [s.get_decoded() for s in Session.objects.all()
                           if s.get_decoded().get('cart_data')]
 
     cart_content = {}
     cart_content[str(dress_id)] = quantity
-
-    # If user is authenticated
-    # if token_query:
-    #     product_to_cart = Dress.objects.get(id=dress_id)
-    #     # Check if order exist for the user
-    #     order = Order.objects.filter(
-    #         user=token_query.user, ordered=False).first()
-    #     if not order:
-    #         # Create a new order
-    #         order = Order.objects.create(
-    #             user=token_query.user,
-    #             ref_code=create_ref_code(),
-    #             ordered=False
-    #         )
-    #     # Check if order item exist
-    #     order_item = OrderItem.objects.filter(product__id=dress_id).first()
-    #     if order_item:
-    #         order_item.quantity = quantity
-    #         order_item.save()
-    #     else:
-    #         item_to_cart = OrderItem.objects.create(
-    #             product=product_to_cart,
-    #             order=order,
-    #             quantity=quantity
-    #         )
-    #         order.product.add(item_to_cart.product)
 
     # If cart is in sesion storage
     if session_data_query:
@@ -418,17 +486,20 @@ def save_paylater_details(request):
         value for value in session_data_query[0]['cart_data'].values()]
     all_dresses = [Dress.objects.get(id=item) for item in all_dress_ids]
 
-    user = Token.objects.get(key=token).user
-    new_order = Order.objects.create(
-        user=user,
-        ref_code=create_ref_code(),
-        being_processed=True,
-        billing_address=address,
-        phone_number=phoneNumber,
-        delivery_type=delivery_method,
-        payment_method='PL',
-        alternative_billing_address=optionalAddress,
-    )
+    try:
+        user = Token.objects.get(key=token).user
+        new_order = Order.objects.create(
+            user=user,
+            ref_code=create_ref_code(),
+            being_processed=True,
+            billing_address=address,
+            phone_number=phoneNumber,
+            delivery_type=delivery_method,
+            payment_method='PL',
+            alternative_billing_address=optionalAddress,
+        )
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     try:
         for index in range(len(all_dress_ids)):
@@ -448,11 +519,18 @@ def save_stripe_info(request):
     data = request.data
     email = data['email']
     payment_method_id = data['payment_method_id']
-    amount = data['amount']
+    amount = math.ceil(data['amount'])
+    order_info = data['orderInfo']
+    token = data['token']
+    # [
+    # '1234 Dress Up Street',
+    # 'Dress To Kill Apartment',
+    # '+234 9063154578',
+    #  'free'
+    # ]
     extra_msg = ''
     # checking if customer with provided email already exists
     customer_data = stripe.Customer.list(email=email).data
-    # print(customer_data)
 
     if len(customer_data) == 0:
         # creating customer
@@ -468,13 +546,45 @@ def save_stripe_info(request):
         extra_msg = "Customer already existed."
 
     # creating paymentIntent
-
     stripe.PaymentIntent.create(
         customer=customer,
         payment_method=payment_method_id,
         currency='usd', amount=amount*100,
         confirm=True
     )
+    address = order_info[0]
+    optionalAddress = order_info[1]
+    phoneNumber = order_info[2]
+    delivery_method = 'SD' if order_info[3] == 'free' else 'ND'
+
+    session_data_query = [s.get_decoded() for s in Session.objects.all()
+                          if s.get_decoded().get('cart_data')]
+    all_dress_ids = [int(id) for id in session_data_query[0]['cart_data']]
+    all_dress_quantity = [
+        value for value in session_data_query[0]['cart_data'].values()]
+    all_dresses = [Dress.objects.get(id=item) for item in all_dress_ids]
+
+    user = Token.objects.get(key=token).user
+    new_order = Order.objects.create(
+        user=user,
+        ref_code=create_ref_code(),
+        being_processed=True,
+        billing_address=address,
+        phone_number=phoneNumber,
+        delivery_type=delivery_method,
+        payment_method='PN',
+        alternative_billing_address=optionalAddress,
+    )
+    try:
+        for index in range(len(all_dress_ids)):
+            OrderItem.objects.create(
+                product=all_dresses[index],
+                quantity=all_dress_quantity[index],
+                order=new_order
+            )
+    except Dress.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
     return Response(status=status.HTTP_200_OK, data={
         'message': 'Success',
         'data': {
@@ -491,7 +601,7 @@ def fetch_user(request):
     try:
         token = Token.objects.get(key=the_token)
     except Token.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     response = {
         "first_name": token.user.first_name,
