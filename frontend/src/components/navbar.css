@@ -1,34 +1,19 @@
 nav {
-  /* position: absolute; */
-  /* top: 0;
-  position: fixed; */
   background: #373737;
   height: 70px;
   display: flex;
+  position: relative;
   justify-content: space-between;
   padding: 0.5rem calc((100vw - 1000px) / 2);
   z-index: 99999;
   box-shadow: 0px 2px 5px #222;
-  /* -webkit-transition: all 0.3s ease-in-out 0s;
-  -moz-transition: all 0.3s ease-in-out 0s;
-  -o-transition: all 0.3s ease-in-out 0s;
-  transition: all 0.3s ease-in-out 0s; */
-  /* position: fixed;
-  top: 0;
-  width: 100%;
-  margin-bottom: 10vh; */
+  transition: all 0.5s ease-in-out 0.5s;
 }
 nav.fix__navbar {
   width: 100vw;
   top: 0;
   position: fixed;
   background: #373737;
-  -webkit-transition: all 0.3s ease-in-out 0.3s;
-  -moz-transition: all 0.3s ease-in-out 0.3s;
-  -o-transition: all 0.3s ease-in-out 0.3s;
-  transition: all 0.3s ease-in-out 0.3s;
-  /* background-color: #fff !important;
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1); */
 }
 a:hover {
   text-decoration: none;
@@ -86,24 +71,45 @@ nav .fa {
   color: #fff;
   font-size: 18px;
 }
-/* .navBrandsLink .fab:hover {
-  transition: all 0.2 ease-in-out;
-  color: #f38e8e;
-} */
+.cart__wrapper {
+  position: relative;
+}
+.cart__wrapper span {
+  position: absolute;
+  top: -10px;
+  right: -18px;
+  font-size: 16px;
+  background: #f51167;
+  color: #fff;
+  border-radius: 50%;
+  padding-left: 9px;
+  padding-right: 9px;
+}
+.cart__wrapper i {
+  text-align: center;
+  font-size: 18px;
+  color: #fff;
+}
 
 @media screen and (max-width: 768px) {
   .cartIcon {
     display: none;
   }
+  /* nav.fix__navbar .fa {
+    margin-right: 40px;
+  } */
   nav .fa {
     display: block;
     position: absolute;
     top: 0;
     right: 0;
     transform: translate(-100%, 75%);
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     cursor: pointer;
     color: #fff;
+  }
+  nav .search__mobile-icon {
+    padding-right: 5%;
   }
   .navMenu {
     display: none;
@@ -148,23 +154,4 @@ nav .fa {
   .navBrands {
     display: none;
   }
-}
-.cart__wrapper {
-  position: relative;
-}
-.cart__wrapper span {
-  position: absolute;
-  top: -10px;
-  right: -18px;
-  font-size: 16px;
-  background: #f51167;
-  color: #fff;
-  border-radius: 50%;
-  padding-left: 9px;
-  padding-right: 9px;
-}
-.cart__wrapper i {
-  text-align: center;
-  font-size: 18px;
-  color: #fff;
 }

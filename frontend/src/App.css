@@ -213,3 +213,30 @@ button:focus {
   color: #fff;
   background: #f51167;
 }
+.Toastify__toast-container--top-center {
+  z-index: 99999999 !important;
+}
+
+/* TABLET */
+
+@media only screen and (min-width: 768px) and (max-width: 834px) {
+  .register__container .sign-in {
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+/* MOBILE */
+
+@media only screen and (max-width: 480px) {
+  .title__caption {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .register__container .sign-in {
+    display: block;
+    margin-top: 10px;
+  }
+}

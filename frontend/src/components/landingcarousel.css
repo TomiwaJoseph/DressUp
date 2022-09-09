@@ -72,3 +72,76 @@ button.each-slideshow-indicator::before {
   height: 9px !important;
   background: #fff !important;
 }
+/* 
+  320 - 480 -> Mobile
+  481 - 768 -> Ipads, Tablets
+  769 - 1024 -> Small screens, Laptops
+  1025 - 1200 -> Desktops, Large screens
+  1201 and more -> Extra large screen
+*/
+
+/* DESKTOPS */
+
+@media only screen and (min-width: 769px) {
+  .react-slideshow-container + ul.indicators {
+    top: 61%;
+  }
+}
+@media only screen and (min-width: 800px) and (max-width: 1023px) {
+  .each-fade-effect .carousel__captions {
+    width: 80%;
+  }
+  .react-slideshow-container + ul.indicators {
+    top: 56%;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1279px) {
+  .react-slideshow-container + ul.indicators {
+    top: 68%;
+  }
+}
+@media only screen and (min-width: 1280px) and (max-width: 1290px) {
+  .react-slideshow-container + ul.indicators {
+    top: 63%;
+  }
+}
+
+/* TABLETS */
+
+@media only screen and (min-width: 834px) and (max-width: 835px) {
+  .react-slideshow-container + ul.indicators {
+    top: 58%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .each-fade-effect .carousel__captions {
+    width: 85%;
+  }
+  .react-slideshow-container + ul.indicators {
+    top: 60%;
+  }
+}
+
+/* MOBILE */
+
+@media only screen and (max-width: 480px) {
+  .each-fade-effect .carousel__captions h5 {
+    font-size: 18px;
+  }
+  .each-fade-effect .carousel__captions h1 {
+    font-size: 40px;
+  }
+  .react-slideshow-container + ul.indicators {
+    top: 63%;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .each-fade-effect .carousel__captions h1 {
+    font-size: 30px;
+  }
+}
+@media only screen and (min-width: 412px) and (max-width: 413px) {
+  .react-slideshow-container + ul.indicators {
+    top: 61%;
+  }
+}
