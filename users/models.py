@@ -85,10 +85,10 @@ class OrderItem(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
-    ref_code = models.CharField(max_length=20, blank=True, null=True)
+    ref_code = models.CharField(max_length=25, blank=True, null=True)
     product = models.ManyToManyField(Dress, through=OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
-    ordered = models.BooleanField(default=False)
+    # ordered = models.BooleanField(default=False)
     billing_address = models.CharField(max_length=200, blank=True, null=True)
     alternative_billing_address = models.CharField(
         max_length=200, blank=True, null=True)
@@ -122,7 +122,7 @@ class Refund(models.Model):
     email = models.EmailField()
 
     def __str__(self):
-        return f"{self.pk}"
+        return f"{self.order}"
 
 
 class Wishlist(models.Model):
