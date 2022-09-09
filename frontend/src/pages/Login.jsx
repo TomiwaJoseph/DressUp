@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Error from "../components/Error";
 import Preloader from "../components/Preloader";
-import { signInUser } from "../redux/actions/fetchers";
+import { loginDemoUser, signInUser } from "../redux/actions/fetchers";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -49,7 +49,7 @@ const Login = () => {
       <h2 className="title__caption">Login</h2>
       <hr className="underline" />
       <div className="row">
-        <div className="col-md-5 mr-auto ml-auto">
+        <div className="col-md-7 col-lg-6 mr-auto ml-auto">
           <div className="login__container">
             <form onSubmit={handleLoginForm} className="login__form">
               <input
@@ -75,7 +75,11 @@ const Login = () => {
                 Login
               </button>
             </form>
-            <button className="btn demo__user" type="submit">
+            <button
+              onClick={loginDemoUser}
+              className="btn demo__user"
+              type="submit"
+            >
               Demo User
             </button>
             <div className="mb-2">

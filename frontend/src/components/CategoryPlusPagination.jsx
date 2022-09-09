@@ -83,7 +83,7 @@ const CategoryPlusPagination = ({
           id={number}
           key={number}
           onClick={handleClick}
-          className={currentPage === number ? "active" : null}
+          className={currentPage === number ? "numbers active" : "numbers"}
         >
           {number}
         </li>
@@ -118,8 +118,6 @@ const CategoryPlusPagination = ({
   // if (minPageNumberLimit >= 1) {
   //   pageDecrementBtn = <li onClick={handlePrevBtn}> &hellip; </li>;
   // }
-  // console.log(currentItems);
-  // console.log(dataToRender);
 
   return (
     <>
@@ -158,22 +156,29 @@ const CategoryPlusPagination = ({
                 </div>
               </div>
             ))}
+          {/* {!currentItems.length && (
+            <div className="col-12 text-center">
+              <p className="no__dress">No dress match your search parameters</p>
+            </div>
+          )} */}
         </div>
         <hr />
         {pages.length > 1 ? (
-          <ul className="pageNumbers">
-            <li className="btn__cover__prev">
+          <div className="pageNumbers">
+            <div className="btn__cover__prev">
               <button
                 onClick={handlePrevBtn}
                 disabled={currentPage === pages[0] ? true : false}
               >
                 Prev
               </button>
-            </li>
+            </div>
             {/* {pageDecrementBtn} */}
-            {renderPageNumbers}
+            <div className="numbers">
+              <ul>{renderPageNumbers}</ul>
+            </div>
             {/* {pageIncrementBtn} */}
-            <li className="btn__cover__next">
+            <div className="btn__cover__next">
               <button
                 onClick={handleNextBtn}
                 disabled={
@@ -182,8 +187,8 @@ const CategoryPlusPagination = ({
               >
                 Next
               </button>
-            </li>
-          </ul>
+            </div>
+          </div>
         ) : null}
       </div>
     </>

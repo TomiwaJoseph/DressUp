@@ -6,10 +6,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../components/CheckoutForm";
 import { useSelector } from "react-redux";
-import {
-  fetchCartContent,
-  savePaylaterDetails,
-} from "../redux/actions/fetchers";
+import { savePaylaterDetails } from "../redux/actions/fetchers";
 import { useLocation, useNavigate } from "react-router-dom";
 import Preloader from "../components/Preloader";
 import Error from "../components/Error";
@@ -21,8 +18,9 @@ const Checkout = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [paymentCompleted, setPaymentCompleted] = useState(false);
-  const [payLater, setPayLater] = useState(false);
+  const [deliveryType, setDeliveryType] = useState(0);
   const [activeCrumb, setActiveCrumb] = useState(0);
+  const [orderInfo, setOrderInfo] = useState([]);
   const handleAddressFormSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -32,6 +30,14 @@ const Checkout = () => {
     let deliveryInfo = data.get("shipping");
     let paymentMethod = data.get("p-method");
 
+    setOrderInfo([address, optionalAddress, phoneNumber, deliveryInfo]);
+
+    if (deliveryInfo === "free") {
+      setDeliveryType(0);
+    } else {
+      setDeliveryType(3.45);
+    }
+
     if (paymentMethod === "Pay when you get the package") {
       savePaylaterDetails([
         address,
@@ -39,7 +45,6 @@ const Checkout = () => {
         phoneNumber,
         deliveryInfo,
       ]);
-      // setPayLater(true);
     } else {
       setActiveCrumb(1);
     }
@@ -54,6 +59,7 @@ const Checkout = () => {
     cartTotal,
     cartDataToRender,
   } = storeContext;
+
   const successMessage = () => {
     return (
       <div className="success-msg">
@@ -284,16 +290,17 @@ const Checkout = () => {
             {activeCrumb === 1 && (
               <div className="col-md-12 mx-auto">
                 <div className="row">
-                  <div className="col-md-7 col-lg-6 order-md-first order-sm-last">
+                  <div className="col-md-6 col-lg-6 order-md-first order-sm-last">
                     <h3 className="checkout_title">Pay with Card</h3>
-                    {/* <Elements stripe={stripePromise}>
+                    <Elements stripe={stripePromise}>
                       <CheckoutForm
-                        amount={cartTotal}
+                        amount={cartTotal + deliveryType}
                         setPaymentCompleted={setPaymentCompleted}
+                        orderInfo={orderInfo}
                       />
-                    </Elements> */}
+                    </Elements>
                   </div>
-                  <div className="col-md-5 col-lg-6 order-md-last order-sm-first">
+                  <div className="col-md-6 col-lg-6 order-md-last order-sm-first">
                     <h3 className="checkout_title">Your Cart</h3>
                     <hr className="thick_hr" />
                     {cartDataToRender.map((dress) => (

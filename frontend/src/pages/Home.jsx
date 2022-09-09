@@ -19,7 +19,7 @@ const Home = () => {
   const carouselOptions = {
     margin: 30,
     responsiveClass: true,
-    // autoplay: true,
+    autoplay: true,
     autoplayTimeout: 3000,
     loop: true,
     nav: true,

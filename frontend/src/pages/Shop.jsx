@@ -20,7 +20,6 @@ const Shop = () => {
   const [showFilterAndSort, setShowFilterAndSort] = useState(false);
   const [sliderMinValue, setSliderMinValue] = useState(0);
   const [sliderMaxValue, setSliderMaxValue] = useState(0);
-  // console.log(state);
   const [currentCategorySlug, setCurrentCategorySlug] = useState(
     state?.categorySlug || "all-dresses"
   );
@@ -72,7 +71,7 @@ const Shop = () => {
     } else if (currentCategoryData.length === 0 && doneLoading) {
       return (
         <div className="col-12 text-center">
-          <p className="no__dress">No dress match your search parameters</p>
+          <p className="no__dress">No dress match your filter parameters</p>
         </div>
       );
     } else {
@@ -93,8 +92,6 @@ const Shop = () => {
   useEffect(() => {
     fetchCurrentCategory(currentCategorySlug);
   }, [currentCategorySlug]);
-
-  // console.log(currentCategoryData);
 
   // Fetches all categories and the highest price price to be used
   // in filtering later
@@ -166,7 +163,7 @@ const Shop = () => {
         className={showFilterAndSort ? "filter__sort active" : "filter__sort"}
       >
         <h2>Filter Dresses</h2>
-        <hr className="filter_demarcator" />
+        {/* <hr className="demarcator" /> */}
         <h3>Price</h3>
         <div className="slider__div">
           <MultiRangeSlider
@@ -226,7 +223,7 @@ const Shop = () => {
           <div className="col-6">
             <button
               onClick={() => setShowFilterAndSort(!showFilterAndSort)}
-              className="btn"
+              className="btn filter_sort"
             >
               Filter + Sort
             </button>

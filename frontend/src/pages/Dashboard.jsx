@@ -28,21 +28,6 @@ const Dashboard = () => {
   const { first_name, last_name, email } = userInfo;
   const [currentSection, setCurrentSection] = useState(0);
 
-  let allOrders = [
-    {
-      id: 1,
-      ref_no: "apq262yq5ml4s7ytlvcn",
-      ordered_date: "3/09/2022",
-      received: false,
-    },
-    {
-      id: 2,
-      ref_no: "k8i077x4dqpn9rof4fpw",
-      ordered_date: "12/09/2022",
-      received: true,
-    },
-  ];
-
   const handleLogoutClick = () => {
     logOutUser();
   };
@@ -113,11 +98,11 @@ const Dashboard = () => {
             <div className="info__container">
               <div className="user_information">
                 <p>
-                  Name:
+                  First Name:
                   <span className="text-muted"> {first_name}</span>
                 </p>
                 <p>
-                  Name:
+                  Last Name:
                   <span className="text-muted"> {last_name}</span>
                 </p>
                 <p>
@@ -134,7 +119,7 @@ const Dashboard = () => {
                   <>
                     <h3>Order History</h3>
                     {userOrderHistory.map((order) => (
-                      <div key={order.id} className="order__div">
+                      <div key={order.ref_code} className="order__div">
                         <p>{order.start_date}</p>
                         <NavLink
                           to={`/user/track-order/${order.ref_code}`}

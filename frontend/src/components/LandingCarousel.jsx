@@ -12,7 +12,7 @@ import "react-slideshow-image/dist/styles.css";
 const LandingCarousel = () => {
   return (
     <>
-      <Fade indicators={true} arrows={false}>
+      <Fade indicators={true} arrows={false} pauseOnHover={false}>
         <div className="each-fade-effect">
           <div className="image__container">
             <img src={img1} alt="" />

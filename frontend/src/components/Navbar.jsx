@@ -26,8 +26,8 @@ const Navbar = () => {
   useEffect(() => {
     const onScroll = (e) => {
       let scroll = window.pageYOffset;
-      //   console.log(scroll);
-      if (scroll > 670) {
+      // console.log(scroll);
+      if (scroll > 900) {
         // console.log("scorlled past 500");
         setScrollDown(true);
       } else {
@@ -43,16 +43,24 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={scrollDown ? "fix__navbars" : null}>
+      <nav className={scrollDown ? "fix__navbar" : null}>
         <NavLink onClick={closeMobileMenu} className="logo" to="/">
           <h2>
             Dress <em>Up</em>
           </h2>
         </NavLink>
+        {/* <div className="mobile__icons-container"> */}
+        <NavLink to="/search-dress">
+          <i
+            onClick={closeMobileMenu}
+            className="fa fa-search search__mobile-icon"
+          ></i>
+        </NavLink>
         <i
           onClick={handleClick}
           className={click ? "fa fa-times" : "fa fa-align-right"}
         ></i>
+        {/* </div> */}
         <div className={click ? "navMenu active" : "navMenu"}>
           <NavLink
             onClick={closeMobileMenu}
@@ -125,14 +133,17 @@ const Navbar = () => {
             ) : null}
           </div>
         </div>
-        <NavLink to="/cart" className="cartIcon navLink">
-          <div className="navBrands">
+        <div className="navBrands">
+          <NavLink to="/search-dress" className="search__icon navLink">
+            <i className="fas fa-search"></i>
+          </NavLink>
+          <NavLink to="/cart" className="cartIcon navLink">
             <div className="cart__wrapper">
               <i className="fas fa-shopping-cart"></i>
               <span>{cartCount}</span>
             </div>
-          </div>
-        </NavLink>
+          </NavLink>
+        </div>
       </nav>
     </>
   );

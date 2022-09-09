@@ -46,37 +46,37 @@ const About = () => {
           <hr />
         </div>
         <div className="row happy__partners">
-          <div className="col-md-2">
+          <div className="col-md-3 col-sm-6">
             <div className="partner">
               <i className="fab fa-amazon"></i>
               <p>Amazon</p>
             </div>
           </div>
-          <div className="col-md-2">
+          <div className="col-md-3 col-sm-6">
             <div className="partner">
               <i className="fab fa-teamspeak"></i>
               <p>TeamSpeak</p>
             </div>
           </div>
-          <div className="col-md-2">
+          <div className="col-md-3 col-sm-6">
             <div className="partner">
               <i className="fab fa-opencart"></i>
               <p>OpenCart</p>
             </div>
           </div>
-          <div className="col-md-2">
+          <div className="col-md-3 col-sm-6">
             <div className="partner">
               <i className="fab fa-magento"></i>
               <p>Magento</p>
             </div>
           </div>
-          <div className="col-md-2">
+          <div className="col-md-3 col-sm-6">
             <div className="partner">
               <i className="fab fa-ideal"></i>
               <p>Ideal</p>
             </div>
           </div>
-          <div className="col-md-2">
+          <div className="col-md-3 col-sm-6">
             <div className="partner">
               <i className="fab fa-weibo"></i>
               <p>Weibo</p>

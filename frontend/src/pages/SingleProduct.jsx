@@ -30,9 +30,9 @@ const SingleProduct = () => {
     badRequest,
     noInternet,
     relatedDressData,
+    isAuthenticated,
   } = storeContext;
-  const { name, id, price, category, all_dress_images, isAuthenticated } =
-    singleDressData;
+  const { name, id, price, category, all_dress_images } = singleDressData;
   const { dressSlug } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -112,12 +112,11 @@ const SingleProduct = () => {
         ) : (
           <>
             <div className="row">
-              <div className="col-md-4 ml-auto">
+              <div className="col-md-6 col-lg-5 ml-auto">
                 {all_dress_images && (
                   <OwlCarousel
                     className="owl-theme single__dress_carousel"
                     items={1}
-                    // autoplay={true}
                     loop
                     animateOut="fadeOut"
                   >
@@ -133,7 +132,7 @@ const SingleProduct = () => {
               </div>
               <div className="col-md-5 dress__details mr-auto">
                 <h3>{name}</h3>
-                <span className="product__price">${price}.00</span>
+                <span className="product__price">${price}</span>
                 <div className="category__title">{category}</div>
                 <hr />
                 <div className="quantity__cart">
