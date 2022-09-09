@@ -26,6 +26,8 @@ import store from "./redux/store/store";
 import { setLoginUser } from "./redux/actions/dressActions";
 import TrackOrder from "./pages/TrackOrder";
 import ErrorPage from "./pages/ErrorPage";
+import Refund from "./pages/Refund";
+import Search from "./pages/Search";
 
 const App = () => {
   const getUserUrl = "http://localhost:8000/api/auth/user/";
@@ -52,6 +54,8 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/order/refund" element={<Refund />} />
+        <Route path="/search-dress" element={<Search />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       {/* <CartIcon /> */}
