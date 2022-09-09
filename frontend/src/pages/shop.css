@@ -90,3 +90,56 @@
   color: #fff;
   background: #f51167;
 }
+
+/* DESKTOP */
+
+@media only screen and (min-width: 1024px) {
+  .filter__sort.active .categories__container {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+/* MOBILE */
+
+@media only screen and (max-width: 480px) {
+  /* .filter_sort h2, */
+  .filter__sort.active {
+    height: 92vh;
+    margin-top: 8vh;
+  }
+  .filter__sort #filter_checkboxes {
+    margin-top: 0 !important;
+  }
+  .filter__sort hr.demarcator {
+    margin-top: 0;
+  }
+  #filter_checkboxes label {
+    padding: 5px 8px;
+  }
+  .dress__categories h2 {
+    font-size: 40px;
+  }
+  .filter__sort.active h2 {
+    font-size: 25px;
+    margin-bottom: 30px;
+  }
+  .filter_sort hr,
+  .dress__categories hr {
+    margin-bottom: 10px !important;
+  }
+  .filter__sort h3 {
+    display: none;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .filter_sort {
+    padding: 18px 0;
+  }
+  /* .filter_sort h2, */
+  .dress__categories h2 {
+    font-size: 30px;
+    /* margin-bottom: 0; */
+    margin-top: 50px;
+  }
+}

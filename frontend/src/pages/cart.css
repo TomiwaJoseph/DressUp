@@ -81,7 +81,7 @@
 .total__div {
   color: #4c4c4c;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: row;
   font-size: 18px;
@@ -145,11 +145,6 @@
     width: 55% !important;
   }
 }
-@media screen and (max-width: 768px) {
-  /* .col__row {
-    margin-left: -20px;
-  } */
-}
 @media screen and (min-width: 768px) {
   .item__row {
     width: 90%;
@@ -161,13 +156,18 @@
   }
   .total,
   .total__price {
-    margin: 0 170px;
+    margin: 0 20px;
   }
 }
 @media screen and (max-width: 414px) {
   .total,
   .total__price {
-    margin: 0 80px;
+    font-size: 14px;
+  }
+  .clear__cart,
+  .cta__links a.cta__link-shop,
+  .cta__links a.cta__link-checkout {
+    font-size: 14px;
   }
 }
 @media screen and (max-width: 393px) {
