@@ -16,14 +16,16 @@ import {
   setPaylaterStatus,
   setPreloaderStatus,
   setRelatedDress,
+  setSearchResult,
   setSingleDress,
   setUserInfo,
+  setUserOrderDetails,
+  setUserOrderDressesData,
   setUserOrderHistory,
   setWishlistCount,
   setWishlistData,
 } from "./dressActions";
 import { toast } from "react-toastify";
-import { Navigate } from "react-router-dom";
 
 const userLoginUrl = "http://localhost:8000/api/auth/login/";
 const userLogoutUrl = "http://localhost:8000/api/auth/logout/";
@@ -49,6 +51,11 @@ const fetchWishlistDressesUrl =
 const deleteWishlistDressUrl =
   "http://localhost:8000/api/delete-wishlist-dress/";
 const fetchUserOrdersUrl = "http://localhost:8000/api/get-user-orders/";
+const fetchOrderDetailsUrl = "http://localhost:8000/api/get-specific-order/";
+const requestRefundUrl = "http://localhost:8000/api/request-refund/";
+const demoUserUrl = "http://localhost:8000/api/login-demo-user/";
+const addToNewsletterUrl = "http://localhost:8000/api/add-to-newsletter/";
+const searchDressByNameUrl = "http://localhost:8000/api/search-dress/";
 
 const notify = (message, errorType) =>
   toast(message, {
@@ -84,6 +91,17 @@ export const changeDressQuantity = async (id, quantity, action) => {
       }
       notify("Something unexpected happened!", "error");
     });
+};
+// Calculate total of cart data
+export const calculateTotal = (data) => {
+  let allQuantities = data.map((item) => item.quantity);
+  let getPrices = data.map((item) => item.price);
+  let grandTotal = getPrices
+    .map((price, index) => price * allQuantities[index])
+    .reduce(function (x, y) {
+      return x + y;
+    }, 0);
+  return grandTotal;
 };
 // Set cart total based on cart items and quantity
 export const setCartTotal = (data) => {
@@ -229,22 +247,25 @@ export const switchPreloader = (status) => {
 };
 // Get all dresses in the category user chose
 export const fetchCurrentCategory = async (category) => {
-  switchPreloader(true);
-  const response = await axios
-    .get(currentCategoryUrl + category)
-    .then((response) => {
-      // console.log(response.data);
-      store.dispatch(setCurrentCategory(response.data));
-      switchPreloader(false);
-    })
-    .catch((err) => {
-      // console.log(err);
-      if (err.message === "Network Error") {
-        store.dispatch(setInternetError(true));
-      }
-      notify("Something unexpected happened!", "error");
-      switchPreloader(false);
-    });
+  // console.log(category);
+  if (category) {
+    switchPreloader(true);
+    const response = await axios
+      .get(currentCategoryUrl + category)
+      .then((response) => {
+        // console.log(response.data);
+        store.dispatch(setCurrentCategory(response.data));
+        switchPreloader(false);
+      })
+      .catch((err) => {
+        // console.log(err);
+        if (err.message === "Network Error") {
+          store.dispatch(setInternetError(true));
+        }
+        notify("Something unexpected happened!", "error");
+        switchPreloader(false);
+      });
+  }
 };
 // Get all dresses categories from api
 export const fetchAllCategory = async () => {
@@ -418,7 +439,7 @@ export const signUpUser = async (signUpData) => {
       notify("Account created successfully! You can login now.", "success");
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -532,9 +553,38 @@ export const fetchUserOrders = async () => {
       },
     })
     .then((result) => {
-      // console.log(result);
+      // console.log(result.data);
       switchPreloader(false);
       store.dispatch(setUserOrderHistory(result.data.user_orders));
+    })
+    .catch((err) => {
+      // console.log(err);
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+      switchPreloader(false);
+    });
+};
+// Fetch details of selected order from server
+export const fetchOrderDetails = async (refCode) => {
+  let token = localStorage.getItem("token");
+  let body = JSON.stringify({
+    token: token,
+    ref_code: refCode,
+  });
+  switchPreloader(true);
+  const response = await axios
+    .post(fetchOrderDetailsUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      // console.log(result);
+      switchPreloader(false);
+      store.dispatch(setUserOrderDressesData(result.data.order_item_data));
+      store.dispatch(setUserOrderDetails(result.data.order_details));
     })
     .catch((err) => {
       // console.log(err);
@@ -573,36 +623,122 @@ export const deleteWishlistDress = async (id) => {
       // switchPreloader(false);
     });
 };
-
-// export const addToCart = (id, name, price, quantity, main_image) => {
-//   let newDress = {
-//     id: id,
-//     name: name,
-//     quantity: quantity,
-//     price: price,
-//     main_image: main_image,
-//   };
-//   let cartItems = localStorage.getItem("cart");
-//   if (cartItems) {
-//     let cart = JSON.parse(cartItems);
-//     const isDressPresent = cart.find((obj) => obj.id === id);
-//     if (isDressPresent) {
-//       let newCart = cart.map((dress) =>
-//         dress.id === isDressPresent.id
-//           ? { ...dress, quantity: quantity }
-//           : dress
-//       );
-//       localStorage.setItem("cart", JSON.stringify(newCart));
-//     } else {
-//       cart.push(newDress);
-//       localStorage.setItem("cart", JSON.stringify(cart));
-//       notify("Dress added to cart successfully!", "info");
-//     }
-//   } else {
-//     let cart = [];
-//     cart.push(newDress);
-//     localStorage.setItem("cart", JSON.stringify(cart));
-//     notify("Dress added to cart successfully!", "info");
-//   }
-//   getCartItemCountFromStorage();
-// };
+// Request for refund on order
+export const requestRefund = async (refundData) => {
+  let token = localStorage.getItem("token");
+  let body = JSON.stringify({
+    token: token,
+    refCode: refundData[0],
+    reason: refundData[1],
+  });
+  switchPreloader(true);
+  const response = await axios
+    .post(requestRefundUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      // console.log(result.data);
+      switchPreloader(false);
+      notify(
+        "Your request has been received! Expect an email from us soon.",
+        "info"
+      );
+      // store.dispatch(setWishlistCount(result.data.wishlist_count));
+    })
+    .catch((err) => {
+      // console.log(err);
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+      switchPreloader(false);
+    });
+};
+// Add email to newsletter
+export const addToNewsletter = async (email) => {
+  if (email === "badEmail") {
+    console.log("badEmail");
+    return notify("Please enter a proper email", "info");
+  }
+  let body = JSON.stringify({
+    email: email,
+  });
+  switchPreloader(true);
+  const response = await axios
+    .post(addToNewsletterUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      // console.log(result.data);
+      switchPreloader(false);
+      notify(
+        "You have been successfully added to our newsletter list.",
+        "success"
+      );
+      // store.dispatch(setWishlistCount(result.data.wishlist_count));
+    })
+    .catch((err) => {
+      // console.log(err);
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+      switchPreloader(false);
+    });
+};
+// Search dress by name in server
+export const searchDressByName = async (name) => {
+  let body = JSON.stringify({
+    name: name,
+  });
+  switchPreloader(true);
+  const response = await axios
+    .post(searchDressByNameUrl, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((result) => {
+      // console.log(result.data.data);
+      switchPreloader(false);
+      // notify(
+      //   "You have been successfully added to our newsletter list.",
+      //   "success"
+      // );
+      store.dispatch(setSearchResult(result.data.data));
+    })
+    .catch((err) => {
+      // console.log(err);
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+      switchPreloader(false);
+    });
+};
+// Login the demo user
+export const loginDemoUser = async () => {
+  switchPreloader(true);
+  const response = await axios
+    .get(demoUserUrl)
+    .then((result) => {
+      // console.log(result.data);
+      store.dispatch(setUserInfo(result.data.user_info));
+      notify("Successful login! Enjoy your shopping.", "success");
+      localStorage.setItem("token", result.data.token);
+      store.dispatch(setLoginUser(true));
+      switchPreloader(false);
+    })
+    .catch((err) => {
+      // console.log(err);
+      if (err.message === "Network Error") {
+        store.dispatch(setInternetError(true));
+      }
+      notify("Something unexpected happened!", "error");
+      switchPreloader(false);
+    });
+};

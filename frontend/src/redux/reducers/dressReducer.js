@@ -10,6 +10,9 @@ const globalState = {
   relatedDressData: [],
   wishlistData: [],
   userOrderHistory: [],
+  userOrderDetailsData: [],
+  userOrderDressesData: [],
+  searchResults: [],
   userInfo: {},
   wishlistCount: 0,
   cartCount: 0,
@@ -106,6 +109,16 @@ export const dressReducer = (state = globalState, { type, payload }) => {
         ...state,
         isAuthenticated: payload,
       };
+    case ActionTypes.SET_USER_ORDER_DETAILS:
+      return {
+        ...state,
+        userOrderDetailsData: payload,
+      };
+    case ActionTypes.SET_USER_ORDER_ITEMS_DATA:
+      return {
+        ...state,
+        userOrderDressesData: payload,
+      };
     case ActionTypes.LOGOUT_USER:
       return {
         ...state,
@@ -132,6 +145,11 @@ export const dressReducer = (state = globalState, { type, payload }) => {
       return {
         ...state,
         wishlistCount: payload,
+      };
+    case ActionTypes.SET_SEARCH_RESULT:
+      return {
+        ...state,
+        searchResults: payload,
       };
     default:
       return state;

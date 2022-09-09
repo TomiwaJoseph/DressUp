@@ -12,6 +12,12 @@ export const setAllCategory = (data) => {
     payload: data,
   };
 };
+export const setSearchResult = (data) => {
+  return {
+    type: ActionTypes.SET_SEARCH_RESULT,
+    payload: data,
+  };
+};
 export const setPreloaderStatus = (status) => {
   return {
     type: ActionTypes.IS_FETCHING_DATA,
@@ -56,6 +62,18 @@ export const setHighestPrice = (value) => {
 export const setUserOrderHistory = (value) => {
   return {
     type: ActionTypes.SET_USER_ORDER_HISTORY,
+    payload: value,
+  };
+};
+export const setUserOrderDressesData = (value) => {
+  return {
+    type: ActionTypes.SET_USER_ORDER_ITEMS_DATA,
+    payload: value,
+  };
+};
+export const setUserOrderDetails = (value) => {
+  return {
+    type: ActionTypes.SET_USER_ORDER_DETAILS,
     payload: value,
   };
 };
