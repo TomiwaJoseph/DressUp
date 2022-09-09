@@ -1,0 +1,41 @@
+.refund h2 {
+  color: #f51167;
+  text-align: center;
+  text-transform: uppercase;
+}
+.refund .refund__container {
+  background: #ffffff;
+  padding: 20px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.refund .refund__container:hover {
+  box-shadow: 0 1px 2px rgba(43, 59, 93, 0.29), 0 0 8px rgba(43, 59, 93, 0.29);
+}
+.refund-form input:focus,
+.refund-form textarea:focus {
+  box-shadow: none;
+  border: 1px solid #f51167;
+}
+.refund-form input,
+.refund-form textarea {
+  margin-bottom: 10px;
+}
+.refund-form button {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid #f51167;
+  background: #f51167;
+  color: #fff;
+  margin-top: 10px;
+}
+.refund-form button:hover {
+  background: transparent;
+  color: #f51167;
+}
