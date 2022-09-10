@@ -8,7 +8,6 @@ import {
 } from "@stripe/react-stripe-js";
 import { stripePaymentMethodHandler } from "../stripe-script";
 import "./checkoutform.css";
-import { NavLink } from "react-router-dom";
 import { removeCart } from "../redux/actions/fetchers";
 
 const CARD_ELEMENT_OPTIONS = {

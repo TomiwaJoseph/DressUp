@@ -27,6 +27,7 @@ const Refund = () => {
     if (!isAuthenticated) {
       return navigate("/login", { state: { previousPath: pathname } });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   return (

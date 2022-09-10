@@ -49,9 +49,7 @@ const Shop = () => {
     let allCategories = ["All Dresses"];
     let checkboxChecked = [];
     const data = new FormData(e.target);
-    {
-      allCategoriesData.map((dress) => allCategories.push(dress.title));
-    }
+    allCategoriesData.map((dress) => allCategories.push(dress.title));
     allCategories.map(
       (dress) => data.get(dress) && checkboxChecked.push(dress)
     );
@@ -106,7 +104,7 @@ const Shop = () => {
     if (currentCategoryData.length !== 0) {
       setDoneLoading(true);
     }
-  });
+  }, [currentCategoryData.length]);
 
   useEffect(() => {
     if (showCategories || showFilterAndSort) {

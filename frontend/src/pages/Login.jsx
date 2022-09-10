@@ -31,6 +31,7 @@ const Login = () => {
     if (isAuthenticated) {
       navigate(previousUrl);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   if (fetchingData) {

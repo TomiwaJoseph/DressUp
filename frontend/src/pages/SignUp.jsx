@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Error from "../components/Error";
 import Preloader from "../components/Preloader";
@@ -35,6 +35,10 @@ const SignUp = () => {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (isAuthenticated) {
     return navigate("/");
   }
@@ -46,10 +50,6 @@ const SignUp = () => {
   if (noInternet) {
     return <Error />;
   }
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="container text-center mt-5">

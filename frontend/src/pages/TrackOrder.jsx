@@ -23,7 +23,6 @@ const TrackOrder = () => {
     phone_number,
     delivered,
     delivery_type,
-    being_processed,
     payment_method,
   } = userOrderDetailsData;
   const { orderId } = useParams();

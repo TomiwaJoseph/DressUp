@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import Login from "../pages/Login";
 import { addToCart, addToWishlist } from "../redux/actions/fetchers";
 import "./categorypluspagination.css";
 

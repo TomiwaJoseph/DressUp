@@ -85,16 +85,22 @@ const SingleProduct = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     fetchSingleDress(dressSlug);
     fetchRelatedDress(dressSlug);
     return () => {
       dispatch(removeSelectedProduct());
       dispatch(setBadRequest(false));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dressSlug]);
 
   useEffect(() => {
     dispatch(setRelatedDress(relatedDressData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [relatedDressData]);
 
   if (badRequest) {

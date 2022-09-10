@@ -105,6 +105,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (!cartTotal) return navigate("/cart");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -115,6 +116,7 @@ const Checkout = () => {
     if (!isAuthenticated) {
       return navigate("/login", { state: { previousPath: pathname } });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   if (paylaterStatus) {

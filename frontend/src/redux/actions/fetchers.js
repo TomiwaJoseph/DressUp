@@ -74,7 +74,7 @@ export const changeDressQuantity = async (id, quantity, action) => {
     quantity: quantity,
     action: action,
   });
-  const response = await axios
+  await axios
     .post(changeCartContentUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +118,7 @@ export const addToCart = async (id, quantity) => {
     dressId: id,
     quantity: quantity,
   });
-  const response = await axios
+  await axios
     .post(addToCartUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -138,7 +138,7 @@ export const addToCart = async (id, quantity) => {
 // Remove cart from session in server
 export const removeCart = async () => {
   switchPreloader(true);
-  const response = await axios
+  await axios
     .get(cleanCartUrl)
     .then((response) => {
       store.dispatch(setCleanCart());
@@ -152,7 +152,7 @@ export const removeCart = async () => {
 // Get all cart content from api
 export const fetchCartContent = async () => {
   switchPreloader(true);
-  const response = await axios
+  await axios
     .get(cartContentUrl)
     .then((response) => {
       store.dispatch(setCartData(response.data));
@@ -170,7 +170,7 @@ export const addToWishlist = async (dressId) => {
     token: token,
     dressId: dressId,
   });
-  const response = await axios
+  await axios
     .post(addToWishlistUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -193,7 +193,7 @@ export const setCartCount = (value) => {
 // Get the cart count from api
 export const fetchCartCount = async () => {
   switchPreloader(true);
-  const response = await axios
+  await axios
     .get(cartCountUrl)
     .then((response) => {
       setCartCount(response.data);
@@ -209,7 +209,7 @@ export const removeCartItem = async (id) => {
   let body = JSON.stringify({
     dressId: id,
   });
-  const response = await axios
+  await axios
     .post(removeCartItemUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -234,7 +234,7 @@ export const switchPreloader = (status) => {
 export const fetchCurrentCategory = async (category) => {
   if (category) {
     switchPreloader(true);
-    const response = await axios
+    await axios
       .get(currentCategoryUrl + category)
       .then((response) => {
         store.dispatch(setCurrentCategory(response.data));
@@ -252,7 +252,7 @@ export const fetchCurrentCategory = async (category) => {
 // Get all dresses categories from api
 export const fetchAllCategory = async () => {
   switchPreloader(true);
-  const response = await axios
+  await axios
     .get(allCategoriesUrl)
     .then((response) => {
       store.dispatch(setAllCategory(response.data));
@@ -266,7 +266,7 @@ export const fetchAllCategory = async () => {
 // Get all dresses categories from api
 export const fetchSingleDress = async (category) => {
   switchPreloader(true);
-  const response = await axios
+  await axios
     .get(singleDressUrl + category)
     .then((response) => {
       store.dispatch(setSingleDress(response.data));
@@ -283,7 +283,7 @@ export const fetchSingleDress = async (category) => {
 };
 // Get related dresses to the dress being viewed from api
 export const fetchRelatedDress = async (category) => {
-  const response = await axios
+  await axios
     .get(relatedDressUrl + category)
     .then((response) => {
       store.dispatch(setRelatedDress(response.data));
@@ -299,7 +299,7 @@ export const fetchRelatedDress = async (category) => {
 // Get the hottest dresses the shop has from api
 export const fetchHottestDresses = async () => {
   switchPreloader(true);
-  const response = await axios
+  await axios
     .get(hotDressesUrl)
     .then((response) => {
       store.dispatch(setHottestDresses(response.data));
@@ -313,7 +313,7 @@ export const fetchHottestDresses = async () => {
 // Get the highest price the shop has from api
 export const fetchHighestPrice = async () => {
   switchPreloader(true);
-  const response = await axios
+  await axios
     .get(highestDressPriceUrl)
     .then((response) => {
       store.dispatch(setHighestPrice(response.data));
@@ -340,7 +340,7 @@ export const fetchFilteredDresses = async (filter_values) => {
     maxValue: maxValue,
     categories: filteredCatetories,
   });
-  const response = await axios
+  await axios
     .post(filterCategoryUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -362,7 +362,7 @@ export const signInUser = async (signInData) => {
     email: signInData[0],
     password: signInData[1],
   });
-  const response = await axios
+  await axios
     .post(userLoginUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -396,7 +396,7 @@ export const signUpUser = async (signUpData) => {
     email: signUpData[2],
     password: signUpData[3],
   });
-  const response = await axios
+  await axios
     .post(userRegisterUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -419,7 +419,7 @@ export const signUpUser = async (signUpData) => {
 // Log out the user with token
 export const logOutUser = async () => {
   let token = localStorage.getItem("token");
-  const response = await axios
+  await axios
     .get(userLogoutUrl, {
       headers: {
         Authorization: `Token ${token}`,
@@ -449,7 +449,7 @@ export const savePaylaterDetails = async (orderDetails) => {
     deliveryInfo: orderDetails[3],
   });
   switchPreloader(true);
-  const response = await axios
+  await axios
     .post(sendOrderDetailsUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -478,7 +478,7 @@ export const fetchWishlistDresses = async () => {
     token: token,
   });
   switchPreloader(true);
-  const response = await axios
+  await axios
     .post(fetchWishlistDressesUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -502,7 +502,7 @@ export const fetchUserOrders = async () => {
     token: token,
   });
   switchPreloader(true);
-  const response = await axios
+  await axios
     .post(fetchUserOrdersUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -527,7 +527,7 @@ export const fetchOrderDetails = async (refCode) => {
     ref_code: refCode,
   });
   switchPreloader(true);
-  const response = await axios
+  await axios
     .post(fetchOrderDetailsUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -553,7 +553,7 @@ export const deleteWishlistDress = async (id) => {
     token: token,
     id: id,
   });
-  const response = await axios
+  await axios
     .post(deleteWishlistDressUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -578,7 +578,7 @@ export const requestRefund = async (refundData) => {
     reason: refundData[1],
   });
   switchPreloader(true);
-  const response = await axios
+  await axios
     .post(requestRefundUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -609,7 +609,7 @@ export const addToNewsletter = async (email) => {
     email: email,
   });
   switchPreloader(true);
-  const response = await axios
+  await axios
     .post(addToNewsletterUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -636,7 +636,7 @@ export const searchDressByName = async (name) => {
     name: name,
   });
   switchPreloader(true);
-  const response = await axios
+  await axios
     .post(searchDressByNameUrl, body, {
       headers: {
         "Content-Type": "application/json",
@@ -657,7 +657,7 @@ export const searchDressByName = async (name) => {
 // Login the demo user
 export const loginDemoUser = async () => {
   switchPreloader(true);
-  const response = await axios
+  await axios
     .get(demoUserUrl)
     .then((result) => {
       store.dispatch(setUserInfo(result.data.user_info));
