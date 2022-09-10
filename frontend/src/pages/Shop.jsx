@@ -163,7 +163,6 @@ const Shop = () => {
         className={showFilterAndSort ? "filter__sort active" : "filter__sort"}
       >
         <h2>Filter Dresses</h2>
-        {/* <hr className="demarcator" /> */}
         <h3>Price</h3>
         <div className="slider__div">
           <MultiRangeSlider
@@ -234,18 +233,6 @@ const Shop = () => {
         <hr />
       </div>
       {renderDressData()}
-      {/* {currentCategoryData.length === 0 ? (
-        <Preloader />
-      ) : (
-        <div className="container">
-          <CategoryPlusPagination
-            categoryData={currentCategoryData}
-            backendUrl={backendUrl}
-            isAuthenticated={isAuthenticated}
-          />
-          <Features />
-        </div>
-      )} */}
     </>
   );
 };

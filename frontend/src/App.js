@@ -1,10 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -15,11 +10,9 @@ import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-// import CartIcon from "./components/CartIcon";
 import Footer from "./components/Footer";
 import Checkout from "./pages/Checkout";
 import Dashboard from "./pages/Dashboard";
-// import PrivateRoute from "./PrivateRoute";
 import fetchUser from "./redux/actions/auth";
 import { fetchCartCount } from "./redux/actions/fetchers";
 import store from "./redux/store/store";
@@ -33,7 +26,7 @@ const App = () => {
   const getUserUrl = "http://localhost:8000/api/auth/user/";
 
   useEffect(() => {
-    let data = fetchUser(getUserUrl, (status) => {
+    fetchUser(getUserUrl, (status) => {
       store.dispatch(setLoginUser(status));
     });
     fetchCartCount();
@@ -58,7 +51,6 @@ const App = () => {
         <Route path="/search-dress" element={<Search />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      {/* <CartIcon /> */}
       <Footer />
     </Router>
   );

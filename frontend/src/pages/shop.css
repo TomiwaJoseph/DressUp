@@ -30,7 +30,6 @@
   left: 0;
   background: #eeeeee;
   z-index: 80;
-  /* margin-top: 10vh; */
 }
 .filter__sort h2,
 .dress__categories h2 {
@@ -103,7 +102,6 @@
 /* MOBILE */
 
 @media only screen and (max-width: 480px) {
-  /* .filter_sort h2, */
   .filter__sort.active {
     height: 92vh;
     margin-top: 8vh;
@@ -136,10 +134,8 @@
   .filter_sort {
     padding: 18px 0;
   }
-  /* .filter_sort h2, */
   .dress__categories h2 {
     font-size: 30px;
-    /* margin-bottom: 0; */
     margin-top: 50px;
   }
 }

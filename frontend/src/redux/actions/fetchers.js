@@ -81,11 +81,9 @@ export const changeDressQuantity = async (id, quantity, action) => {
       },
     })
     .then((result) => {
-      // console.log(result.data);
       setCartTotal(result.data.new_cart);
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -127,12 +125,10 @@ export const addToCart = async (id, quantity) => {
       },
     })
     .then((result) => {
-      // console.log(result.data);
       setCartCount(result.data.cart_count);
       notify("Dress added to cart successfully!", "info");
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -145,12 +141,10 @@ export const removeCart = async () => {
   const response = await axios
     .get(cleanCartUrl)
     .then((response) => {
-      // console.log(response);
       store.dispatch(setCleanCart());
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       store.dispatch(setInternetError(true));
       switchPreloader(false);
     });
@@ -165,7 +159,6 @@ export const fetchCartContent = async () => {
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       store.dispatch(setInternetError(true));
       switchPreloader(false);
     });
@@ -184,11 +177,9 @@ export const addToWishlist = async (dressId) => {
       },
     })
     .then((result) => {
-      // console.log(result);
       notify("Dress added to wishlist successfully!", "info");
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -205,19 +196,16 @@ export const fetchCartCount = async () => {
   const response = await axios
     .get(cartCountUrl)
     .then((response) => {
-      // console.log(response);
       setCartCount(response.data);
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       store.dispatch(setInternetError(true));
       switchPreloader(false);
     });
 };
 // Remove dress from cart in localStorage
 export const removeCartItem = async (id) => {
-  // console.log(id);
   let body = JSON.stringify({
     dressId: id,
   });
@@ -228,18 +216,15 @@ export const removeCartItem = async (id) => {
       },
     })
     .then((result) => {
-      // console.log(result.data);
       setCartCount(result.data.cart_count);
       notify("Dress removed from cart!", "info");
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
       notify("Something unexpected happened!", "error");
     });
-  // getCartItemCountFromStorage();
 };
 // Turn preloader on or off
 export const switchPreloader = (status) => {
@@ -247,18 +232,15 @@ export const switchPreloader = (status) => {
 };
 // Get all dresses in the category user chose
 export const fetchCurrentCategory = async (category) => {
-  // console.log(category);
   if (category) {
     switchPreloader(true);
     const response = await axios
       .get(currentCategoryUrl + category)
       .then((response) => {
-        // console.log(response.data);
         store.dispatch(setCurrentCategory(response.data));
         switchPreloader(false);
       })
       .catch((err) => {
-        // console.log(err);
         if (err.message === "Network Error") {
           store.dispatch(setInternetError(true));
         }
@@ -273,29 +255,24 @@ export const fetchAllCategory = async () => {
   const response = await axios
     .get(allCategoriesUrl)
     .then((response) => {
-      // console.log(response.data);
       store.dispatch(setAllCategory(response.data));
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       store.dispatch(setInternetError(true));
       switchPreloader(false);
     });
 };
 // Get all dresses categories from api
 export const fetchSingleDress = async (category) => {
-  // store.dispatch(setBadRequest(false));
   switchPreloader(true);
   const response = await axios
     .get(singleDressUrl + category)
     .then((response) => {
-      // console.log(response.data);
       store.dispatch(setSingleDress(response.data));
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       } else {
@@ -306,15 +283,12 @@ export const fetchSingleDress = async (category) => {
 };
 // Get related dresses to the dress being viewed from api
 export const fetchRelatedDress = async (category) => {
-  // store.dispatch(setBadRequest(false));
   const response = await axios
     .get(relatedDressUrl + category)
     .then((response) => {
-      // console.log(response.data);
       store.dispatch(setRelatedDress(response.data));
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       } else {
@@ -332,7 +306,6 @@ export const fetchHottestDresses = async () => {
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       store.dispatch(setInternetError(true));
       switchPreloader(false);
     });
@@ -347,7 +320,6 @@ export const fetchHighestPrice = async () => {
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       store.dispatch(setInternetError(true));
       switchPreloader(false);
     });
@@ -379,7 +351,6 @@ export const fetchFilteredDresses = async (filter_values) => {
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       store.dispatch(setInternetError(true));
       switchPreloader(false);
     });
@@ -408,7 +379,6 @@ export const signInUser = async (signInData) => {
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -433,13 +403,11 @@ export const signUpUser = async (signUpData) => {
       },
     })
     .then((result) => {
-      // console.log(response);
       switchPreloader(false);
       document.getElementById("login").click();
       notify("Account created successfully! You can login now.", "success");
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -451,7 +419,6 @@ export const signUpUser = async (signUpData) => {
 // Log out the user with token
 export const logOutUser = async () => {
   let token = localStorage.getItem("token");
-  // switchPreloader(true);
   const response = await axios
     .get(userLogoutUrl, {
       headers: {
@@ -459,21 +426,16 @@ export const logOutUser = async () => {
       },
     })
     .then((result) => {
-      // console.log(response);
-      // switchPreloader(false);
       store.dispatch(setLogoutUser(false));
       localStorage.removeItem("token");
       document.getElementById("home").click();
       notify("Logout successful!", "info");
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
       notify("Unable to log out! Try again.", "error");
-      // switchPreloader(false);
-      // localStorage.removeItem("token");
     });
 };
 // Send order details to server
@@ -494,14 +456,11 @@ export const savePaylaterDetails = async (orderDetails) => {
       },
     })
     .then((result) => {
-      // console.log(result);
       switchPreloader(false);
       store.dispatch(setPaylaterStatus(true));
       removeCart();
-      // store.dispatch(setCleanCart());
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -526,16 +485,13 @@ export const fetchWishlistDresses = async () => {
       },
     })
     .then((result) => {
-      // console.log(result);
       switchPreloader(false);
       store.dispatch(setWishlistData(result.data));
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
-      notify("Something unexpected happened!", "error");
       switchPreloader(false);
     });
 };
@@ -553,16 +509,13 @@ export const fetchUserOrders = async () => {
       },
     })
     .then((result) => {
-      // console.log(result.data);
       switchPreloader(false);
       store.dispatch(setUserOrderHistory(result.data.user_orders));
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
-      notify("Something unexpected happened!", "error");
       switchPreloader(false);
     });
 };
@@ -581,13 +534,11 @@ export const fetchOrderDetails = async (refCode) => {
       },
     })
     .then((result) => {
-      // console.log(result);
       switchPreloader(false);
       store.dispatch(setUserOrderDressesData(result.data.order_item_data));
       store.dispatch(setUserOrderDetails(result.data.order_details));
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -602,7 +553,6 @@ export const deleteWishlistDress = async (id) => {
     token: token,
     id: id,
   });
-  // switchPreloader(true);
   const response = await axios
     .post(deleteWishlistDressUrl, body, {
       headers: {
@@ -610,17 +560,13 @@ export const deleteWishlistDress = async (id) => {
       },
     })
     .then((result) => {
-      // console.log(result);
-      // switchPreloader(false);
       store.dispatch(setWishlistCount(result.data.wishlist_count));
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
       notify("Something unexpected happened!", "error");
-      // switchPreloader(false);
     });
 };
 // Request for refund on order
@@ -639,16 +585,13 @@ export const requestRefund = async (refundData) => {
       },
     })
     .then((result) => {
-      // console.log(result.data);
       switchPreloader(false);
       notify(
         "Your request has been received! Expect an email from us soon.",
         "info"
       );
-      // store.dispatch(setWishlistCount(result.data.wishlist_count));
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -673,16 +616,13 @@ export const addToNewsletter = async (email) => {
       },
     })
     .then((result) => {
-      // console.log(result.data);
       switchPreloader(false);
       notify(
         "You have been successfully added to our newsletter list.",
         "success"
       );
-      // store.dispatch(setWishlistCount(result.data.wishlist_count));
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -703,16 +643,10 @@ export const searchDressByName = async (name) => {
       },
     })
     .then((result) => {
-      // console.log(result.data.data);
       switchPreloader(false);
-      // notify(
-      //   "You have been successfully added to our newsletter list.",
-      //   "success"
-      // );
       store.dispatch(setSearchResult(result.data.data));
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }
@@ -726,7 +660,6 @@ export const loginDemoUser = async () => {
   const response = await axios
     .get(demoUserUrl)
     .then((result) => {
-      // console.log(result.data);
       store.dispatch(setUserInfo(result.data.user_info));
       notify("Successful login! Enjoy your shopping.", "success");
       localStorage.setItem("token", result.data.token);
@@ -734,7 +667,6 @@ export const loginDemoUser = async () => {
       switchPreloader(false);
     })
     .catch((err) => {
-      // console.log(err);
       if (err.message === "Network Error") {
         store.dispatch(setInternetError(true));
       }

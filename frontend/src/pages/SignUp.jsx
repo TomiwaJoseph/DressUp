@@ -1,14 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Error from "../components/Error";
 import Preloader from "../components/Preloader";
-// import dressContext from "../context/dressup-context";
-import "./signup.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { signUpUser } from "../redux/actions/fetchers";
-// import dressContext from "../context/dress-context";
 
 const SignUp = () => {
   const storeContext = useSelector((state) => state.dress);
@@ -49,6 +46,10 @@ const SignUp = () => {
   if (noInternet) {
     return <Error />;
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="container text-center mt-5">
@@ -123,11 +124,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-// const SignUp = () => {
-
-//   return (
-//   );
-// };
-
-// export default SignUp;

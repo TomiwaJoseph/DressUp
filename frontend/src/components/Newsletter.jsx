@@ -51,19 +51,6 @@ const Newsletter = () => {
             </div>
           </form>
         </div>
-        {/* <form className="newsletter-form">
-          <div className="form-group">
-            <input
-              required
-              type="email"
-              name="email"
-              placeholder="Email Address*"
-            />
-          </div>
-          <button className="btn" type="submit" id="newsletter_btn">
-            Submit
-          </button>
-        </form> */}
       </div>
     </div>
   );

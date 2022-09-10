@@ -26,7 +26,6 @@ class UserAdmin(BaseUserAdmin):
 
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['product', 'quantity']
-    # list_editable = ['ordered']
 
 
 class OrderAdmin(admin.ModelAdmin):

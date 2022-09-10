@@ -4,15 +4,12 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Error from "../components/Error";
 import Preloader from "../components/Preloader";
 import { loginDemoUser, signInUser } from "../redux/actions/fetchers";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginAttachment, setLoginAttachment] = useState([]);
   const storeContext = useSelector((state) => state.dress);
   const { noInternet, fetchingData, isAuthenticated } = storeContext;
 
@@ -29,6 +26,7 @@ const Login = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     let previousUrl = state?.previousPath || "/cart";
     if (isAuthenticated) {
       navigate(previousUrl);
@@ -45,7 +43,6 @@ const Login = () => {
 
   return (
     <div className="container text-center mt-5">
-      {/* <ToastContainer /> */}
       <h2 className="title__caption">Login</h2>
       <hr className="underline" />
       <div className="row">
@@ -96,37 +93,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// // import React from 'react'
-// import { useContext, useState } from "react";
-// import { NavLink } from "react-router-dom";
-// // import "./login.css";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import Error from "../components/Error";
-// import Preloader from "../components/Preloader";
-// // import dressContext from "../context/dressup-context";
-
-// const Login = () => {
-//   const { signInUser, isFetchingData, isError } = useContext(dressContext);
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-
-//   const handleLoginForm = (e) => {
-//     e.preventDefault();
-//     signInUser([email, password]);
-//   };
-
-//   if (isFetchingData) {
-//     return <Preloader />;
-//   }
-
-//   if (isError) {
-//     return <Error />;
-//   }
-
-//   return (
-//   );
-// };
-
-// export default Login;

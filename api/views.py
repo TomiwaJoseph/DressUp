@@ -15,7 +15,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from users.models import CustomUser, Refund, Wishlist
 from users.models import Order, OrderItem
-from .serializers import CategorySerializer, DressSerializer, OrderDetailsSerializer, OrderItemSerializer, OrderSerializer,  RegisterSerializer, UserSerializer
+from .serializers import CategorySerializer, DressSerializer, OrderDetailsSerializer,  OrderSerializer,  RegisterSerializer
 from base.models import Category, Dress, DressImages, Newsletter
 
 
@@ -287,12 +287,8 @@ def change_cart_content(request):
     session_data_query = [s.get_decoded() for s in Session.objects.all()
                           if s.get_decoded().get('cart_data')]
     cart = session_data_query[0]['cart_data']
-    # new_cart = cart
     cart[str(dress_id)] = quantity - \
         1 if action == 'decrease' else quantity + 1
-    # new_cart.update(new_cart)
-    # print(cart)
-    # print(new_cart)
 
     for s in Session.objects.all():
         if s.get_decoded().get('cart_data'):
@@ -449,12 +445,9 @@ def add_to_cart(request):
         cart = session_data_query[0]['cart_data']
         # If the dress in in cart, update the quantity
         if str(dress_id) in cart:
-            # new_cart = cart
             cart[str(dress_id)] = quantity
-            # new_cart.update(new_cart)
         else:
             # Else add the new dress
-            # new_cart = cart
             cart.update(cart_content)
 
         for s in Session.objects.all():
@@ -522,12 +515,6 @@ def save_stripe_info(request):
     amount = math.ceil(data['amount'])
     order_info = data['orderInfo']
     token = data['token']
-    # [
-    # '1234 Dress Up Street',
-    # 'Dress To Kill Apartment',
-    # '+234 9063154578',
-    #  'free'
-    # ]
     extra_msg = ''
     # checking if customer with provided email already exists
     customer_data = stripe.Customer.list(email=email).data

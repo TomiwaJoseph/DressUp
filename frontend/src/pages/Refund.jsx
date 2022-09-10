@@ -20,6 +20,10 @@ const Refund = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (!isAuthenticated) {
       return navigate("/login", { state: { previousPath: pathname } });
     }

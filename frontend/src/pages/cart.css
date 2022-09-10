@@ -1,12 +1,9 @@
-/* header - #2680C0, title - #102A42, cart-circle - #85C6F4, */
-/* remove - #2680C0, caret - #85C6F4 */
 .empty__cart {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   margin-bottom: 30px;
-  /* height: 21vh; */
 }
 .empty__cart_wrapper {
   padding-bottom: 20px;
@@ -75,7 +72,6 @@
 .demarcation {
   line-height: 2px;
   border: 1px solid #f51167;
-  /* width: 100%; */
   margin-top: 10px;
 }
 .total__div {
@@ -87,8 +83,6 @@
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 2px;
-  /* width: 80%; */
-  /* width: 50%; */
 }
 .total__price {
   font-weight: 700;
@@ -133,9 +127,6 @@
 }
 
 @media screen and (min-width: 1024px) {
-  /* .col__row {
-    margin-left: -20px;
-  } */
   .item__row {
     width: 70% !important;
     margin-left: auto;

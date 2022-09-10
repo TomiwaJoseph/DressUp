@@ -6,16 +6,12 @@
   position: relative;
   text-align: center;
 }
-/* .fade-container .image__container {
-  overflow: hidden;
-} */
 .each-fade-effect .image__container img {
   object-fit: cover;
   filter: brightness(50%);
   height: 90vh;
   width: 100vw;
 }
-/* .react-slideshow-container + ul.indicators, */
 .each-fade-effect .carousel__captions {
   position: absolute;
   top: 50%;
@@ -64,21 +60,12 @@
 }
 button.each-slideshow-indicator.active::before {
   background: #f51167 !important;
-  /* position: absolute;
-  top: 70%; */
 }
 button.each-slideshow-indicator::before {
   width: 9px !important;
   height: 9px !important;
   background: #fff !important;
 }
-/* 
-  320 - 480 -> Mobile
-  481 - 768 -> Ipads, Tablets
-  769 - 1024 -> Small screens, Laptops
-  1025 - 1200 -> Desktops, Large screens
-  1201 and more -> Extra large screen
-*/
 
 /* DESKTOPS */
 

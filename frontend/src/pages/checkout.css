@@ -52,7 +52,6 @@
 .payment__type label {
   margin-bottom: 0;
   font-weight: 600;
-  /* margin-right: 20px; */
   cursor: pointer;
   font-size: 16px;
 }
@@ -63,7 +62,6 @@
 .crumb-demarcate {
   background: #ececec;
   height: 2px;
-  /* color: #f00; */
   width: 50%;
 }
 .back_cart__btn,

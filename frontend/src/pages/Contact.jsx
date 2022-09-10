@@ -1,20 +1,14 @@
-// import React from "react";
 import "./contact.css";
 import contactImg from "../images/contact-us2.png";
 import Newsletter from "../components/Newsletter";
 import { useEffect, useRef, useState } from "react";
 import emailjs from "emailjs-com";
-import { switchPreloader } from "../redux/actions/fetchers";
-import { useSelector } from "react-redux";
-import Preloader from "../components/Preloader";
 
 const Contact = () => {
   const formRef = useRef();
   const modalRef = useRef();
   const [openModal, setOpenModal] = useState(false);
   const [sendButtonClicked, setSendButtonClicked] = useState(false);
-  const storeContext = useSelector((state) => state.dress);
-  const { fetchingData } = storeContext;
 
   useEffect(() => {
     if (openModal) {
@@ -92,6 +86,11 @@ const Contact = () => {
         );
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <div className="container">

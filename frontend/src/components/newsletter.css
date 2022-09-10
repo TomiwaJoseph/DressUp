@@ -1,5 +1,4 @@
 .newsletter {
-  /* height: 20vh; */
   background: #e4e4e4;
   padding: 40px 0;
   margin-bottom: 20px;
@@ -14,13 +13,10 @@
 }
 .newsletter-form input {
   height: 40px;
-  /* padding: 0 10px; */
   background: #fff;
   padding: 0 20px;
-  /* width: 50%; */
   width: 100%;
   border-radius: 3px;
-  /* align-self: center; */
   border: 1px solid #4c4c4c;
 }
 .newsletter-form input:focus {

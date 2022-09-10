@@ -3,7 +3,6 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  /* flex-direction: row; */
 }
 .pageNumbers .numbers {
   display: flex;
@@ -23,7 +22,6 @@
   cursor: pointer;
   color: #4c4c4c;
   margin: 0 10px;
-  /* margin-right: 20px; */
 }
 .pageNumbers li.active {
   background: #4c4c4c;

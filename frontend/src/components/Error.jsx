@@ -1,4 +1,3 @@
-// import React from 'react'
 import errorImg from "../images/error.png";
 
 const Error = () => {

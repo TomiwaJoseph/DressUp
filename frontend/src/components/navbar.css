@@ -28,12 +28,10 @@ nav h2 {
 nav h2 em {
   font-style: normal;
   color: #f51167;
-  /* font-weight: 900; */
 }
 .navMenu {
   display: flex;
   align-items: center;
-  /* margin-right: -24px; */
 }
 .navLink,
 .logo {
@@ -95,9 +93,6 @@ nav .fa {
   .cartIcon {
     display: none;
   }
-  /* nav.fix__navbar .fa {
-    margin-right: 40px;
-  } */
   nav .fa {
     display: block;
     position: absolute;
@@ -133,7 +128,6 @@ nav .fa {
   .navMenu.active .mobileLink {
     display: block;
     height: 17%;
-    /* margin-top: 10px; */
   }
   .navMenu.active .navLink.active {
     color: #f51167;
@@ -148,9 +142,6 @@ nav .fa {
   .nav-brands-mobile .fab:hover {
     color: #f51167;
   }
-  /* .navMenu.active .navLink:hover {
-    color: #f38e8e;
-  } */
   .navBrands {
     display: none;
   }

@@ -16,13 +16,11 @@
 .dashboard .order__container {
   border: 1px solid #4c4c4c;
   padding: 10px 20px;
-  /* width: 80%; */
   margin-bottom: 20px;
   border-radius: 3px;
 }
 .dashboard h3 {
   color: #4c4c4c;
-  /* margin-bottom: 0; */
 }
 .dashboard .order__div {
   margin-bottom: 10px;

@@ -1,9 +1,7 @@
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { setCartCount } from "../redux/actions/fetchers";
-import { setCartTotalAction } from "../redux/actions/dressActions";
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
@@ -49,7 +47,6 @@ const Navbar = () => {
             Dress <em>Up</em>
           </h2>
         </NavLink>
-        {/* <div className="mobile__icons-container"> */}
         <NavLink to="/search-dress">
           <i
             onClick={closeMobileMenu}
@@ -60,7 +57,6 @@ const Navbar = () => {
           onClick={handleClick}
           className={click ? "fa fa-times" : "fa fa-align-right"}
         ></i>
-        {/* </div> */}
         <div className={click ? "navMenu active" : "navMenu"}>
           <NavLink
             onClick={closeMobileMenu}
@@ -118,6 +114,7 @@ const Navbar = () => {
                   className="nav-brands-mobile"
                   target="_blank"
                   href="/"
+                  style={{ pointerEvents: "none" }}
                 >
                   <i className="fab fa-instagram"></i>
                 </a>
@@ -126,6 +123,7 @@ const Navbar = () => {
                   className="nav-brands-mobile"
                   target="_blank"
                   href="/"
+                  style={{ pointerEvents: "none" }}
                 >
                   <i className="fab fa-twitter"></i>
                 </a>

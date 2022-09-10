@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   useStripe,
   useElements,
@@ -14,7 +14,6 @@ import { removeCart } from "../redux/actions/fetchers";
 const CARD_ELEMENT_OPTIONS = {
   style: {
     base: {
-      //   lineHeight: "27px",
       color: "#212529",
       fontSize: "16px",
       "::placeholder": {
@@ -36,30 +35,7 @@ const CheckoutForm = (props) => {
 
   const stripe = useStripe();
   const elements = useElements();
-  const successMessage = () => {
-    return (
-      <div className="success-msg">
-        <svg
-          width="1em"
-          height="1em"
-          viewBox="0 0 16 16"
-          className="bi bi-check2"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-          />
-        </svg>
-        <div className="title">Payment Successful</div>
-        <NavLink to="/user/dashboard">Track order</NavLink>
-      </div>
-    );
-  };
   const handlePaymentFormSubmit = async (event) => {
-    // We don't want to let default form submission happen here,
-    // which would refresh the page.
     event.preventDefault();
 
     if (!stripe || !elements) {
@@ -82,7 +58,6 @@ const CheckoutForm = (props) => {
     const paymentMethodResult = await stripe.createPaymentMethod(
       paymentMethodObj
     );
-    // console.log(paymentMethodResult);
 
     stripePaymentMethodHandler(
       {

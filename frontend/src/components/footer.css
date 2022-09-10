@@ -1,5 +1,4 @@
 footer {
-  /* height: 60vh; */
   background: #373737;
   color: #fff;
   text-align: center;
@@ -17,26 +16,20 @@ footer h2 em {
   color: #f51167;
 }
 footer .footer__cta {
-  /* background: #f00; */
   text-transform: uppercase;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   text-align: center;
-  /* flex-direction: column; */
 }
 footer .footer__cta a {
-  /* padding: 0 30px; */
   color: #e4e4e4;
   margin-bottom: 20px;
   padding: 30px 20px 0 20px;
-  /* margin-right: 20px; */
-  /* margin: 30px 30px 10px 0; */
 }
 footer .footer__cta a:hover {
   color: #f51167;
-  /* margin: 30px 30px 10px 0; */
 }
 footer .footer__social-media .fab {
   margin: 30px 20px 70px 0;

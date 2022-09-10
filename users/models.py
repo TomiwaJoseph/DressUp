@@ -88,7 +88,6 @@ class Order(models.Model):
     ref_code = models.CharField(max_length=25, blank=True, null=True)
     product = models.ManyToManyField(Dress, through=OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
-    # ordered = models.BooleanField(default=False)
     billing_address = models.CharField(max_length=200, blank=True, null=True)
     alternative_billing_address = models.CharField(
         max_length=200, blank=True, null=True)
@@ -105,7 +104,6 @@ class Order(models.Model):
     refund_granted = models.BooleanField(default=False)
 
     def __str__(self):
-        # return self.user.email
         return "{}'s order - {}".format(self.user, self.ref_code)
 
     def get_total(self):

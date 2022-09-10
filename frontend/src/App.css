@@ -3,16 +3,10 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Josefin Sans";
-  /* overflow-x: hidden; */
-  /* font-weight: 600; */
 }
 html {
   scroll-behavior: smooth;
 }
-/* a,
-a:hover {
-  text-decoration: none;
-} */
 button:focus {
   outline: none !important;
   box-shadow: none !important;
@@ -97,7 +91,7 @@ button:focus {
   margin-left: 8px;
 }
 
-/* All Login Related Styles */
+/* All Login, Register Related Styles */
 .register__container,
 .login__container {
   background: #ffffff;

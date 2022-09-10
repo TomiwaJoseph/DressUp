@@ -5,8 +5,7 @@ import LandingCarousel from "../components/LandingCarousel";
 import Preloader from "../components/Preloader";
 import Features from "../components/Features";
 import Error from "../components/Error";
-import { useContext, useEffect } from "react";
-// import dressContext from "../context/dress-context";
+import { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {

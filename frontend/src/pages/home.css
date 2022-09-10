@@ -69,7 +69,6 @@
   -o-transition: all 150ms ease-in 120ms;
   transition: all 150ms ease-in 120ms;
 }
-
 .dress__info {
   margin-top: 20px;
   display: flex;

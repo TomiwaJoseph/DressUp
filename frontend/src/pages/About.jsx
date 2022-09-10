@@ -1,14 +1,17 @@
-// import React from 'react'
 import "./about.css";
 import aboutUs from "../images/71aa3855-971e-4faf-afae-b907e75e96c8.png";
 import Features from "../components/Features";
+import { useEffect } from "react";
 
 const About = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <div className="container">
         <h2 className="title__caption">About Us</h2>
-        {/* <hr className="underline" /> */}
         <div>
           <hr />
           <h2 className="about__h2">Our Background</h2>

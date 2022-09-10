@@ -4,39 +4,6 @@ import Login from "../pages/Login";
 import { addToCart, addToWishlist } from "../redux/actions/fetchers";
 import "./categorypluspagination.css";
 
-// const renderData = (data) => {
-//   return (
-//     <>
-//       {data.map((dress) => (
-//         <div key={dress.id} className="col-lg-3 col-md-4 col-sm-6">
-//           <div>
-//             <div className="image__wrapper">
-//               <img
-//                 src={`${backendbackendUrl}${dress.main_image}`}
-//                 className="img-fluid"
-//                 alt={dress.name}
-//               />
-//               <div className="dress__cta">
-//                 <NavLink to={`/shop/dress/${dress.slug}`} className="btn">
-//                   View Dress
-//                 </NavLink>
-//                 <div className="utilities">
-//                   <i className="fas fa-shopping-bag"></i>
-//                   <i className="fas fa-heart"></i>
-//                 </div>
-//               </div>
-//             </div>
-//             <div className="dress__info">
-//               <p>{dress.name}</p>
-//               <h6>${dress.price}.00</h6>
-//             </div>
-//           </div>
-//         </div>
-//       ))}
-//     </>
-//   );
-// };
-
 const CategoryPlusPagination = ({
   categoryData,
   backendUrl,
@@ -109,16 +76,6 @@ const CategoryPlusPagination = ({
     }
   };
 
-  // let pageIncrementBtn = null;
-  // if (pages.length > maxPageNumberLimit) {
-  //   pageIncrementBtn = <li onClick={handleNextBtn}> &hellip; </li>;
-  // }
-
-  // let pageDecrementBtn = null;
-  // if (minPageNumberLimit >= 1) {
-  //   pageDecrementBtn = <li onClick={handlePrevBtn}> &hellip; </li>;
-  // }
-
   return (
     <>
       <div className="container">
@@ -156,11 +113,6 @@ const CategoryPlusPagination = ({
                 </div>
               </div>
             ))}
-          {/* {!currentItems.length && (
-            <div className="col-12 text-center">
-              <p className="no__dress">No dress match your search parameters</p>
-            </div>
-          )} */}
         </div>
         <hr />
         {pages.length > 1 ? (
@@ -173,11 +125,9 @@ const CategoryPlusPagination = ({
                 Prev
               </button>
             </div>
-            {/* {pageDecrementBtn} */}
             <div className="numbers">
               <ul>{renderPageNumbers}</ul>
             </div>
-            {/* {pageIncrementBtn} */}
             <div className="btn__cover__next">
               <button
                 onClick={handleNextBtn}

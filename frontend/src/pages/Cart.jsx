@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Newsletter from "../components/Newsletter";
 import {
@@ -116,6 +116,10 @@ const Cart = () => {
       );
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     fetchCartContent();

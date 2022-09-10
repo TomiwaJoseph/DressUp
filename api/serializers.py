@@ -6,12 +6,6 @@ from base.models import Dress, Category
 User = get_user_model()
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email']
-
-
 class DressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dress
@@ -67,9 +61,3 @@ class OrderDetailsSerializer(serializers.ModelSerializer):
                   "alternative_billing_address",  "phone_number",
                   "delivery_type", "payment_method",
                   "being_processed", "delivered", ]
-
-
-class OrderItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderItem
-        fields = ["product", "quantity", ]

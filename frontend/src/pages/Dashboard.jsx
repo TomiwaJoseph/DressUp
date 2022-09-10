@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Error from "../components/Error";
@@ -31,6 +31,10 @@ const Dashboard = () => {
   const handleLogoutClick = () => {
     logOutUser();
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     fetchUserOrders();
@@ -173,8 +177,6 @@ const Dashboard = () => {
                       <h3>No dress in your wishlist.</h3>
                     </div>
                   )}
-                  {/* <div className="col-md-4 bg-warning">text</div>
-                  <div className="col-md-4 bg-secondary">text</div> */}
                 </div>
               </div>
             </>

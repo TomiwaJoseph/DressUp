@@ -1,6 +1,5 @@
 from django.urls import path, include
 from . import views
-# from knox import views as knox_views
 
 urlpatterns = [
     path('dress/<slug:slug>/', views.get_single_dress),
@@ -33,6 +32,5 @@ urlpatterns = [
     path('auth/logout/', views.logout),
     path('auth/user/', views.fetch_user, name='fetch_user'),
     # STRIPE URL
-    # path('stripe-payment/', views.stripe_payment, name='stripe-payment'),
     path('save-stripe-info/', views.save_stripe_info, name='save-stripe-info'),
 ]

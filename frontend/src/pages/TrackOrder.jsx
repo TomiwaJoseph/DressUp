@@ -10,8 +10,6 @@ const TrackOrder = () => {
   const storeContext = useSelector((state) => state.dress);
   const {
     fetchingData,
-    noInternet,
-    isAuthenticated,
     badRequest,
     backendUrl,
     userOrderDetailsData,
@@ -29,11 +27,11 @@ const TrackOrder = () => {
     payment_method,
   } = userOrderDetailsData;
   const { orderId } = useParams();
-  // const dispatch = useDispatch();
   const navigate = useNavigate();
   let cartTotal = calculateTotal(userOrderDressesData);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchOrderDetails(orderId);
   }, [orderId]);
 
@@ -46,8 +44,6 @@ const TrackOrder = () => {
 
   return (
     <div className="container track-order mt-5">
-      {/* <h2>Order Detail</h2>
-      <hr /> */}
       <h2>Order Detail</h2>
       <hr className="underline" />
       <div className="row mb-3">
@@ -115,8 +111,6 @@ const TrackOrder = () => {
           )}
         </div>
         <div className="col-md-5">
-          {/* {userOrderDetailsData.map((order) => (
-            ))} */}
           <h3 className="checkout_title">Your Cart</h3>
           <hr className="thick_hr" />
           {userOrderDressesData.map((dress) => (
