@@ -27,4 +27,3 @@ yarn-error.log*
 __pycache__
 migrations
 .env
-images
