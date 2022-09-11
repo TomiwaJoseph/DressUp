@@ -152,7 +152,6 @@ const Checkout = () => {
                 </button>
                 <div className="crumb-demarcate"></div>
                 <button
-                  onClick={() => setActiveCrumb(1)}
                   className={
                     activeCrumb === 1 ? "btn crumb active" : "btn crumb"
                   }
