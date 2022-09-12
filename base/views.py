@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def index(request):
+    return render(request, 'index.html')
+
+
+def get_dress_or_order(request, slug):
+    return render(request, 'index.html')
