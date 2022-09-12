@@ -380,6 +380,8 @@ def get_specific_order(request):
         user = Token.objects.get(key=token).user
         order_with_ref_code = Order.objects.filter(
             user=user, ref_code=ref_code).first()
+        if not order_with_ref_code:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         all_dresses = OrderItem.objects.filter(order=order_with_ref_code)
         order_detail_serializer = OrderDetailsSerializer(
             order_with_ref_code, many=False).data
