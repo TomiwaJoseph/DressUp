@@ -61,7 +61,13 @@ const Search = () => {
       <h1 className="title__caption">Search</h1>
       <hr className="underline" />
       <form onSubmit={handleSubmitForm} className="search-form">
-        <input type="text" name="name" className="form-control" required />
+        <input
+          autoFocus
+          type="text"
+          name="name"
+          className="form-control"
+          required
+        />
       </form>
       {renderSearchData()}
     </div>
