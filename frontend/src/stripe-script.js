@@ -1,4 +1,4 @@
-const API_ENDPOINT = "http://localhost:8000/api";
+const API_ENDPOINT = "https://dressup.onrender.com/api";
 
 export const stripePaymentMethodHandler = async (data, cb) => {
   const { amount, orderInfo, result } = data;

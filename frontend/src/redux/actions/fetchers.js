@@ -27,35 +27,41 @@ import {
 } from "./dressActions";
 import { toast } from "react-toastify";
 
-const userLoginUrl = "http://localhost:8000/api/auth/login/";
-const userLogoutUrl = "http://localhost:8000/api/auth/logout/";
-const highestDressPriceUrl = "http://localhost:8000/api/get-highest-price/";
-const allCategoriesUrl = "http://localhost:8000/api/get-all-categories/";
+const userLoginUrl = "https://dressup.onrender.com/api/auth/login/";
+const userLogoutUrl = "https://dressup.onrender.com/api/auth/logout/";
+const highestDressPriceUrl =
+  "https://dressup.onrender.com/api/get-highest-price/";
+const allCategoriesUrl = "https://dressup.onrender.com/api/get-all-categories/";
 const currentCategoryUrl =
-  "http://localhost:8000/api/get-all-dresses-or-category/";
-const filterCategoryUrl = "http://localhost:8000/api/filter-category-price/";
-const singleDressUrl = "http://localhost:8000/api/dress/";
-const userRegisterUrl = "http://localhost:8000/api/auth/register/";
-const relatedDressUrl = "http://localhost:8000/api/dress/related/";
-const hotDressesUrl = "http://localhost:8000/api/get-hottest-dresses/";
-const sendOrderDetailsUrl = "http://localhost:8000/api/save-paylater-details/";
-const addToCartUrl = "http://localhost:8000/api/add-to-cart/";
-const addToWishlistUrl = "http://localhost:8000/api/add-to-wishlist/";
-const cartContentUrl = "http://localhost:8000/api/get-cart-content/";
-const removeCartItemUrl = "http://localhost:8000/api/remove-cart-item/";
-const cleanCartUrl = "http://localhost:8000/api/remove-cart/";
-const changeCartContentUrl = "http://localhost:8000/api/change-cart-item/";
-const cartCountUrl = "http://localhost:8000/api/get-cart-count/";
+  "https://dressup.onrender.com/api/get-all-dresses-or-category/";
+const filterCategoryUrl =
+  "https://dressup.onrender.com/api/filter-category-price/";
+const singleDressUrl = "https://dressup.onrender.com/api/dress/";
+const userRegisterUrl = "https://dressup.onrender.com/api/auth/register/";
+const relatedDressUrl = "https://dressup.onrender.com/api/dress/related/";
+const hotDressesUrl = "https://dressup.onrender.com/api/get-hottest-dresses/";
+const sendOrderDetailsUrl =
+  "https://dressup.onrender.com/api/save-paylater-details/";
+const addToCartUrl = "https://dressup.onrender.com/api/add-to-cart/";
+const addToWishlistUrl = "https://dressup.onrender.com/api/add-to-wishlist/";
+const cartContentUrl = "https://dressup.onrender.com/api/get-cart-content/";
+const removeCartItemUrl = "https://dressup.onrender.com/api/remove-cart-item/";
+const cleanCartUrl = "https://dressup.onrender.com/api/remove-cart/";
+const changeCartContentUrl =
+  "https://dressup.onrender.com/api/change-cart-item/";
+const cartCountUrl = "https://dressup.onrender.com/api/get-cart-count/";
 const fetchWishlistDressesUrl =
-  "http://localhost:8000/api/fetch-wishlist-dresses/";
+  "https://dressup.onrender.com/api/fetch-wishlist-dresses/";
 const deleteWishlistDressUrl =
-  "http://localhost:8000/api/delete-wishlist-dress/";
-const fetchUserOrdersUrl = "http://localhost:8000/api/get-user-orders/";
-const fetchOrderDetailsUrl = "http://localhost:8000/api/get-specific-order/";
-const requestRefundUrl = "http://localhost:8000/api/request-refund/";
-const demoUserUrl = "http://localhost:8000/api/login-demo-user/";
-const addToNewsletterUrl = "http://localhost:8000/api/add-to-newsletter/";
-const searchDressByNameUrl = "http://localhost:8000/api/search-dress/";
+  "https://dressup.onrender.com/api/delete-wishlist-dress/";
+const fetchUserOrdersUrl = "https://dressup.onrender.com/api/get-user-orders/";
+const fetchOrderDetailsUrl =
+  "https://dressup.onrender.com/api/get-specific-order/";
+const requestRefundUrl = "https://dressup.onrender.com/api/request-refund/";
+const demoUserUrl = "https://dressup.onrender.com/api/login-demo-user/";
+const addToNewsletterUrl =
+  "https://dressup.onrender.com/api/add-to-newsletter/";
+const searchDressByNameUrl = "https://dressup.onrender.com/api/search-dress/";
 
 const notify = (message, errorType) =>
   toast(message, {
