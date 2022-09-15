@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.38f7746b.css",
+    "main.js": "/static/js/main.bb7b6b39.js",
+    "static/media/4.jpg": "/static/media/4.0490ece7826f8c5a927e.jpg",
+    "static/media/2.jpg": "/static/media/2.aed0b55eefa9a19d05f9.jpg",
+    "static/media/pexels-andrea-piacquadio-972995.jpg": "/static/media/pexels-andrea-piacquadio-972995.f5a3dcd336f4766830ae.jpg",
+    "static/media/badUrl.png": "/static/media/badUrl.9a7112c72c791a4e3fd9.png",
+    "static/media/contact-us2.png": "/static/media/contact-us2.c8eeafda974841d0bb31.png",
+    "static/media/error.png": "/static/media/error.91146cb8f02e76564a54.png",
+    "static/media/71aa3855-971e-4faf-afae-b907e75e96c8.png": "/static/media/71aa3855-971e-4faf-afae-b907e75e96c8.facf97b1f9d442d1b89e.png",
+    "static/media/empty-cart.png": "/static/media/empty-cart.3fd8348b583a9fcd2bba.png",
+    "index.html": "/index.html",
+    "main.38f7746b.css.map": "/static/css/main.38f7746b.css.map",
+    "main.bb7b6b39.js.map": "/static/js/main.bb7b6b39.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.38f7746b.css",
+    "static/js/main.bb7b6b39.js"
+  ]
+}
