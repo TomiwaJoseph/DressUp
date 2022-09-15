@@ -1,0 +1,54 @@
+.accordion-area {
+  margin-top: 20px;
+  border-top: 2px solid #e1e1e1;
+}
+.accordion-area .panel {
+  border-bottom: 2px solid #e1e1e1;
+}
+.accordion-area .panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.accordion-area .panel {
+  border-bottom: 2px solid #e1e1e1;
+}
+.accordion-area .panel-header .fa {
+  color: #5c5c5c;
+}
+.accordion-area .panel-header .fa-angle-down {
+  margin-top: -10px;
+  margin-bottom: 30px;
+}
+.accordion-area .panel-header h1 {
+  color: #414141;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: transparent;
+}
+.accordion-area .panel-body {
+  padding-top: 10px;
+  margin-bottom: 20px;
+}
+.accordion-area .panel-body p {
+  color: #5c5c5c;
+  margin-bottom: 15px;
+  line-height: 1.8;
+}
+.accordion-area .panel-body img {
+  margin-bottom: 25px;
+}
+.accordion-area .panel-body p span {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #f51167;
+}
+.accordion-area .panel-body h4 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,236 @@
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Josefin Sans";
+}
+html {
+  scroll-behavior: smooth;
+}
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.title__caption {
+  text-align: center;
+  text-transform: uppercase;
+  color: #f51167;
+  font-weight: 700;
+  font-size: 50px;
+  margin: 30px 0;
+}
+.underline {
+  width: 25%;
+  margin-top: -20px;
+  margin-bottom: 50px;
+}
+.image__wrapper img {
+  cursor: pointer;
+  position: relative;
+  border-radius: 5px;
+}
+.dress__cta {
+  position: absolute;
+  opacity: 0;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  bottom: auto;
+  width: 100%;
+}
+.dress__cta a {
+  border: 1px solid #fff;
+  background: #fff;
+  color: #f51167;
+  border-radius: 5rem;
+  padding: 5px 25px;
+  margin-bottom: 20px;
+}
+.dress__cta a:hover {
+  color: #fff;
+  background: #f51167;
+}
+.dress__cta .utilities .fas {
+  display: inline;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 18px;
+  margin: 0 10px;
+  background: #fff;
+  cursor: pointer;
+}
+.dress__cta .utilities .fas:hover {
+  background: #f51167;
+  color: #fff;
+}
+.image__wrapper:hover img {
+  filter: brightness(30%);
+}
+.image__wrapper:hover .dress__cta {
+  opacity: 1;
+  -webkit-transition: all 150ms ease-in 120ms;
+  -o-transition: all 150ms ease-in 120ms;
+  transition: all 150ms ease-in 120ms;
+}
+.dress__info {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.dress__info p:hover .high {
+  color: red;
+}
+.dress__info p {
+  color: #111111;
+  width: 70%;
+  text-align: left;
+}
+.dress__info h6 {
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+/* All Login, Register Related Styles */
+.register__container,
+.login__container {
+  background: #ffffff;
+  padding: 20px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.register__container:hover,
+.login__container:hover {
+  box-shadow: 0 1px 2px rgba(43, 59, 93, 0.29), 0 0 8px rgba(43, 59, 93, 0.29);
+}
+.register__container .register__form input,
+.login__container .login__form input {
+  margin: 0 0 15px 0;
+}
+.register__container .register__form input:focus,
+.login__container .login__form input:focus {
+  box-shadow: none;
+  border: 1px solid #f51167;
+}
+.login__container .login__form a {
+  margin: 10px 0;
+  display: block;
+  text-align: left;
+  color: #4c4c4c;
+}
+.register__container .sign-in,
+.login__container .demo__user,
+.login__container .sign-up {
+  margin: 0 10px;
+  border: 1px solid #f51167;
+  border-radius: 3px;
+  color: #4c4c4c;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+.login__container .demo__user {
+  width: 100%;
+  text-transform: uppercase;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+}
+.register__container .sign-in:hover,
+.login__container .demo__user:hover,
+.login__container .sign-up:hover {
+  background: #f51167;
+  color: #fff;
+}
+.register__container .register__form .btn,
+.login__container .login__form .btn {
+  border: 1px solid #f51167;
+  background: #f51167;
+  color: #fff;
+  width: 100%;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.register__container .register__form .btn:hover,
+.login__container .login__form .btn:hover {
+  background: #fff;
+  color: #f51167;
+}
+.refresh__btn {
+  border-radius: 4px;
+  background: transparent;
+  color: #4c4c4c;
+  border: 1px solid #f51167;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.refresh__btn:hover {
+  background: #f51167;
+  color: #fff;
+}
+
+/* Error related */
+
+.error__div {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  text-align: center;
+}
+.error_image_wrapper {
+  width: 250px;
+  height: 260px;
+  margin-top: 10px;
+}
+.error__div h1 {
+  color: #f51167;
+  margin-top: 10px;
+}
+.error__div p {
+  color: #5c5c5c;
+  font-size: 18px;
+}
+.error__div .single__page-error {
+  color: #f51167;
+  padding: 5px 10px;
+  border: 1px solid #f51167;
+  border-radius: 3px;
+  -webkit-transition: all 150ms ease-in;
+  -o-transition: all 150ms ease-in;
+  transition: all 150ms ease-in;
+}
+.error__div .single__page-error:hover {
+  color: #fff;
+  background: #f51167;
+}
+.Toastify__toast-container--top-center {
+  z-index: 99999999 !important;
+}
+
+/* TABLET */
+
+@media only screen and (min-width: 768px) and (max-width: 834px) {
+  .register__container .sign-in {
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+/* MOBILE */
+
+@media only screen and (max-width: 480px) {
+  .title__caption {
+    font-size: 40px;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .register__container .sign-in {
+    display: block;
+    margin-top: 10px;
+  }
+}

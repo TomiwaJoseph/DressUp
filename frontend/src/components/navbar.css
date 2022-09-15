@@ -1,0 +1,148 @@
+nav {
+  background: #373737;
+  height: 70px;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  padding: 0.5rem calc((100vw - 1000px) / 2);
+  z-index: 99999;
+  box-shadow: 0px 2px 5px #222;
+  transition: all 0.5s ease-in-out 0.5s;
+}
+nav.fix__navbar {
+  width: 100vw;
+  top: 0;
+  position: fixed;
+  background: #373737;
+}
+a:hover {
+  text-decoration: none;
+}
+nav h2 {
+  margin-top: 10px;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 24px;
+  font-weight: 700;
+}
+nav h2 em {
+  font-style: normal;
+  color: #f51167;
+}
+.navMenu {
+  display: flex;
+  align-items: center;
+}
+.navLink,
+.logo {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2 ease-in-out;
+  border-bottom: 1px solid #373737;
+}
+.navLink:hover {
+  color: #fff;
+  border-bottom: 2px solid #f51167;
+}
+.navLink.active {
+  color: #f51167;
+  font-weight: 600;
+}
+nav .fa {
+  display: none;
+}
+.mobileLink {
+  display: none;
+}
+.navBrands {
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
+}
+.navBrandsLink .fab {
+  margin: 10px;
+  color: #fff;
+  font-size: 18px;
+}
+.cart__wrapper {
+  position: relative;
+}
+.cart__wrapper span {
+  position: absolute;
+  top: -10px;
+  right: -18px;
+  font-size: 16px;
+  background: #f51167;
+  color: #fff;
+  border-radius: 50%;
+  padding-left: 9px;
+  padding-right: 9px;
+}
+.cart__wrapper i {
+  text-align: center;
+  font-size: 18px;
+  color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+  .cartIcon {
+    display: none;
+  }
+  nav .fa {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 75%);
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #fff;
+  }
+  nav .search__mobile-icon {
+    padding-right: 5%;
+  }
+  .navMenu {
+    display: none;
+  }
+  .navMenu.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 90vh;
+    position: absolute;
+    background: #373737;
+    top: 72px;
+    z-index: 99999;
+  }
+  .navMenu.active .navLink {
+    margin: 0;
+    height: 15%;
+    color: #fff;
+  }
+  .navMenu.active .mobileLink {
+    display: block;
+    height: 17%;
+  }
+  .navMenu.active .navLink.active {
+    color: #f51167;
+  }
+  .nav-brands-mobile .fab {
+    padding: 30px 20px;
+    text-align: center;
+    border-radius: 4px;
+    color: #fff;
+    transition: all 0.3s ease-out;
+  }
+  .nav-brands-mobile .fab:hover {
+    color: #f51167;
+  }
+  .navBrands {
+    display: none;
+  }
+}

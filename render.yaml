@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: dressUp
-    env: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn dressUp.wsgi:application"

@@ -1,0 +1,151 @@
+.crumb {
+  border: 1px solid #f51167;
+  border-radius: 3px;
+  color: #4c4c4c;
+}
+.crumb.active {
+  color: #fff;
+  background: #f51167;
+}
+
+.billing__address,
+.delivery__info,
+.payment__method {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  border-radius: 5px;
+  background: #3b3b3b;
+  padding: 21px 29px 20px;
+  margin-bottom: 20px;
+}
+.checkout__form input:focus {
+  border: 1px solid #f51167;
+  box-shadow: none;
+}
+.shipping-btns {
+  margin-bottom: 10px;
+}
+.shipping-btns h4 {
+  font-size: 16px;
+}
+.shipping-btns .cf-radio-btns label {
+  font-weight: 600;
+  padding-left: 20px;
+  cursor: pointer;
+}
+.shipping-btns .cf-radio-btns input:checked + label {
+  color: #f51167;
+}
+.payment__type {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.payment__type input {
+  margin-right: 10px;
+}
+.payment__type input:checked + label {
+  color: #f51167;
+}
+.payment__type label {
+  margin-bottom: 0;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+}
+.payment__type i {
+  font-size: 22px;
+  color: #1a6692;
+}
+.crumb-demarcate {
+  background: #ececec;
+  height: 2px;
+  width: 50%;
+}
+.back_cart__btn,
+.next__btn {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  border: 1px solid #f51167;
+  background: #f51167;
+  color: #fff;
+  width: 40%;
+  text-align: center;
+  padding: 10px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.back_address__btn {
+  background: transparent;
+  padding: 5px 10px;
+  color: #4c4c4c;
+  border: 1px solid #4c4c4c;
+  width: 100%;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+.back_address__btn:hover {
+  background: #4c4c4c;
+  color: #fff;
+}
+.back_cart__btn:hover,
+.next__btn:hover {
+  background: transparent;
+  color: #f51167;
+}
+.checkout_title {
+  margin-top: 20px;
+  color: #4c4c4c;
+}
+.thick_hr {
+  height: 1px;
+  background-color: #f51167;
+}
+.checkout__wrapper {
+  height: 120px;
+  width: 80px;
+  overflow: hidden;
+}
+.dress__name__quantity {
+  font-weight: 700;
+  width: 50%;
+}
+.dress__name__quantity span {
+  color: #4c4c4c;
+}
+.dress__price {
+  color: #f51167;
+  font-size: 18px;
+  font-weight: 700;
+}
+.success-msg {
+  color: #20925d;
+  text-align: center;
+  height: 45vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.success-msg svg {
+  font-size: 60px;
+  border: 1px solid #20925d;
+  border-radius: 30px;
+  padding: 10px;
+}
+.success-msg .title {
+  font-size: 25px;
+  margin-top: 10px;
+}
+.success-msg a {
+  padding: 10px 25px;
+  margin-top: 10px;
+  color: #4c4c4c;
+  border: 1px solid #f51167;
+}
+.success-msg a:hover {
+  background: #f51167;
+  color: #fff;
+}

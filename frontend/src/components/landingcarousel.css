@@ -1,0 +1,80 @@
+.each-fade-effect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  position: relative;
+  text-align: center;
+}
+.each-fade-effect .image__container img {
+  object-fit: cover;
+  filter: brightness(50%);
+  height: 90vh;
+  width: 100vw;
+}
+.each-fade-effect .carousel__captions {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  color: #fff;
+  padding: 30px 0;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.6);
+}
+.each-fade-effect .carousel__captions h5 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 600;
+  color: #f51167;
+}
+.each-fade-effect .carousel__captions h1 {
+  text-transform: uppercase;
+  font-size: 60px;
+  font-weight: 700;
+}
+.each-fade-effect .carousel__captions a {
+  padding: 10px 25px;
+  border: 1px solid #fff;
+  border-radius: 5rem;
+  background: #fff;
+  color: #f51167;
+  font-weight: 600;
+}
+.each-fade-effect .carousel__captions a:hover {
+  background: transparent;
+  color: #fff;
+}
+
+/* DESKTOPS */
+
+@media only screen and (min-width: 800px) and (max-width: 1023px) {
+  .each-fade-effect .carousel__captions {
+    width: 80%;
+  }
+}
+
+/* TABLETS */
+
+@media only screen and (max-width: 768px) {
+  .each-fade-effect .carousel__captions {
+    width: 85%;
+  }
+}
+
+/* MOBILE */
+
+@media only screen and (max-width: 480px) {
+  .each-fade-effect .carousel__captions h5 {
+    font-size: 18px;
+  }
+  .each-fade-effect .carousel__captions h1 {
+    font-size: 40px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .each-fade-effect .carousel__captions h1 {
+    font-size: 30px;
+  }
+}

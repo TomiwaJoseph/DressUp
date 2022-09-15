@@ -1,4 +1,4 @@
-Django==3.2.15
+Django==4.1
 djangorestframework==3.13.1
 python-decouple==3.6
 stripe==4.1.0
