@@ -7,4 +7,8 @@ psycopg2-binary==2.9.3
 dj-database-url==1.0.0
 django-cors-headers==3.13.0
 Pillow==9.2.0
+<<<<<<< HEAD
 gunicorn==20.1.0
+=======
+gunicorn==20.1.0
+>>>>>>> 83f1731c9b0a7415e48139a23d175edf2d7cf2af
