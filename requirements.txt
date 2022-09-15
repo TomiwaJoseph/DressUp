@@ -3,8 +3,6 @@ djangorestframework==3.13.1
 python-decouple==3.6
 stripe==4.1.0
 whitenoise==6.2.0
-psycopg2-binary==2.9.3
-dj-database-url==1.0.0
 django-cors-headers==3.13.0
 Pillow==9.2.0
 gunicorn==20.1.0
