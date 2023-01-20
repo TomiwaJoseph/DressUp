@@ -8,6 +8,8 @@ Use the [Demo Website](https://dress.up.railway.app)
 
 ## Demo Video
 
+https://user-images.githubusercontent.com/67712127/191740122-1af60f9a-ff0b-457f-ba43-d69b5fc247a1.mp4
+
 ## Technologies used
 
 **Front-end**
