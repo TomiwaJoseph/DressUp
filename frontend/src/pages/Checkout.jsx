@@ -10,6 +10,8 @@ import { savePaylaterDetails } from "../redux/actions/fetchers";
 import { useLocation, useNavigate } from "react-router-dom";
 import Preloader from "../components/Preloader";
 import Error from "../components/Error";
+import store from "../redux/store/store";
+import { setPaylaterStatus } from "../redux/actions/dressActions";
 
 const PUBLISHABLE_KEY = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 const stripePromise = loadStripe(PUBLISHABLE_KEY);
@@ -105,6 +107,10 @@ const Checkout = () => {
 
   useEffect(() => {
     if (!cartTotal) return navigate("/cart");
+    return () => {
+      setPaymentCompleted(false);
+      store.dispatch(setPaylaterStatus(false));
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -140,7 +146,7 @@ const Checkout = () => {
           <h2 className="title__caption">Checkout</h2>
           <hr className="underline" />
           <div className="row">
-            <div className="col-md-8 mx-auto mb-3">
+            <div className="col-md-8 col-lg-6 mx-auto mb-3">
               <div className="d-flex justify-content-between align-items-center">
                 <button
                   onClick={() => setActiveCrumb(0)}
@@ -163,7 +169,7 @@ const Checkout = () => {
           </div>
           <div className="row">
             {activeCrumb === 0 && (
-              <div className="col-md-8 mx-auto">
+              <div className="col-md-8 col-lg-6 mx-auto">
                 <form
                   onSubmit={handleAddressFormSubmit}
                   className="checkout__form"

@@ -9,6 +9,7 @@ import {
 import { stripePaymentMethodHandler } from "../stripe-script";
 import "./checkoutform.css";
 import { removeCart } from "../redux/actions/fetchers";
+import { toast } from "react-toastify";
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -31,55 +32,64 @@ const CheckoutForm = (props) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const notify = (message, errorType) =>
+    toast(message, {
+      position: "top-center",
+      autoClose: "3000",
+      pauseOnHover: true,
+      closeOnClick: true,
+      type: errorType,
+      theme: "colored",
+    });
 
   const stripe = useStripe();
   const elements = useElements();
   const handlePaymentFormSubmit = async (event) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
+      if (!stripe || !elements) {
+        // Stripe.js has not yet loaded.
+        // Make sure to disable form submission until Stripe.js has loaded.
+        return;
+      }
 
-    if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
+      setLoading(true);
+      setErrorMsg("");
+
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardNumberElement),
+        billing_details: {
+          name,
+          email,
+        },
+      });
+
+      if (error) {
+        setLoading(false);
+        setErrorMsg(error.message);
+      } else {
+        stripePaymentMethodHandler({
+          amount: props.amount,
+          orderInfo: props.orderInfo,
+          result: paymentMethod,
+        })
+          .then((response) => {
+            props.setPaymentCompleted(
+              response.data.message === "Success" ? true : false
+            );
+            removeCart();
+          })
+          .catch((err) => {
+            setLoading(false);
+            setErrorMsg(err.response.data.error);
+          });
+      }
+    } catch (err) {
+      setLoading(false);
+      setErrorMsg("Network communication failed, try again.");
+      notify("Your internet connection is bad. Try again later.", "info");
     }
-
-    setLoading(true);
-    setErrorMsg("");
-
-    const paymentMethodObj = {
-      type: "card",
-      card: elements.getElement(CardNumberElement),
-      billing_details: {
-        name,
-        email,
-      },
-    };
-    const paymentMethodResult = await stripe.createPaymentMethod(
-      paymentMethodObj
-    );
-
-    stripePaymentMethodHandler(
-      {
-        amount: props.amount,
-        orderInfo: props.orderInfo,
-        result: paymentMethodResult,
-      },
-      handleResponse
-    );
-  };
-  // callback method to handle the response
-  const handleResponse = (response) => {
-    setLoading(false);
-    if (response.error) {
-      setErrorMsg(
-        typeof response.error === "string"
-          ? response.error
-          : response.error.message
-      );
-      return;
-    }
-    props.setPaymentCompleted(response.message === "Success" ? true : false);
-    removeCart();
   };
 
   return (
@@ -140,7 +150,7 @@ const CheckoutForm = (props) => {
         <button className="btn btn-dark w-100" type="submit" disabled={loading}>
           {loading ? (
             <div className="spinner-border text-light" role="status">
-              <span className="sr-only">Loading...</span>
+              {/* <span className="sr-only">Loading...</span> */}
             </div>
           ) : (
             `Pay $${props.amount}`

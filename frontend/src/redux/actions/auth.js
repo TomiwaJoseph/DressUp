@@ -1,25 +1,23 @@
+import axios from "axios";
 import store from "../store/store";
 import { setUserInfo } from "./dressActions";
 
-let token = localStorage.getItem("token");
+let token = localStorage.getItem("dressupToken");
 
-function fetchUser(getUserUrl, cb) {
-  fetch(getUserUrl, {
-    headers: {
-      Authorization: `Token ${token}`,
-    },
-  })
-    .then((response) => response.json())
+export const fetchUser = async (getUserUrl, cb) => {
+  await axios
+    .get(getUserUrl, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
     .then((result) => {
-      if (result.ok) {
-        cb(true);
-        let userInfo = result;
-        delete userInfo.ok;
-        store.dispatch(setUserInfo(userInfo));
-      } else {
-        cb(false);
-      }
+      let userInfo = result.data;
+      delete userInfo.ok;
+      store.dispatch(setUserInfo(userInfo));
+      cb(true);
+    })
+    .catch((err) => {
+      cb(false);
     });
-}
-
-export default fetchUser;
+};
