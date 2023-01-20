@@ -171,7 +171,7 @@ export const fetchCartContent = async () => {
 };
 // Add dress to wishlist in server
 export const addToWishlist = async (dressId) => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("dressupToken");
   let body = JSON.stringify({
     token: token,
     dressId: dressId,
@@ -377,7 +377,7 @@ export const signInUser = async (signInData) => {
     .then((result) => {
       store.dispatch(setUserInfo(result.data.user_info));
       notify("Successful login! Enjoy your shopping.", "success");
-      localStorage.setItem("token", result.data.token);
+      localStorage.setItem("dressupToken", result.data.token);
       store.dispatch(setLoginUser(true));
       if (signInData[2]) {
         addToWishlist(signInData[2]);
@@ -390,7 +390,7 @@ export const signInUser = async (signInData) => {
       }
       notify("Incorrect email or password! Try again.", "error");
       switchPreloader(false);
-      localStorage.removeItem("token");
+      localStorage.removeItem("dressupToken");
     });
 };
 // Sign up users with the credentials that are provided
@@ -419,12 +419,12 @@ export const signUpUser = async (signUpData) => {
       }
       notify("You already have an account with us! Please login.", "info");
       switchPreloader(false);
-      localStorage.removeItem("token");
+      localStorage.removeItem("dressupToken");
     });
 };
 // Log out the user with token
 export const logOutUser = async () => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("dressupToken");
   await axios
     .get(userLogoutUrl, {
       headers: {
@@ -433,7 +433,7 @@ export const logOutUser = async () => {
     })
     .then((result) => {
       store.dispatch(setLogoutUser(false));
-      localStorage.removeItem("token");
+      localStorage.removeItem("dressupToken");
       document.getElementById("home").click();
       notify("Logout successful!", "info");
     })
@@ -446,7 +446,7 @@ export const logOutUser = async () => {
 };
 // Send order details to server
 export const savePaylaterDetails = async (orderDetails) => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("dressupToken");
   let body = JSON.stringify({
     token: token,
     address: orderDetails[0],
@@ -479,7 +479,7 @@ export const savePaylaterDetails = async (orderDetails) => {
 };
 // Fetch all user's wishlist dresses from server
 export const fetchWishlistDresses = async () => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("dressupToken");
   let body = JSON.stringify({
     token: token,
   });
@@ -503,7 +503,7 @@ export const fetchWishlistDresses = async () => {
 };
 // Fetch all user's orders from server
 export const fetchUserOrders = async () => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("dressupToken");
   let body = JSON.stringify({
     token: token,
   });
@@ -527,7 +527,7 @@ export const fetchUserOrders = async () => {
 };
 // Fetch details of selected order from server
 export const fetchOrderDetails = async (refCode) => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("dressupToken");
   let body = JSON.stringify({
     token: token,
     ref_code: refCode,
@@ -554,7 +554,7 @@ export const fetchOrderDetails = async (refCode) => {
 };
 // Delete wishlist item from server
 export const deleteWishlistDress = async (id) => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("dressupToken");
   let body = JSON.stringify({
     token: token,
     id: id,
@@ -577,7 +577,7 @@ export const deleteWishlistDress = async (id) => {
 };
 // Request for refund on order
 export const requestRefund = async (refundData) => {
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem("dressupToken");
   let body = JSON.stringify({
     token: token,
     refCode: refundData[0],
@@ -668,7 +668,7 @@ export const loginDemoUser = async () => {
     .then((result) => {
       store.dispatch(setUserInfo(result.data.user_info));
       notify("Successful login! Enjoy your shopping.", "success");
-      localStorage.setItem("token", result.data.token);
+      localStorage.setItem("dressupToken", result.data.token);
       store.dispatch(setLoginUser(true));
       switchPreloader(false);
     })

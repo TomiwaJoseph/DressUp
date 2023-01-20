@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from base.views import get_dress_or_order, index
 
 
@@ -16,4 +16,5 @@ urlpatterns = [
     path('search-dress', index),
     path('user/dashboard', index),
     path('shop/checkout', index),
+    re_path(r'^.*/$', index),
 ]

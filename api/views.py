@@ -517,7 +517,7 @@ def save_stripe_info(request):
     amount = math.ceil(data['amount'])
     order_info = data['orderInfo']
     token = data['token']
-    extra_msg = ''
+
     # checking if customer with provided email already exists
     customer_data = stripe.Customer.list(email=email).data
 
@@ -532,56 +532,98 @@ def save_stripe_info(request):
         )
     else:
         customer = customer_data[0]
-        extra_msg = "Customer already existed."
 
-    # creating paymentIntent
-    stripe.PaymentIntent.create(
-        customer=customer,
-        payment_method=payment_method_id,
-        currency='usd', amount=amount*100,
-        confirm=True
-    )
-    address = order_info[0]
-    optionalAddress = order_info[1]
-    phoneNumber = order_info[2]
-    delivery_method = 'SD' if order_info[3] == 'free' else 'ND'
-
-    session_data_query = [s.get_decoded() for s in Session.objects.all()
-                          if s.get_decoded().get('cart_data')]
-    all_dress_ids = [int(id) for id in session_data_query[0]['cart_data']]
-    all_dress_quantity = [
-        value for value in session_data_query[0]['cart_data'].values()]
-    all_dresses = [Dress.objects.get(id=item) for item in all_dress_ids]
-
-    user = Token.objects.get(key=token).user
-    new_order = Order.objects.create(
-        user=user,
-        ref_code=create_ref_code(),
-        being_processed=True,
-        billing_address=address,
-        phone_number=phoneNumber,
-        delivery_type=delivery_method,
-        payment_method='PN',
-        alternative_billing_address=optionalAddress,
-    )
     try:
-        for index in range(len(all_dress_ids)):
-            OrderItem.objects.create(
-                product=all_dresses[index],
-                quantity=all_dress_quantity[index],
-                order=new_order
-            )
-    except Dress.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        # creating paymentIntent
+        payment_intent = stripe.PaymentIntent.create(
+            customer=customer,
+            payment_method=payment_method_id,
+            currency='usd', amount=amount*100,
+            confirm=True
+        )
+        # Only confirm an order after you have status: succeeded
+        if payment_intent['status'] == 'succeeded':
+            address = order_info[0]
+            optionalAddress = order_info[1]
+            phoneNumber = order_info[2]
+            delivery_method = 'SD' if order_info[3] == 'free' else 'ND'
 
-    return Response(status=status.HTTP_200_OK, data={
-        'message': 'Success',
-        'data': {
-            'customer_id': customer.id,
-            'customer_email': customer.email,
-            'extra_msg': extra_msg
-        }
-    })
+            session_data_query = [s.get_decoded() for s in Session.objects.all()
+                                  if s.get_decoded().get('cart_data')]
+            all_dress_ids = [int(id)
+                             for id in session_data_query[0]['cart_data']]
+            all_dress_quantity = [
+                value for value in session_data_query[0]['cart_data'].values()]
+            all_dresses = [Dress.objects.get(id=item)
+                           for item in all_dress_ids]
+
+            user = Token.objects.get(key=token).user
+            new_order = Order.objects.create(
+                user=user,
+                ref_code=create_ref_code(),
+                being_processed=True,
+                billing_address=address,
+                phone_number=phoneNumber,
+                delivery_type=delivery_method,
+                payment_method='PN',
+                alternative_billing_address=optionalAddress,
+            )
+
+            try:
+                for index in range(len(all_dress_ids)):
+                    OrderItem.objects.create(
+                        product=all_dresses[index],
+                        quantity=all_dress_quantity[index],
+                        order=new_order
+                    )
+            except Dress.DoesNotExist:
+                pass
+
+            return Response(status=status.HTTP_200_OK, data={
+                'message': 'Success',
+                'data': {
+                    'customer_id': customer.id,
+                    'customer_email': customer.email,
+                }
+            })
+        else:
+            raise stripe.error.CardError
+    except stripe.error.CardError as e:
+        body = e.json_body
+        err = body.get('error', {})
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'error': err.get('message')
+        })
+    except stripe.error.RateLimitError as e:
+        # Too many requests made to the API too quickly
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'error': "The API was not able to respond, try again."
+        })
+    except stripe.error.InvalidRequestError as e:
+        # invalid parameters were supplied to Stripe's API
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'error': "Invalid parameters, unable to process payment."
+        })
+    except stripe.error.AuthenticationError as e:
+        # Authentication with Stripe's API failed
+        # (maybe you changed API keys recently)
+        pass
+    except stripe.error.APIConnectionError as e:
+        # Network communication with Stripe failed
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'error': 'Network communication failed, try again.'
+        })
+    except stripe.error.StripeError as e:
+        # Display a very generic error to the user, and maybe
+        # send yourself an email
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'error': 'Internal Error, contact support.'
+        })
+    # Something else happened, completely unrelated to Stripe
+    except Exception as e:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={
+            'error': 'Unable to process payment, try again.'
+        })
 
 
 @api_view(['GET'])

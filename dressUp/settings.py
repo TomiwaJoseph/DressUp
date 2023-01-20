@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ROOT_URLCONF = 'dressUp.urls'
 
 TEMPLATES = [
@@ -129,9 +130,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend/build/static',
-    # BASE_DIR / 'media',
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
@@ -149,12 +148,13 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%d  -  %H:%M",
 }
 
-# KNOX SETTINGS
-# REST_KNOX =
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
+
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = ['https://dress.up.railway.app']
 
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")

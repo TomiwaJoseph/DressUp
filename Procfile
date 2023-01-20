@@ -1,1 +1,1 @@
-web: gunicorn dressUp.wsgi
+web: gunicorn dressUp.wsgi --log-file -

@@ -2,7 +2,7 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Josefin Sans", sans-serif;
+  font-family: "Josefin Sans";
 }
 html {
   scroll-behavior: smooth;
@@ -211,7 +211,25 @@ button:focus {
   z-index: 99999999 !important;
 }
 
+/* DESKTOP */
+@media only screen and (min-width: 1000px) {
+  .register__container,
+  .login__container {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 /* TABLET */
+@media only screen and (min-width: 600px) and (max-width: 688px) {
+  .register__container,
+  .login__container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+  }
+}
 
 @media only screen and (min-width: 768px) and (max-width: 834px) {
   .register__container .sign-in {

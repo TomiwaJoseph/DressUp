@@ -13,7 +13,7 @@ import SignUp from "./pages/SignUp";
 import Footer from "./components/Footer";
 import Checkout from "./pages/Checkout";
 import Dashboard from "./pages/Dashboard";
-import fetchUser from "./redux/actions/auth";
+import { fetchUser } from "./redux/actions/auth";
 import { fetchCartCount } from "./redux/actions/fetchers";
 import store from "./redux/store/store";
 import { setLoginUser } from "./redux/actions/dressActions";
