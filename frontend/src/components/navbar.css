@@ -103,6 +103,9 @@ nav .fa {
     cursor: pointer;
     color: #fff;
   }
+  nav .fa-times {
+    padding-right: 3px;
+  }
   nav .search__mobile-icon {
     padding-right: 5%;
   }
