@@ -86,9 +86,6 @@ const SingleProduct = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     fetchSingleDress(dressSlug);
     fetchRelatedDress(dressSlug);
     return () => {
