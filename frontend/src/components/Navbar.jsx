@@ -116,7 +116,7 @@ const Navbar = () => {
                   target="_blank"
                   href="https://www.linkedin.com/in/tomiwa-joseph-a2b024203/"
                 >
-                  <i className="fab fa-instagram"></i>
+                  <i className="fab fa-linkedin"></i>
                 </a>
                 <a
                   onClick={closeMobileMenu}
