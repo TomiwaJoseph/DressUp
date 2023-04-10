@@ -147,9 +147,6 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%d  -  %H:%M",
 }
 
-# KNOX SETTINGS
-# REST_KNOX =
-
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]

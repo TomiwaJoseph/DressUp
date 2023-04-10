@@ -40,10 +40,7 @@ const SingleProduct = () => {
   const carouselOptions = {
     margin: 30,
     responsiveClass: true,
-    // autoplay: true,
     autoplayTimeout: 3000,
-    // loop: true,
-    // rewind: true,
     nav: true,
     dots: false,
     responsive: {
@@ -86,9 +83,6 @@ const SingleProduct = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     fetchSingleDress(dressSlug);
     fetchRelatedDress(dressSlug);
     return () => {
