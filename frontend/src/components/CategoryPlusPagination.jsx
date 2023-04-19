@@ -89,7 +89,7 @@ const CategoryPlusPagination = ({
                       className="img-fluid"
                       alt={dress.name}
                     />
-                    <div className="dress__cta">
+                    <div id="slide">
                       <NavLink to={`/shop/dress/${dress.slug}`} className="btn">
                         View Dress
                       </NavLink>
@@ -105,10 +105,15 @@ const CategoryPlusPagination = ({
                       </div>
                     </div>
                   </div>
-                  <div className="dress__info">
-                    <p>{dress.name}</p>
-                    <h6>${dress.price}</h6>
-                  </div>
+                  <NavLink
+                    to={`/shop/dress/${dress.slug}`}
+                    className="single-dress-link"
+                  >
+                    <div className="dress__info">
+                      <p>{dress.name}</p>
+                      <h6>${dress.price}</h6>
+                    </div>
+                  </NavLink>
                 </div>
               </div>
             ))}

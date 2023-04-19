@@ -26,16 +26,35 @@
   position: relative;
   border-radius: 5px;
 }
-.most__hot__carousel .dress__cta {
-  position: absolute;
-  opacity: 0;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  bottom: auto;
+
+.image__wrapper {
+  position: relative;
+  overflow: hidden;
 }
-.most__hot__carousel .dress__cta a {
+
+#slide {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: -100%;
+  width: 100%;
+  height: 100%;
+  transition: 1s;
+  background: #000000d0;
+}
+
+.image__wrapper:hover #slide {
+  transition: 1s;
+  bottom: 0;
+}
+
+.most__hot__carousel #slide {
+  display: flex;
+  flex-direction: column;
+}
+
+.most__hot__carousel #slide a {
   border: 1px solid #fff;
   background: #fff;
   color: #f51167;
@@ -43,11 +62,11 @@
   padding: 5px 25px;
   margin-bottom: 20px;
 }
-.most__hot__carousel .dress__cta a:hover {
+.most__hot__carousel #slide a:hover {
   color: #fff;
   background: #f51167;
 }
-.most__hot__carousel .dress__cta .utilities .fas {
+.most__hot__carousel #slide .utilities .fas {
   display: inline;
   border-radius: 50%;
   padding: 10px;
@@ -56,19 +75,24 @@
   background: #fff;
   cursor: pointer;
 }
-.most__hot__carousel .dress__cta .utilities .fas:hover {
+
+.most__hot__carousel #slide .utilities .fas:hover {
   background: #f51167;
   color: #fff;
 }
-.most__hot__carousel .owl-item .image__wrapper:hover img {
-  filter: brightness(30%);
-}
-.most__hot__carousel .owl-item .image__wrapper:hover .dress__cta {
+
+/* 
+.most__hot__carousel .owl-item .image__wrapper:hover #slide {
   opacity: 1;
   -webkit-transition: all 150ms ease-in 120ms;
   -o-transition: all 150ms ease-in 120ms;
   transition: all 150ms ease-in 120ms;
 }
+ */
+/* .most__hot__carousel .owl-item .image__wrapper:hover img {
+  filter: brightness(10%);
+} */
+
 .dress__info {
   margin-top: 20px;
   display: flex;

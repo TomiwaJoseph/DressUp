@@ -40,10 +40,7 @@ const SingleProduct = () => {
   const carouselOptions = {
     margin: 30,
     responsiveClass: true,
-    // autoplay: true,
     autoplayTimeout: 3000,
-    // loop: true,
-    // rewind: true,
     nav: true,
     dots: false,
     responsive: {
@@ -182,7 +179,7 @@ const SingleProduct = () => {
                     className="img-fluid"
                     alt={dress.name}
                   />
-                  <div className="dress__cta">
+                  <div id="slide">
                     <NavLink to={`/shop/dress/${dress.slug}`} className="btn">
                       View Dress
                     </NavLink>
