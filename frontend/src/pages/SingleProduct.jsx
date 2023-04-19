@@ -179,7 +179,7 @@ const SingleProduct = () => {
                     className="img-fluid"
                     alt={dress.name}
                   />
-                  <div className="dress__cta">
+                  <div id="slide">
                     <NavLink to={`/shop/dress/${dress.slug}`} className="btn">
                       View Dress
                     </NavLink>
