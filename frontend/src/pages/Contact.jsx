@@ -3,19 +3,28 @@ import contactImg from "../images/contact-us2.png";
 import Newsletter from "../components/Newsletter";
 import { useEffect, useRef, useState } from "react";
 import emailjs from "emailjs-com";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
   const formRef = useRef();
   const modalRef = useRef();
   const [openModal, setOpenModal] = useState(false);
   const [sendButtonClicked, setSendButtonClicked] = useState(false);
+  const notify = (message, errorType) =>
+    toast(message, {
+      position: "top-right",
+      autoClose: "3000",
+      pauseOnHover: true,
+      closeOnClick: true,
+      type: errorType,
+      theme: "colored",
+    });
 
   useEffect(() => {
     if (openModal) {
-      // document.body.style.background = "red";
       document.body.style["overflow-y"] = "hidden";
     } else {
-      // document.body.style.background = "pink";
       document.body.style["overflow-y"] = "auto";
     }
   }, [openModal]);
@@ -26,12 +35,9 @@ const Contact = () => {
     }
   };
 
-  const validateInput = (name, email, message) => {
-    if (name.length === 0) {
-      return false;
-    }
-    if (message.length < 10) return false;
+  const validateInput = (name, email) => {
     if (
+      name.length === 0 ||
       !/^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9/-]+\.)+[A-Za-z]{2,4}$/i.test(email)
     ) {
       return false;
@@ -44,8 +50,7 @@ const Contact = () => {
     const data = new FormData(e.target);
     let name = data.get("name");
     let email = data.get("email");
-    let message = data.get("message");
-    let validate = validateInput(name, email, message);
+    let validate = validateInput(name, email);
     if (validate) {
       setSendButtonClicked(true);
       emailjs
