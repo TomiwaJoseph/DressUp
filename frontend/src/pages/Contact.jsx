@@ -89,6 +89,8 @@ const Contact = () => {
             setOpenModal(true);
           }
         );
+    } else {
+      notify("Email format is incorrect", "info");
     }
   };
 
