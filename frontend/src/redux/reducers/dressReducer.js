@@ -23,7 +23,7 @@ const globalState = {
   noInternet: false,
   fetchingData: false,
   isAuthenticated: false,
-  backendUrl: "https://dress.up.railway.app",
+  backendUrl: "https://dressup.onrender.com",
 };
 
 export const dressReducer = (state = globalState, { type, payload }) => {

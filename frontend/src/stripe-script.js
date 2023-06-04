@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_ENDPOINT = "https://dress.up.railway.app/api";
+const API_ENDPOINT = "https://dressup.onrender.com/api";
 
 export const stripePaymentMethodHandler = async (data) => {
   const { amount, orderInfo, result } = data;

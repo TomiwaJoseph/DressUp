@@ -23,7 +23,7 @@ import Refund from "./pages/Refund";
 import Search from "./pages/Search";
 
 const App = () => {
-  const getUserUrl = "https://dress.up.railway.app/api/auth/user/";
+  const getUserUrl = "https://dressup.onrender.com/api/auth/user/";
 
   useEffect(() => {
     fetchUser(getUserUrl, (status) => {

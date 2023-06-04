@@ -27,41 +27,41 @@ import {
 } from "./dressActions";
 import { toast } from "react-toastify";
 
-const userLoginUrl = "https://dress.up.railway.app/api/auth/login/";
-const userLogoutUrl = "https://dress.up.railway.app/api/auth/logout/";
+const userLoginUrl = "https://dressup.onrender.com/api/auth/login/";
+const userLogoutUrl = "https://dressup.onrender.com/api/auth/logout/";
 const highestDressPriceUrl =
-  "https://dress.up.railway.app/api/get-highest-price/";
-const allCategoriesUrl = "https://dress.up.railway.app/api/get-all-categories/";
+  "https://dressup.onrender.com/api/get-highest-price/";
+const allCategoriesUrl = "https://dressup.onrender.com/api/get-all-categories/";
 const currentCategoryUrl =
-  "https://dress.up.railway.app/api/get-all-dresses-or-category/";
+  "https://dressup.onrender.com/api/get-all-dresses-or-category/";
 const filterCategoryUrl =
-  "https://dress.up.railway.app/api/filter-category-price/";
-const singleDressUrl = "https://dress.up.railway.app/api/dress/";
-const userRegisterUrl = "https://dress.up.railway.app/api/auth/register/";
-const relatedDressUrl = "https://dress.up.railway.app/api/dress/related/";
-const hotDressesUrl = "https://dress.up.railway.app/api/get-hottest-dresses/";
+  "https://dressup.onrender.com/api/filter-category-price/";
+const singleDressUrl = "https://dressup.onrender.com/api/dress/";
+const userRegisterUrl = "https://dressup.onrender.com/api/auth/register/";
+const relatedDressUrl = "https://dressup.onrender.com/api/dress/related/";
+const hotDressesUrl = "https://dressup.onrender.com/api/get-hottest-dresses/";
 const sendOrderDetailsUrl =
-  "https://dress.up.railway.app/api/save-paylater-details/";
-const addToCartUrl = "https://dress.up.railway.app/api/add-to-cart/";
-const addToWishlistUrl = "https://dress.up.railway.app/api/add-to-wishlist/";
-const cartContentUrl = "https://dress.up.railway.app/api/get-cart-content/";
-const removeCartItemUrl = "https://dress.up.railway.app/api/remove-cart-item/";
-const cleanCartUrl = "https://dress.up.railway.app/api/remove-cart/";
+  "https://dressup.onrender.com/api/save-paylater-details/";
+const addToCartUrl = "https://dressup.onrender.com/api/add-to-cart/";
+const addToWishlistUrl = "https://dressup.onrender.com/api/add-to-wishlist/";
+const cartContentUrl = "https://dressup.onrender.com/api/get-cart-content/";
+const removeCartItemUrl = "https://dressup.onrender.com/api/remove-cart-item/";
+const cleanCartUrl = "https://dressup.onrender.com/api/remove-cart/";
 const changeCartContentUrl =
-  "https://dress.up.railway.app/api/change-cart-item/";
-const cartCountUrl = "https://dress.up.railway.app/api/get-cart-count/";
+  "https://dressup.onrender.com/api/change-cart-item/";
+const cartCountUrl = "https://dressup.onrender.com/api/get-cart-count/";
 const fetchWishlistDressesUrl =
-  "https://dress.up.railway.app/api/fetch-wishlist-dresses/";
+  "https://dressup.onrender.com/api/fetch-wishlist-dresses/";
 const deleteWishlistDressUrl =
-  "https://dress.up.railway.app/api/delete-wishlist-dress/";
-const fetchUserOrdersUrl = "https://dress.up.railway.app/api/get-user-orders/";
+  "https://dressup.onrender.com/api/delete-wishlist-dress/";
+const fetchUserOrdersUrl = "https://dressup.onrender.com/api/get-user-orders/";
 const fetchOrderDetailsUrl =
-  "https://dress.up.railway.app/api/get-specific-order/";
-const requestRefundUrl = "https://dress.up.railway.app/api/request-refund/";
-const demoUserUrl = "https://dress.up.railway.app/api/login-demo-user/";
+  "https://dressup.onrender.com/api/get-specific-order/";
+const requestRefundUrl = "https://dressup.onrender.com/api/request-refund/";
+const demoUserUrl = "https://dressup.onrender.com/api/login-demo-user/";
 const addToNewsletterUrl =
-  "https://dress.up.railway.app/api/add-to-newsletter/";
-const searchDressByNameUrl = "https://dress.up.railway.app/api/search-dress/";
+  "https://dressup.onrender.com/api/add-to-newsletter/";
+const searchDressByNameUrl = "https://dressup.onrender.com/api/search-dress/";
 
 const notify = (message, errorType) =>
   toast(message, {

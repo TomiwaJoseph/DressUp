@@ -154,7 +154,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = ['https://dress.up.railway.app']
+    CSRF_TRUSTED_ORIGINS = ['https://dressup.onrender.com']
 
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")
