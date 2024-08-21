@@ -55,7 +55,7 @@ const Contact = () => {
       setSendButtonClicked(true);
       emailjs
         .sendForm(
-          "service_zmd8dcn",
+          "service_6qbmxnl",
           "template_gv6q2f6",
           formRef.current,
           "hun951qpYgepyST8-"
