@@ -50,15 +50,21 @@ const Contact = () => {
     const data = new FormData(e.target);
     let name = data.get("name");
     let email = data.get("email");
+    let message = data.get("message");
     let validate = validateInput(name, email);
     if (validate) {
       setSendButtonClicked(true);
+      var templateParams = {
+        from_name: name,
+        from_email: email,
+        message: message,
+      }
       emailjs
-        .sendForm(
+        .send(
           "service_6qbmxnl",
           "template_mm00uf4",
-          formRef.current,
-          "QcTz85BBMSdwi2l"
+          templateParams,
+          "uzvsVEG93_ApRBi1X",
         )
         .then(
           (result) => {
