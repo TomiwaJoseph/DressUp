@@ -35,9 +35,12 @@ const Contact = () => {
     }
   };
 
-  const validateInput = (name, email) => {
+  const validateInput = (name, email, message) => {
+    if (name.length === 0) {
+      return false;
+    }
+    if (message.length < 10) return false;
     if (
-      name.length === 0 ||
       !/^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9/-]+\.)+[A-Za-z]{2,4}$/i.test(email)
     ) {
       return false;
@@ -51,7 +54,7 @@ const Contact = () => {
     let name = data.get("name");
     let email = data.get("email");
     let message = data.get("message");
-    let validate = validateInput(name, email);
+    let validate = validateInput(name, email, message);
     if (validate) {
       setSendButtonClicked(true);
       var templateParams = {
